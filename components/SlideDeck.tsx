@@ -301,9 +301,8 @@ export function SlideDeck({ embed, section, start }: Props) {
       <div className="relative z-10 flex min-h-screen flex-col">
         <header className="flex items-center justify-between gap-4 border-b border-white/10 bg-black/30 px-5 py-3 backdrop-blur-md">
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cyan-300">
-            Cisco · Elastic · Jina
+            {slide.section}
           </p>
-          <p className="truncate font-mono text-[11px] text-zinc-400">{slide.speaker}</p>
           <p className="font-mono text-[11px] text-zinc-500">
             {i + 1} / {SLIDES.length}
           </p>

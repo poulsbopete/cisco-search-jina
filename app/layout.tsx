@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SiteNav } from "@/components/SiteNav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,7 +25,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full dark antialiased`}
     >
-      <body className="min-h-full bg-zinc-950 font-sans text-zinc-50">{children}</body>
+      <body className="min-h-full bg-zinc-950 font-sans text-zinc-50">
+        <SiteNav />
+        {children}
+      </body>
     </html>
   );
 }
