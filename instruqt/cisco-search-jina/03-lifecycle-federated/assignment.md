@@ -2,7 +2,7 @@
 slug: lifecycle-federated
 id: yaojzusqumuc
 type: challenge
-title: Lifecycle Platform — Balaji's team
+title: Lifecycle — federated sources
 teaser: Snowflake + S3 + OpenSearch in one question. Semantic on ~10 MB payloads.
 tabs:
 - id: bsonkefngbfp
@@ -22,27 +22,27 @@ tabs:
       style-src ''unsafe-inline'' ''self'' https://kibana.estccdn.com; style-src-elem
       ''unsafe-inline'' ''self'' https://kibana.estccdn.com'
 difficulty: intermediate
-timelimit: 600
+timelimit: 720
 enhanced_loading: null
 ---
 
-# Lifecycle Platform (Balaji's team)
+# Lifecycle Platform — federated search
 
-**Ivan toggles sources. Peter keeps MuleSoft / Snowflake as the pipes, Elastic as understanding.**
+Cisco story for **Lifecycle Platform (Balaji's team):** one question across Snowflake facts, S3 payloads, and OpenSearch logs. MuleSoft is the pipe; search is the understanding layer.
 
-<iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=lifecycle" width="100%" height="480" style="border:0;border-radius:12px" allow="fullscreen"></iframe>
+## 1 — Toggle sources
 
-## Demo
+Open [https://cisco-search-jina.vercel.app/lifecycle](https://cisco-search-jina.vercel.app/lifecycle)
 
-[https://cisco-search-jina.vercel.app/lifecycle](https://cisco-search-jina.vercel.app/lifecycle)
+Question: **Show me transactions from this account over 6 months.**
 
-Agent question: **Show me transactions from this account over 6 months.**
+1. Leave Snowflake + S3 + OpenSearch on.
+2. Turn **OpenSearch** off — provisioning noise drops; counsel language in the S3 payload remains.
+3. Note the **~10 MB** invoice pack: keyword on invoice ID misses legal language inside the payload.
 
-1. Leave Snowflake + S3 + OpenSearch on — facts, fat invoice XML, orchestration logs.
-2. Turn OpenSearch off — provisioning noise drops; legal language in the S3 payload remains.
-3. Call out **~10 MB** payload search: keyword on invoice ID misses counsel language inside XML.
+## 2 — Lifecycle docs on Serverless
 
-## On Serverless
+In [button label="Elastic Serverless Search"](tab-0):
 
 ```esql
 FROM cisco-jina-corpus
@@ -53,4 +53,4 @@ FROM cisco-jina-corpus
 ## Success
 
 - You can describe federated search without “copy Snowflake into Elastic first.”
-- You saw a fat payload document that semantic ranking can surface from a business question.
+- You found a fat payload document that semantic ranking can surface from a business question.

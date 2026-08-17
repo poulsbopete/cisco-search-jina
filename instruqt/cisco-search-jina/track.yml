@@ -1,13 +1,13 @@
 slug: cisco-search-jina
 id: 9tl726fw9ous
 title: Cisco — Semantic search with Elastic + Jina
-teaser: 90-minute Cisco-wide workshop. CRM Analytics, Lifecycle Platform, and Webex
-  / Infra on Elastic Serverless Search — with Jina-style relevance.
+teaser: Self-paced labs — keyword vs semantic, CRM similar-deals, federated Lifecycle,
+  Webex East/West on Elastic Serverless Search.
 description: |
-  Per-learner **Elastic Cloud Serverless Search**. Seeded Cisco-shaped corpus (deals,
-  transactions, notes, Webex artifacts). Pair with the Vercel demo and slides at
+  Self-paced. Per-learner **Elastic Cloud Serverless Search** with a seeded Cisco-shaped
+  corpus (deals, transactions, notes, Webex artifacts). Demos and slides:
   https://cisco-search-jina.vercel.app — no API keys in the repo.
-  Speakers: Aaron Byers, Peter Simkins, Kapil Jadhav, Ivan Silva.
+  Live talking points stay on the Vercel deck; this track is labs only.
 icon: https://www.elastic.co/favicon.ico
 tags:
 - cisco
