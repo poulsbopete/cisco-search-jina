@@ -39,7 +39,7 @@ enhanced_loading: null
 
 This lab project is **one** region. The `region` field on each doc is how we practice **CCR + local search**: same query, slice East then West. Stay in ES|QL. **Do not use KQL.**
 
-Open [button label="Elastic Serverless Search"](tab-0).
+Open [button label="Elastic Serverless Search"](tab-0). If **0 documents processed**, set the time picker to **Last 24 hours**.
 
 ## 1 — Counts by region
 

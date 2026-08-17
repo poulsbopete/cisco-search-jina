@@ -7,7 +7,6 @@ import os
 import sys
 import urllib.error
 import urllib.request
-from datetime import datetime, timezone
 from pathlib import Path
 
 INDEX = "cisco-jina-corpus"
@@ -84,7 +83,6 @@ def main() -> int:
                 "content": {"type": "text"},
                 "concepts": {"type": "keyword"},
                 "bytes": {"type": "long"},
-                "@timestamp": {"type": "date"},
                 "graph": {
                     "properties": {
                         "account": {"type": "keyword"},
@@ -102,11 +100,10 @@ def main() -> int:
     if code == 400:
         print(f"Index already exists or mapping warning: {body[:300]}")
 
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     lines: list[str] = []
     for doc in docs:
         doc = dict(doc)
-        doc["@timestamp"] = now
+        doc.pop("@timestamp", None)
         doc_id = doc.get("id") or doc.get("title")
         lines.append(json.dumps({"index": {"_index": INDEX, "_id": doc_id}}))
         lines.append(json.dumps(doc))

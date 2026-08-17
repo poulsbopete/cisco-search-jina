@@ -19,7 +19,7 @@ ES|QL only in the Kibana tab. No Vercel links. No KQL. First query:
 
 `FROM "cisco-jina-corpus" | KEEP title, source, account, region, concepts, content | LIMIT 20`
 
-If Discover shows `FROM *,-.*` and 0 docs, replace the query with the one above and set time to **Last 24 hours**.
+If Discover shows `FROM *,-.*` and 0 docs, replace the query with the one above. If status is **0 documents processed**, set time to **Last 24 hours**. An empty index from an old lab start cannot be repaired — Stop and start a new lab.
 
 Track (manage): https://play.instruqt.com/manage/elastic/tracks/cisco-search-jina  
 Ungated invite (anyone can start): https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq

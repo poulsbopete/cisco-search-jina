@@ -39,7 +39,7 @@ enhanced_loading: null
 
 One question across Snowflake facts, S3 payloads, and Elastic logs. MuleSoft is the pipe. Stay in ES|QL. **Do not use KQL.**
 
-Open [button label="Elastic Serverless Search"](tab-0).
+Open [button label="Elastic Serverless Search"](tab-0). If **0 documents processed**, set the time picker to **Last 24 hours**.
 
 ## 1 — All lifecycle sources for Acme
 

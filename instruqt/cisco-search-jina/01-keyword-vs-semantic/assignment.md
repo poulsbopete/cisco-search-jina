@@ -42,7 +42,7 @@ or Agent Builder — that chat is not connected to this lab index. Do not run `F
 
 MATCH is the OpenSearch ceiling (keyword, no embeddings). `concepts IN (...)` is the Elastic + Jina motion — meaning, not just tokens.
 
-Seeded index: **`"cisco-jina-corpus"`**. Set the time picker to **Last 24 hours** (not Last 15 minutes), then run:
+Seeded index: **`"cisco-jina-corpus"`**. If you see **0 documents processed**, set the time picker to **Last 24 hours** (not Last 15 minutes), then run:
 
 Open [button label="Elastic Serverless Search"](tab-0).
 

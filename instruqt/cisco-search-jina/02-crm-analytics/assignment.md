@@ -39,7 +39,9 @@ enhanced_loading: null
 
 **CRM Analytics:** similar-deal search with a reason on every row. Stay in ES|QL. **Do not use KQL.**
 
-Open [button label="Elastic Serverless Search"](tab-0). Time picker: **Last 24 hours** if empty.
+Open [button label="Elastic Serverless Search"](tab-0). Stay in ES|QL. **Do not use KQL.**
+
+If the query shows **0 documents processed**, the time picker is hiding the corpus. Click the time range (often **Last 15 minutes**) and choose **Last 24 hours**. Keep `AND` on the same `WHERE` line — do not start a new pipe with `| AND`.
 
 ## 1 — CRM rows + graph fields
 
@@ -55,8 +57,7 @@ Seed deal: **Acme Corp — Webex Calling + Control Hub renewal**. Graph: Account
 
 ```esql
 FROM "cisco-jina-corpus"
-| WHERE source == "crm"
-  AND concepts IN ("vendor-lock-in", "legal-review", "webex")
+| WHERE source == "crm" AND concepts IN ("vendor-lock-in", "legal-review", "webex")
 | KEEP title, account, competitors, concepts
 ```
 
