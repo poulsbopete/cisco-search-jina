@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { KIBANA_URL } from "@/lib/config";
+import { INSTRUQT_INVITE, KIBANA_URL } from "@/lib/config";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -44,10 +44,18 @@ export function AppShell({
               </Link>
             ))}
             <a
-              href={KIBANA_URL}
+              href={INSTRUQT_INVITE}
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-full bg-cyan-400 px-3 py-1 font-mono text-[11px] font-semibold text-zinc-950"
+            >
+              Launch lab
+            </a>
+            <a
+              href={KIBANA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-white/15 px-3 py-1 font-mono text-[11px] text-zinc-300"
             >
               Kibana
             </a>

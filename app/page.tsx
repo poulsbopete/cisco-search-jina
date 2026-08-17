@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CISCO_TEAMS, KIBANA_URL, SPEAKERS } from "@/lib/config";
+import { CISCO_TEAMS, INSTRUQT_INVITE, KIBANA_URL, SPEAKERS } from "@/lib/config";
 
 export default function Home() {
   return (
@@ -12,13 +12,21 @@ export default function Home() {
           Cisco-wide search: deals, transactions, logs, notes.
         </h1>
         <p className="mt-5 max-w-2xl text-lg text-zinc-400">
-          Keyword today. Semantic + explainable ranking tomorrow. Four speakers so this is not a
-          one-person show. Demos below; slides embed into Instruqt.
+          Keyword today. Semantic + explainable ranking tomorrow. Self-paced Serverless labs —
+          ungated, no login wall. Slides and click-demos on this app.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
+          <a
+            href={INSTRUQT_INVITE}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-xl bg-cyan-400 px-5 py-3 font-mono text-sm font-semibold text-zinc-950"
+          >
+            Launch the lab (ungated)
+          </a>
           <Link
             href="/slides"
-            className="rounded-xl bg-cyan-400 px-5 py-3 font-mono text-sm font-semibold text-zinc-950"
+            className="rounded-xl border border-white/20 px-5 py-3 font-mono text-sm"
           >
             Open slides
           </Link>
@@ -37,6 +45,9 @@ export default function Home() {
             Shared Kibana
           </a>
         </div>
+        <p className="mt-3 font-mono text-xs text-zinc-500">
+          Instruqt invite: {INSTRUQT_INVITE}
+        </p>
 
         <h2 className="mt-16 font-mono text-xs uppercase tracking-[0.25em] text-zinc-500">
           Who speaks

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { FallingPattern } from "@/components/ui/falling-pattern";
 import { cn } from "@/lib/utils";
-import { APP_URL, KIBANA_URL } from "@/lib/config";
+import { APP_URL, INSTRUQT_INVITE } from "@/lib/config";
 
 export type StatCard = {
   figure: string;
@@ -49,7 +49,7 @@ export const SLIDES: Slide[] = [
       { figure: "10–25", title: "The tech", caption: "Kapil — embeddings + 5 min live demo." },
       { figure: "20–30", title: "Your stack", caption: "Peter + Ivan — Anshul, Balaji, Webex / Infra." },
       { figure: "30–35", title: "The bundle", caption: "Peter — Elastic runs search; Jina powers relevance." },
-      { figure: "35–90", title: "Labs", caption: "Your Serverless project. Same demos. Hands on." },
+      { figure: "35–90", title: "Labs", caption: "Ungated Instruqt — your own Serverless project." },
     ],
   },
   {
@@ -60,10 +60,10 @@ export const SLIDES: Slide[] = [
       "See keyword vs semantic on the same Cisco-shaped corpus — live.",
       "Leave with a Cisco-wide narrative: CRM Analytics + Lifecycle + Webex / Infra.",
       "Know what Elastic owns vs what Jina owns — and why you need both.",
-      "Every lab is Elastic Cloud Serverless Search. No API keys in the repo.",
+      "Every lab is Elastic Cloud Serverless Search. No API keys in the repo. Ungated invite — anyone can try it.",
     ],
-    demoHref: KIBANA_URL,
-    demoLabel: "Open the shared Kibana (ai-assistants)",
+    demoHref: INSTRUQT_INVITE,
+    demoLabel: "Launch the Instruqt lab",
   },
   {
     section: "cisco",
@@ -241,6 +241,8 @@ export const SLIDES: Slide[] = [
       "Webex / Infra — confirm East/West constraint and audit requirement.",
       "Aaron + Peter + Ivan + Kapil stay on the same Cisco-wide narrative — not four side quests.",
     ],
+    demoHref: INSTRUQT_INVITE,
+    demoLabel: "Launch the Instruqt lab (ungated)",
   },
 ];
 

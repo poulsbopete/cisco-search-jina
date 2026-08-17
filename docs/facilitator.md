@@ -18,7 +18,8 @@ Deck: https://cisco-search-jina.vercel.app/slides
 3. Lifecycle — federated sources
 4. Webex / Infra — East + West
 
-Track: https://play.instruqt.com/manage/elastic/tracks/cisco-search-jina
+Track (manage): https://play.instruqt.com/manage/elastic/tracks/cisco-search-jina  
+Ungated invite (anyone can start): https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq
 
 ## Anti-patterns
 

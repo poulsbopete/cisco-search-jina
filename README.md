@@ -4,6 +4,8 @@ Self-paced **Instruqt labs** on Elastic Cloud Serverless Search, plus a **Vercel
 
 Talking points (Aaron / Peter / Kapil / Ivan) live on the Vercel deck — they are **not** Instruqt challenges.
 
+**Ungated lab invite:** [https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq](https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq)
+
 **No API keys in git.** Facilitator Kibana: `https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/` (URL only). Instruqt creates per-learner Serverless projects via the `ESS_CLOUD_API_KEY` *Instruqt secret* (never committed).
 
 ## Instruqt labs (self-paced)
