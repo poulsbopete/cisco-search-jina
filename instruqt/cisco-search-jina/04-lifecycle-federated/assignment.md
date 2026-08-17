@@ -1,10 +1,11 @@
 ---
 slug: lifecycle-federated
+id: yaojzusqumuc
 type: challenge
 title: Lifecycle Platform — Balaji's team
 teaser: Snowflake + S3 + OpenSearch in one question. Semantic on ~10 MB payloads.
 tabs:
-- id: kibana
+- id: bsonkefngbfp
   title: Elastic Serverless Search
   type: service
   hostname: es3-api
@@ -22,6 +23,7 @@ tabs:
       ''unsafe-inline'' ''self'' https://kibana.estccdn.com'
 difficulty: intermediate
 timelimit: 600
+enhanced_loading: null
 ---
 
 # Lifecycle Platform (Balaji's team)

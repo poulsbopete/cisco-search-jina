@@ -1,4 +1,5 @@
 slug: cisco-search-jina
+id: 9tl726fw9ous
 title: Cisco — Semantic search with Elastic + Jina
 teaser: 90-minute Cisco-wide workshop. CRM Analytics, Lifecycle Platform, and Webex
   / Infra on Elastic Serverless Search — with Jina-style relevance.
@@ -11,10 +12,10 @@ icon: https://www.elastic.co/favicon.ico
 tags:
 - cisco
 - search
-- jina
+- embeddings
 - serverless
 - elasticsearch
-- embeddings
+- jina
 owner: elastic
 developers:
 - peter.simkins@elastic.co
@@ -33,4 +34,5 @@ lab_config:
   hideStopButton: false
   default_layout: AssignmentRight
   default_layout_sidebar_size: 40
+checksum: "4181289694271445374"
 enhanced_loading: false

@@ -1,10 +1,11 @@
 ---
 slug: keyword-vs-semantic
+id: 5z1utyxhg6sp
 type: challenge
 title: The tech — Kapil live demo
 teaser: Embeddings, multimodal Jina v5, keyword vs semantic on the same query.
 tabs:
-- id: kibana
+- id: a8soimgdzqmm
   title: Elastic Serverless Search
   type: service
   hostname: es3-api
@@ -22,6 +23,7 @@ tabs:
       ''unsafe-inline'' ''self'' https://kibana.estccdn.com'
 difficulty: intermediate
 timelimit: 900
+enhanced_loading: null
 ---
 
 # Embeddings, multimodal, live ranking

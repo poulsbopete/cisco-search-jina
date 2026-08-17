@@ -1,10 +1,11 @@
 ---
 slug: webex-ccr
+id: zmewr7hksnrp
 type: challenge
 title: Webex / Infra — East + West
 teaser: Same relevance across US Gov regions. CCR replicates; search stays local.
 tabs:
-- id: kibana
+- id: gs4xqwjgvkuz
   title: Elastic Serverless Search
   type: service
   hostname: es3-api
@@ -22,6 +23,7 @@ tabs:
       ''unsafe-inline'' ''self'' https://kibana.estccdn.com'
 difficulty: intermediate
 timelimit: 480
+enhanced_loading: null
 ---
 
 # Webex / Infrastructure

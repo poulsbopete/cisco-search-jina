@@ -1,10 +1,11 @@
 ---
 slug: elastic-jina-bundle
+id: sdn25ztzfjpa
 type: challenge
 title: Elastic + Jina — Peter close
 teaser: Elastic runs search. Jina powers relevance. Asks for each Cisco team.
 tabs:
-- id: kibana
+- id: awmftvppcucj
   title: Elastic Serverless Search
   type: service
   hostname: es3-api
@@ -22,6 +23,7 @@ tabs:
       ''unsafe-inline'' ''self'' https://kibana.estccdn.com'
 difficulty: basic
 timelimit: 600
+enhanced_loading: null
 ---
 
 # The bundle, then the ask

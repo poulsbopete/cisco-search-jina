@@ -1,10 +1,11 @@
 ---
 slug: crm-analytics
+id: 6eq0qbedvzi8
 type: challenge
 title: CRM Analytics — Anshul's team
 teaser: Find deals like this one. Graph account → deal → competitor. Explain the match.
 tabs:
-- id: kibana
+- id: rlkxkwgckcyc
   title: Elastic Serverless Search
   type: service
   hostname: es3-api
@@ -22,6 +23,7 @@ tabs:
       ''unsafe-inline'' ''self'' https://kibana.estccdn.com'
 difficulty: intermediate
 timelimit: 600
+enhanced_loading: null
 ---
 
 # CRM Analytics (Anshul's team)

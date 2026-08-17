@@ -1,10 +1,11 @@
 ---
 slug: opening-why-cisco
+id: eaehekwlkjyo
 type: challenge
 title: Opening — Aaron, then Peter
 teaser: Intros, Cisco-wide problem frame, Gartner time tax. Slides first.
 tabs:
-- id: kibana
+- id: lahpipsrgjxg
   title: Elastic Serverless Search
   type: service
   hostname: es3-api
@@ -22,6 +23,7 @@ tabs:
       ''unsafe-inline'' ''self'' https://kibana.estccdn.com'
 difficulty: basic
 timelimit: 600
+enhanced_loading: null
 ---
 
 # Opening & why this matters to Cisco
