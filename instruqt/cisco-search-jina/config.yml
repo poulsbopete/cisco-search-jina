@@ -1,0 +1,19 @@
+version: "3"
+virtualmachines:
+- name: es3-api
+  image: elastic/es3-api-v2
+  shell: /bin/bash
+  environment:
+    PROJECT_TYPE: elasticsearch
+    OPTIMIZED_FOR: general_purpose
+    REGIONS: aws-us-east-1
+    WORKSHOP_SEED: seed_cisco_search.py
+  memory: 4096
+  cpus: 1
+  allow_external_ingress:
+  - http
+  - https
+  - high-ports
+secrets:
+- name: ESS_CLOUD_API_KEY
+- name: LLM_PROXY_PROD

@@ -1,0 +1,460 @@
+#!/bin/bash
+
+# Debug: Show what environment variables are available
+echo "=== Debug: Checking for API key ==="
+echo "PME_CLOUD_INSTRUQT_API_KEY: ${PME_CLOUD_INSTRUQT_API_KEY:-<not set>}"
+echo "ESS_CLOUD_API_KEY: ${ESS_CLOUD_API_KEY:-<not set>}"
+echo "All env vars containing 'API' or 'KEY':"
+env | grep -i -E "(API|KEY)" || echo "No API/KEY variables found"
+echo "===================================="
+
+# Try to get API key from multiple sources
+# First check PME_CLOUD_INSTRUQT_API_KEY (may be set via config.yml mapping)
+# Then check ESS_CLOUD_API_KEY (the actual secret name in Instruqt)
+if [ -z "${PME_CLOUD_INSTRUQT_API_KEY:-}" ]; then
+    # Try ESS_CLOUD_API_KEY (the actual secret name)
+    PME_CLOUD_INSTRUQT_API_KEY="${ESS_CLOUD_API_KEY:-}"
+fi
+
+if [ -z "${PME_CLOUD_INSTRUQT_API_KEY:-}" ]; then
+    # Try to get from agent variables as fallback
+    PME_CLOUD_INSTRUQT_API_KEY=$(agent variable get PME_CLOUD_INSTRUQT_API_KEY 2>/dev/null || echo "")
+fi
+
+if [ -z "${PME_CLOUD_INSTRUQT_API_KEY:-}" ]; then
+    # Try ESS_CLOUD_API_KEY from agent variables
+    ESS_KEY=$(agent variable get ESS_CLOUD_API_KEY 2>/dev/null || echo "")
+    if [ -n "$ESS_KEY" ]; then
+        PME_CLOUD_INSTRUQT_API_KEY="$ESS_KEY"
+    fi
+fi
+
+# Check for required environment variables BEFORE enabling strict mode
+if [ -z "${PME_CLOUD_INSTRUQT_API_KEY:-}" ]; then
+    echo "ERROR: API key is not set"
+    echo ""
+    echo "This variable is required to create serverless observability projects."
+    echo "Expected secret name in Instruqt: ESS_CLOUD_API_KEY"
+    echo ""
+    echo "Debug information:"
+    echo "  - Checked PME_CLOUD_INSTRUQT_API_KEY env var: ${PME_CLOUD_INSTRUQT_API_KEY:-not found}"
+    echo "  - Checked ESS_CLOUD_API_KEY env var: ${ESS_CLOUD_API_KEY:-not found}"
+    echo "  - Checked agent variables for both names: not found"
+    echo ""
+    echo "To fix this:"
+    echo "1. Go to your Instruqt track settings (Sandbox > Secrets)"
+    echo "2. Ensure ESS_CLOUD_API_KEY secret is configured with your Elastic Cloud API key"
+    echo "3. The secret should be automatically available to all VMs"
+    echo "4. If not auto-available, you may need to map it in the es3-api VM's environment variables"
+    echo ""
+    echo "The API key is used to create Elastic Cloud serverless projects via the es3-api."
+    exit 1
+fi
+
+# Export for use in the script
+export PME_CLOUD_INSTRUQT_API_KEY
+
+set -euxo pipefail
+
+echo "Running track setup script on host es3-api"
+
+# Wait for the Instruqt host bootstrap to finish
+until [ -f /opt/instruqt/bootstrap/host-bootstrap-completed ]
+do
+    sleep 1
+done
+
+echo "Project type: ${PROJECT_TYPE:-}"
+echo "Regions: ${REGIONS:-}"
+
+case "$PROJECT_TYPE" in
+    "observability")
+      PRODUCT_TIER="${PRODUCT_TIER:-complete}"
+      echo "Project Tier: $PRODUCT_TIER"
+      python3 bin/es3-api.py \
+        --operation create \
+        --project-type $PROJECT_TYPE \
+        --product-tier $PRODUCT_TIER \
+        --regions $REGIONS \
+        --project-name $INSTRUQT_TRACK_SLUG-$INSTRUQT_PARTICIPANT_ID-`date '+%s'` \
+        --api-key "${PME_CLOUD_INSTRUQT_API_KEY}" \
+        --wait-for-ready
+        ;;
+    "elasticsearch")
+      # Cloud API enum is general_purpose|vector; es3-api.py CLI historically
+      # accepted "vectors". Prefer general_purpose (works for hybrid/ELSER labs).
+      OPTIMIZED_FOR="${OPTIMIZED_FOR:-general_purpose}"
+      case "$OPTIMIZED_FOR" in
+        vector|vectors) OPTIMIZED_FOR="general_purpose" ;;
+      esac
+      echo "Optimized for: $OPTIMIZED_FOR"
+      python3 bin/es3-api.py \
+        --operation create \
+        --project-type $PROJECT_TYPE \
+        --optimized-for $OPTIMIZED_FOR \
+        --regions $REGIONS \
+        --project-name $INSTRUQT_TRACK_SLUG-$INSTRUQT_PARTICIPANT_ID-`date '+%s'` \
+        --api-key "${PME_CLOUD_INSTRUQT_API_KEY}" \
+        --wait-for-ready
+        ;;
+    "security")
+      python3 bin/es3-api.py \
+        --operation create \
+        --project-type $PROJECT_TYPE \
+        --regions $REGIONS \
+        --project-name $INSTRUQT_TRACK_SLUG-$INSTRUQT_PARTICIPANT_ID-`date '+%s'` \
+        --api-key "${PME_CLOUD_INSTRUQT_API_KEY}" \
+        --wait-for-ready
+        ;;
+    *)
+        echo "Error: Unknown project type '$PROJECT_TYPE'"
+        exit 1
+        ;;
+esac
+
+timeout=20
+counter=0
+
+while [ $counter -lt $timeout ]; do
+    if [ -f "/tmp/project_results.json" ]; then
+        echo "File found, continuing..."
+        break
+    fi
+
+    echo "Waiting for file /tmp/project_results.json... ($((counter + 1))/$timeout seconds)"
+    sleep 1
+    counter=$((counter + 1))
+done
+
+# Check if we timed out
+if [ $counter -eq $timeout ]; then
+    echo "Timeout: File /tmp/project_results.json not found after $timeout seconds"
+    exit 1
+fi
+
+export KIBANA_URL=`jq -r --arg region "$REGIONS" '.[$region].endpoints.kibana' /tmp/project_results.json`
+export ELASTICSEARCH_PASSWORD=`jq -r --arg region "$REGIONS" '.[$region].credentials.password' /tmp/project_results.json`
+export ES_URL=`jq -r --arg region "$REGIONS" '.[$region].endpoints.elasticsearch' /tmp/project_results.json`
+
+agent variable set ES_KIBANA_URL `jq -r --arg region "$REGIONS" '.[$region].endpoints.kibana' /tmp/project_results.json`
+agent variable set ES_URL `jq -r --arg region "$REGIONS" '.[$region].endpoints.elasticsearch' /tmp/project_results.json`
+agent variable set ES_USERNAME `jq -r --arg region "$REGIONS" '.[$region].credentials.username'  /tmp/project_results.json`
+agent variable set ES_PASSWORD `jq -r --arg region "$REGIONS" '.[$region].credentials.password' /tmp/project_results.json`
+agent variable set ES_DEPLOYMENT_ID `jq -r --arg region "$REGIONS" '.[$region].id' /tmp/project_results.json`
+# Persist for cleanup-es3-api (idle stop / TTL / Stop button)
+agent variable set ES_PROJECT_TYPE "${PROJECT_TYPE:-elasticsearch}"
+agent variable set ES_REGIONS "${REGIONS:-aws-us-east-1}"
+
+BASE64=$(echo -n "admin:${ELASTICSEARCH_PASSWORD}" | base64)
+KIBANA_URL_WITHOUT_PROTOCOL=$(echo $KIBANA_URL | sed -e 's#http[s]\?://##g')
+
+
+echo "Generating API Key"
+output=$(curl -X POST -s -u "admin:${ELASTICSEARCH_PASSWORD}" \
+  -w "\n%{http_code}" \
+  $ES_URL/_security/api_key \
+  -H 'Content-Type: application/json' \
+  -d '{"name": "collector"}')
+
+# Extract HTTP status code and response body
+http_code=$(echo "$output" | tail -n1)
+response_body=$(echo "$output" | sed '$d')
+
+# Check if the API call was successful
+if [ "$http_code" != "200" ]; then
+  echo "Error: Failed to generate API key. HTTP status: $http_code"
+  echo "Response: $response_body"
+  #exit 1
+fi
+
+# Extract API key and validate it exists
+ELASTICSEARCH_API_KEY=$(echo "$response_body" | jq -r '.encoded // empty')
+if [ -z "$ELASTICSEARCH_API_KEY" ]; then
+  echo "Error: Failed to extract API key from response"
+  echo "Response: $response_body"
+  #exit 1
+fi
+
+echo "API Key generated successfully"
+
+# Set API key in agent variables for easy access
+agent variable set ES_API_KEY "$ELASTICSEARCH_API_KEY"
+agent variable set ELASTIC_API_KEY "$ELASTICSEARCH_API_KEY"
+
+# Update the JSON file with general api_key (with proper path creation)
+if ! jq --arg region "$REGIONS" --arg apikey "$ELASTICSEARCH_API_KEY" \
+  '.[$region] = (.[$region] // {}) |
+   .[$region].credentials = (.[$region].credentials // {}) |
+   .[$region].credentials.api_key = $apikey' \
+  /tmp/project_results.json > /tmp/project_results.json.tmp; then
+  echo "Error: Failed to update JSON with API key"
+  #exit 1
+fi
+mv /tmp/project_results.json.tmp /tmp/project_results.json
+
+# Fetch the Fleet Server URL(s)
+if [ "$PROJECT_TYPE" = 'observability' ]; then
+  echo "Fetching Fleet Server URL"
+
+  fleet_output=$(curl -s -u "admin:$ELASTICSEARCH_PASSWORD" \
+    -w "\n%{http_code}" \
+    -H "kbn-xsrf: true" \
+    "$KIBANA_URL/api/fleet/fleet_server_hosts")
+
+  # Extract HTTP status code and response body
+  fleet_http_code=$(echo "$fleet_output" | tail -n1)
+  fleet_response=$(echo "$fleet_output" | sed '$d')
+
+  # Check if the Fleet API call was successful
+  if [ "$fleet_http_code" != "200" ]; then
+    echo "Warning: Failed to fetch Fleet Server URL. HTTP status: $fleet_http_code"
+    echo "Response: $fleet_response"
+    # Continue without fleet URL rather than exiting
+  else
+    # Extract Fleet URL and validate
+    FLEET_URL=$(echo "$fleet_response" | jq -r '.items[0].host_urls[0] // empty')
+
+    if [ -z "$FLEET_URL" ]; then
+      echo "Warning: No Fleet Server URL found in response"
+    else
+      echo "Fleet URL: $FLEET_URL"
+
+      # Update the JSON file with the Fleet URL
+      if ! jq --arg region "$REGIONS" --arg fleet "$FLEET_URL" \
+        '.[$region].endpoints = (.[$region].endpoints // {}) |
+         .[$region].endpoints.fleet = $fleet' \
+        /tmp/project_results.json > /tmp/project_results.json.tmp; then
+        echo "Error: Failed to update JSON with Fleet URL"
+        #exit 1
+      fi
+      mv /tmp/project_results.json.tmp /tmp/project_results.json
+    fi
+  fi
+fi
+
+echo "Configuration saved successfully to /tmp/project_results.json"
+
+echo "Configure NGINX"
+# Create directory for static files
+mkdir -p /usr/share/nginx/html/loading
+
+# Create HTML file with iframe for interactive content during loading
+cat > /usr/share/nginx/html/loading/index.html <<'HTML_EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Content</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #1a1a1a; color: #ffffff; height: 100vh; overflow: hidden; }
+        .container { display: flex; flex-direction: column; height: 100vh; }
+        .header { background: #2d2d2d; padding: 15px 20px; border-bottom: 1px solid #404040; }
+        .header h1 { font-size: 18px; font-weight: 600; color: #ffffff; }
+        .tabs { display: flex; gap: 10px; background: #2d2d2d; padding: 0 20px; border-bottom: 1px solid #404040; }
+        .tab { padding: 12px 20px; background: transparent; border: none; color: #a0a0a0; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; font-size: 14px; }
+        .tab:hover { color: #ffffff; }
+        .tab.active { color: #4CAF50; border-bottom-color: #4CAF50; }
+        .content { flex: 1; position: relative; overflow: hidden; }
+        .iframe-container { width: 100%; height: 100%; border: none; }
+        .iframe-container iframe { width: 100%; height: 100%; border: none; background: #ffffff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header"><h1>Interactive Content</h1></div>
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('dashboard')">Metrics Dashboard</button>
+        </div>
+        <div class="content">
+            <div id="dashboard-container" class="iframe-container">
+                <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=opening" allow="fullscreen"></iframe>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
+HTML_EOF
+
+# Chatbot/MCP proxy removed — do not embed shared API keys.
+# Cisco workshop uses Agent Builder on the learner Serverless project + LLM_PROXY_PROD secret.
+
+
+# Configure nginx
+echo '
+server {
+  listen 8080 default_server;
+  server_name kibana;
+  location /nginx_status {
+    stub_status on;
+    allow 127.0.0.1;
+    deny all;
+  }
+  location /loading {
+    alias /usr/share/nginx/html/loading;
+    index index.html;
+    try_files $uri $uri/ /loading/index.html;
+    add_header X-Frame-Options "SAMEORIGIN";
+  }
+  location / {
+    proxy_set_header Host '${KIBANA_URL_WITHOUT_PROTOCOL}';
+    proxy_pass '${KIBANA_URL}';
+    proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+    proxy_set_header Connection "keep-alive";
+    proxy_hide_header Content-Security-Policy;
+    proxy_hide_header X-Frame-Options;
+    proxy_hide_header X-Content-Type-Options;
+    proxy_hide_header Strict-Transport-Security;
+    proxy_set_header X-Scheme $scheme;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header Authorization "Basic '${BASE64}'";
+    proxy_set_header Accept-Encoding "gzip, deflate, br";
+    proxy_set_header Accept "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8";
+    proxy_set_header Accept-Language "en-US,en;q=0.9";
+    # Set User-Agent to appear as modern Chrome browser (updated to latest version)
+    proxy_set_header User-Agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
+    proxy_set_header Sec-Fetch-Site "none";
+    proxy_set_header Sec-Fetch-Mode "navigate";
+    proxy_set_header Sec-Fetch-User "?1";
+    proxy_set_header Sec-Fetch-Dest "document";
+    proxy_set_header Upgrade-Insecure-Requests "1";
+    proxy_redirect off;
+    proxy_http_version 1.1;
+    client_max_body_size 20M;
+    proxy_read_timeout 600;
+    proxy_buffering off;
+    proxy_send_timeout          300;
+    send_timeout                300;
+    proxy_connect_timeout       300;
+ }
+}
+
+server {
+  listen 9200;
+  server_name elasticsearch;
+
+  location / {
+    proxy_pass '${ES_URL}';
+    proxy_connect_timeout       300;
+    proxy_send_timeout          300;
+    proxy_read_timeout          300;
+    send_timeout                300;
+  }
+}
+' > /etc/nginx/conf.d/default.conf
+
+echo "Restart NGINX"
+systemctl restart nginx
+
+# Verify NGINX is running and listening on port 8080
+sleep 2
+if systemctl is-active --quiet nginx; then
+    echo "✅ NGINX is running"
+    if netstat -tlnp 2>/dev/null | grep -q ":8080 " || ss -tlnp 2>/dev/null | grep -q ":8080 "; then
+        echo "✅ NGINX is listening on port 8080"
+    else
+        echo "⚠️  Warning: NGINX may not be listening on port 8080"
+    fi
+else
+    echo "❌ ERROR: NGINX failed to start"
+    systemctl status nginx || true
+    exit 1
+fi
+
+echo "Setting up JSON server on port 8081..."
+
+# Check if the JSON file exists
+if [ ! -f "/tmp/project_results.json" ]; then
+    echo "Warning: /tmp/project_results.json not found!"
+    echo "The server will return an error when accessed."
+fi
+
+# Assume nothing is running on port 8081
+echo "Starting JSON server on port 8081..."
+
+# Start the server in background
+echo "Starting JSON server in background..."
+python3 bin/serve_json.py > /tmp/server-serve-json.log 2>&1 &
+
+# Get the process ID
+SERVER_PID=$!
+
+# Wait a moment for the server to start
+sleep 2
+
+# Check if server started successfully
+sleep 2
+if kill -0 $SERVER_PID 2>/dev/null; then
+    echo ":white_check_mark: Server started successfully!"
+    echo ":bar_chart: Server PID: $SERVER_PID"
+    echo ":memo: Logs: /tmp/server-serve-json.log"
+    echo ":globe_with_meridians: Access URL: http://localhost:8081"
+    echo ""
+    echo ":clipboard: Useful commands:"
+    echo "  View logs: tail -f /tmp/server-serve-json.log"
+    echo "  Test server: curl http://localhost:8081"
+    echo "  Stop server: kill $SERVER_PID"
+    echo "  Check status: ps aux | grep serve_json"
+else
+    echo ":x: Failed to start server"
+    echo "Check /tmp/server-serve-json.log for details:"
+    if [ -f "/tmp/server-serve-json.log" ]; then
+        tail -5 /tmp/server-serve-json.log
+    else
+        echo "No log file found"
+    fi
+    exit 1
+fi
+
+# Workshop seed — files embedded (Instruqt runs setup from /tmp without siblings)
+set -euo pipefail
+
+WORKSHOP_SEED="${WORKSHOP_SEED:-}"
+if [ -z "$WORKSHOP_SEED" ]; then
+  echo "No WORKSHOP_SEED — skipping data seed"
+  echo "done"
+  exit 0
+fi
+
+echo "Materializing Cisco + Jina seed assets under /tmp..."
+base64 -d <<'CISCO_JINA_CORPUS' > /tmp/workshop-corpus.json
+ewogICJkb2N1bWVudHMiOiBbCiAgICB7CiAgICAgICJpZCI6ICJkZWFsLWFjbWUtd2ViZXgtcmVuZXdhbCIsCiAgICAgICJzb3VyY2UiOiAiY3JtIiwKICAgICAgInN5c3RlbSI6ICJTYWxlc2ZvcmNlICh2aWEgTXVsZVNvZnQpIiwKICAgICAgInRpdGxlIjogIkFjbWUgQ29ycCDigJQgV2ViZXggQ2FsbGluZyArIENvbnRyb2wgSHViIHJlbmV3YWwiLAogICAgICAiYWNjb3VudCI6ICJBY21lIENvcnAiLAogICAgICAic3RhZ2UiOiAiTmVnb3RpYXRlIiwKICAgICAgImFtb3VudCI6IDI0MDAwMDAsCiAgICAgICJjb21wZXRpdG9ycyI6IFsiTWljcm9zb2Z0IFRlYW1zIiwgIlpvb20iXSwKICAgICAgInJlZ2lvbiI6ICJ1cy1nb3YtZWFzdCIsCiAgICAgICJjb250ZW50IjogIkxlZ2FsIGZsYWdnZWQgZXhjbHVzaXZlIG11bHRpLXllYXIgdGVybXMuIENvdW5zZWwgZGVzY3JpYmVkIHZlbmRvciBsb2NrLWluIGZlYXJzIGFuZCBhc2tlZCBmb3IgZXhpdCBjbGF1c2VzLiBTaW1pbGFyIHRvIGxhc3QgeWVhcidzIEFjbWUgY2FtcHVzIFdpLUZpIHJlZnJlc2guIE5vdGVzIG1lbnRpb24gcHJvY3VyZW1lbnQgd2FudHMgcHJpY2UtaG9sZCBhbmQgRmVkUkFNUCBldmlkZW5jZS4iLAogICAgICAiY29uY2VwdHMiOiBbImxlZ2FsLXJldmlldyIsICJ2ZW5kb3ItbG9jay1pbiIsICJ3ZWJleCIsICJyZW5ld2FsIiwgImZlZHJhbXAiLCAiZXhpdC1jbGF1c2UiXSwKICAgICAgImdyYXBoIjogeyAiYWNjb3VudCI6ICJBY21lIENvcnAiLCAiZGVhbCI6ICJXZWJleCBDYWxsaW5nIHJlbmV3YWwiLCAiY29tcGV0aXRvciI6ICJNaWNyb3NvZnQgVGVhbXMiIH0KICAgIH0sCiAgICB7CiAgICAgICJpZCI6ICJub3RlLWFjbWUtY291bnNlbCIsCiAgICAgICJzb3VyY2UiOiAibm90ZXMiLAogICAgICAic3lzdGVtIjogIlVuc3RydWN0dXJlZCBub3RlcyAvIFMzIiwKICAgICAgInRpdGxlIjogIkNhbGwgbm90ZXMg4oCUIEFjbWUgZ2VuZXJhbCBjb3Vuc2VsIiwKICAgICAgImFjY291bnQiOiAiQWNtZSBDb3JwIiwKICAgICAgInJlZ2lvbiI6ICJ1cy1nb3YtZWFzdCIsCiAgICAgICJjb250ZW50IjogIkdDOiB3ZSBjYW5ub3QgYWNjZXB0IHBlcnBldHVhbCBjb21taXRtZW50cy4gTGVnYWwgY29uY2VybnMgYXJvdW5kIHN3aXRjaGluZyBjb3N0cyBpZiB3ZSBzdGFuZGFyZGl6ZSBvbiBvbmUgY29sbGFib3JhdGlvbiBzdGFjay4gVGhleSB1c2VkIHRoZSBwaHJhc2UgJ3dlIGFyZSB3b3JyaWVkIGFib3V0IGJlaW5nIHN0dWNrJyBtb3JlIHRoYW4gJ2xvY2staW4nLiIsCiAgICAgICJjb25jZXB0cyI6IFsibGVnYWwtcmV2aWV3IiwgInZlbmRvci1sb2NrLWluIiwgIndlYmV4IiwgInN3aXRjaGluZy1jb3N0Il0sCiAgICAgICJncmFwaCI6IHsgImFjY291bnQiOiAiQWNtZSBDb3JwIiwgImRlYWwiOiAiV2ViZXggQ2FsbGluZyByZW5ld2FsIiwgImNvbXBldGl0b3IiOiAiWm9vbSIgfQogICAgfSwKICAgIHsKICAgICAgImlkIjogImRlYWwtZ2xvYmV4LW1lcmFraSIsCiAgICAgICJzb3VyY2UiOiAiY3JtIiwKICAgICAgInN5c3RlbSI6ICJTYWxlc2ZvcmNlICh2aWEgTXVsZVNvZnQpIiwKICAgICAgInRpdGxlIjogIkdsb2JleCDigJQgTWVyYWtpICsgVGhvdXNhbmRFeWVzIG92ZXJsYXkiLAogICAgICAiYWNjb3VudCI6ICJHbG9iZXgiLAogICAgICAic3RhZ2UiOiAiUHJvcG9zZSIsCiAgICAgICJhbW91bnQiOiAxNzUwMDAwLAogICAgICAiY29tcGV0aXRvcnMiOiBbIkFydWJhIiwgIkp1bmlwZXIiXSwKICAgICAgInJlZ2lvbiI6ICJ1cy1nb3Ytd2VzdCIsCiAgICAgICJjb250ZW50IjogIk5ldHdvcmsgcmVmcmVzaCBmb3IgMTQwIGJyYW5jaGVzLiBCdXllciBpcyBpbmZyYXN0cnVjdHVyZSwgbm90IGxlZ2FsLiBQcmljZSBzZW5zaXRpdml0eSBvbiBBUCBkZW5zaXR5LiBObyBjb3Vuc2VsIGludm9sdmVtZW50IHlldC4iLAogICAgICAiY29uY2VwdHMiOiBbIm1lcmFraSIsICJicmFuY2giLCAidGhvdXNhbmRleWVzIiwgInByaWNlIl0sCiAgICAgICJncmFwaCI6IHsgImFjY291bnQiOiAiR2xvYmV4IiwgImRlYWwiOiAiTWVyYWtpIG92ZXJsYXkiLCAiY29tcGV0aXRvciI6ICJBcnViYSIgfQogICAgfSwKICAgIHsKICAgICAgImlkIjogImRlYWwtaW5pdGVjaC1mZWRyYW1wIiwKICAgICAgInNvdXJjZSI6ICJjcm0iLAogICAgICAic3lzdGVtIjogIlNhbGVzZm9yY2UgKHZpYSBNdWxlU29mdCkiLAogICAgICAidGl0bGUiOiAiSW5pdGVjaCDigJQgV2ViZXggZm9yIEdvdmVybm1lbnQiLAogICAgICAiYWNjb3VudCI6ICJJbml0ZWNoIiwKICAgICAgInN0YWdlIjogIlRlY2huaWNhbCB2YWxpZGF0aW9uIiwKICAgICAgImFtb3VudCI6IDQxMDAwMDAsCiAgICAgICJjb21wZXRpdG9ycyI6IFsiTWljcm9zb2Z0IEdDQyBIaWdoIl0sCiAgICAgICJyZWdpb24iOiAidXMtZ292LWVhc3QiLAogICAgICAiY29udGVudCI6ICJGZWRSQU1QIEhpZ2ggcGF0aC4gU2VjdXJpdHkgcXVlc3Rpb25uYWlyZSByZWZlcmVuY2VzIGRhdGEgcmVzaWRlbmN5IFVTIEdvdiBFYXN0ICsgV2VzdC4gQ291bnNlbCB3YW50cyBhdWRpdCB0cmFpbHMgb24gd2hvIHNlYXJjaGVkIHdoYXQuIFNpbWlsYXIgbW90aW9uIHRvIEFjbWUgYnV0IHNlY3VyaXR5LWxlZCByYXRoZXIgdGhhbiBjb21tZXJjaWFsIGxlZ2FsLiIsCiAgICAgICJjb25jZXB0cyI6IFsiZmVkcmFtcCIsICJ3ZWJleCIsICJnb3YiLCAiYXVkaXQiLCAicmVzaWRlbmN5IiwgImxlZ2FsLXJldmlldyJdLAogICAgICAiZ3JhcGgiOiB7ICJhY2NvdW50IjogIkluaXRlY2giLCAiZGVhbCI6ICJXZWJleCBmb3IgR292ZXJubWVudCIsICJjb21wZXRpdG9yIjogIk1pY3Jvc29mdCBHQ0MgSGlnaCIgfQogICAgfSwKICAgIHsKICAgICAgImlkIjogInR4LWFjbWUtcTEiLAogICAgICAic291cmNlIjogImxpZmVjeWNsZSIsCiAgICAgICJzeXN0ZW0iOiAiU25vd2ZsYWtlIiwKICAgICAgInRpdGxlIjogIkFjbWUg4oCUIDYgbW9udGggdHJhbnNhY3Rpb24gcm9sbHVwIiwKICAgICAgImFjY291bnQiOiAiQWNtZSBDb3JwIiwKICAgICAgInJlZ2lvbiI6ICJ1cy1nb3YtZWFzdCIsCiAgICAgICJjb250ZW50IjogIlNub3dmbGFrZSBmYWN0IHRhYmxlOiAxNCBXZWJleCBDYWxsaW5nIHNlYXQgZXhwYW5zaW9ucywgMiBDb250cm9sIEh1YiBhZGQtb25zLCAxIHByb2Zlc3Npb25hbCBzZXJ2aWNlcyBTT1cuIFBheWxvYWQgcG9pbnRlcnMgdG8gOC40IE1CIFhNTCBpbnZvaWNlcyBpbiBTMy4gQWNjb3VudCBpZCBBQ01FLTQ0MTkuIiwKICAgICAgImNvbmNlcHRzIjogWyJ0cmFuc2FjdGlvbnMiLCAid2ViZXgiLCAic25vd2ZsYWtlIiwgImludm9pY2UiLCAiYWNjb3VudC1oaXN0b3J5Il0sCiAgICAgICJieXRlcyI6IDg0MDAwMDAsCiAgICAgICJncmFwaCI6IHsgImFjY291bnQiOiAiQWNtZSBDb3JwIiwgImRlYWwiOiAiV2ViZXggQ2FsbGluZyByZW5ld2FsIiB9CiAgICB9LAogICAgewogICAgICAiaWQiOiAidHgtYWNtZS1zMy1pbnZvaWNlIiwKICAgICAgInNvdXJjZSI6ICJsaWZlY3ljbGUiLAogICAgICAic3lzdGVtIjogIlMzIiwKICAgICAgInRpdGxlIjogIkFjbWUgaW52b2ljZSBwYWNrIOKAlCBRMiBwcm9mZXNzaW9uYWwgc2VydmljZXMiLAogICAgICAiYWNjb3VudCI6ICJBY21lIENvcnAiLAogICAgICAicmVnaW9uIjogInVzLWdvdi1lYXN0IiwKICAgICAgImNvbnRlbnQiOiAiTGFyZ2UgdW5zdHJ1Y3R1cmVkIHBheWxvYWQgKH4xMCBNQiBlcXVpdmFsZW50IGluIGxhYikuIExpbmUgaXRlbXM6IFdlYmV4IENhbGxpbmcgbWlncmF0aW9uLCBudW1iZXIgcG9ydGluZywgYW5hbG9nIGFkYXB0ZXIgcmVwbGFjZW1lbnRzLiBIaWRkZW4gaW4gWE1MOiAnY291bnNlbCByZXF1ZXN0ZWQgdGVybWluYXRpb24gZm9yIGNvbnZlbmllbmNlJy4gS2V5d29yZCBzZWFyY2ggb24gaW52b2ljZSBJRCBtaXNzZXMgdGhpczsgc2VtYW50aWMgc2VhcmNoIHN1cmZhY2VzIGxlZ2FsIGxhbmd1YWdlIGluc2lkZSB0aGUgcGF5bG9hZC4iLAogICAgICAiY29uY2VwdHMiOiBbInRyYW5zYWN0aW9ucyIsICJsZWdhbC1yZXZpZXciLCAidmVuZG9yLWxvY2staW4iLCAiaW52b2ljZSIsICJzMyIsICJwYXlsb2FkIl0sCiAgICAgICJieXRlcyI6IDEwNDg1NzYwLAogICAgICAiZ3JhcGgiOiB7ICJhY2NvdW50IjogIkFjbWUgQ29ycCIsICJkZWFsIjogIldlYmV4IENhbGxpbmcgcmVuZXdhbCIgfQogICAgfSwKICAgIHsKICAgICAgImlkIjogImxvZy1vcGVuc2VhcmNoLW9yZGVyIiwKICAgICAgInNvdXJjZSI6ICJsaWZlY3ljbGUiLAogICAgICAic3lzdGVtIjogIk9wZW5TZWFyY2giLAogICAgICAidGl0bGUiOiAiT3JkZXIgb3JjaGVzdHJhdGlvbiBsb2cg4oCUIEFDTUUtNDQxOSIsCiAgICAgICJhY2NvdW50IjogIkFjbWUgQ29ycCIsCiAgICAgICJyZWdpb24iOiAidXMtZ292LXdlc3QiLAogICAgICAiY29udGVudCI6ICJPcGVuU2VhcmNoIHN5c3RlbSBsb2c6IE11bGVTb2Z0IGZsb3cgb3JkZXItY3JlYXRlIHJldHJpZWQgM3guIERvd25zdHJlYW0gQ0NXIHJlc2VydmF0aW9uIGRlbGF5ZWQuIE5vdCBhIGxlZ2FsIGRvY3VtZW50IOKAlCBvcHMgc2lnbmFsIHRoYXQgdGhlIGRlYWwgaXMgc3R1Y2sgaW4gcHJvdmlzaW9uaW5nLCBub3QgaW4gY291bnNlbC4iLAogICAgICAiY29uY2VwdHMiOiBbIm11bGVzb2Z0IiwgInByb3Zpc2lvbmluZyIsICJsb2dzIiwgIm9wZW5zZWFyY2giXSwKICAgICAgImdyYXBoIjogeyAiYWNjb3VudCI6ICJBY21lIENvcnAiLCAiZGVhbCI6ICJXZWJleCBDYWxsaW5nIHJlbmV3YWwiIH0KICAgIH0sCiAgICB7CiAgICAgICJpZCI6ICJ3ZWJleC1yZWNvcmRpbmctYWNtZSIsCiAgICAgICJzb3VyY2UiOiAid2ViZXgiLAogICAgICAic3lzdGVtIjogIldlYmV4IHJlY29yZGluZyB0cmFuc2NyaXB0IiwKICAgICAgInRpdGxlIjogIlFCUiByZWNvcmRpbmcg4oCUIEFjbWUgY29sbGFib3JhdGlvbiBvd25lcnMiLAogICAgICAiYWNjb3VudCI6ICJBY21lIENvcnAiLAogICAgICAicmVnaW9uIjogInVzLWdvdi1lYXN0IiwKICAgICAgImNvbnRlbnQiOiAiVHJhbnNjcmlwdCBleGNlcnB0OiAnV2UgbGlrZSBXZWJleCBxdWFsaXR5IGJ1dCBsZWdhbCBpcyBuZXJ2b3VzIGFib3V0IGJlaW5nIHVuYWJsZSB0byB1bndpbmQuIFNhbWUgY29udmVyc2F0aW9uIGFzIHRoZSBzbGlkZSBkZWNrIHRoZXkgc2VudCDigJQgdmVuZG9yIGxvY2staW4gZmVhcnMsIG5vdCBwcm9kdWN0IGNvbXBsYWludHMuJyBNdWx0aW1vZGFsOiBkZWNrIHNjcmVlbnNob3RzICsgYXVkaW8gKyBub3RlcyBzaG91bGQgc2hhcmUgb25lIHZlY3RvciBzcGFjZS4iLAogICAgICAiY29uY2VwdHMiOiBbIndlYmV4IiwgImxlZ2FsLXJldmlldyIsICJ2ZW5kb3ItbG9jay1pbiIsICJxYnIiLCAibXVsdGltb2RhbCJdLAogICAgICAiZ3JhcGgiOiB7ICJhY2NvdW50IjogIkFjbWUgQ29ycCIsICJkZWFsIjogIldlYmV4IENhbGxpbmcgcmVuZXdhbCIgfQogICAgfSwKICAgIHsKICAgICAgImlkIjogImRlY2stYWNtZS1sZWdhbCIsCiAgICAgICJzb3VyY2UiOiAid2ViZXgiLAogICAgICAic3lzdGVtIjogIlByZXNlbnRhdGlvbiBkZWNrIChpbWFnZSArIHRleHQpIiwKICAgICAgInRpdGxlIjogIkFjbWUgY291bnNlbCBzbGlkZSDigJQgJ3N3aXRjaGluZyBjb3N0cyciLAogICAgICAiYWNjb3VudCI6ICJBY21lIENvcnAiLAogICAgICAicmVnaW9uIjogInVzLWdvdi13ZXN0IiwKICAgICAgImNvbnRlbnQiOiAiU2xpZGUgT0NSOiBTd2l0Y2hpbmcgY29zdHMgwrcgZXhjbHVzaXZlIHRlcm0gwrcgZGF0YSBlc2Nyb3cuIEltYWdlIG9mIGEgbG9jayBpY29uLiBObyBvY2N1cnJlbmNlIG9mIHRoZSB3b3JkcyAnbGVnYWwgY29uY2VybnMnIOKAlCBvbmx5ICdzd2l0Y2hpbmcgY29zdHMnLiBKaW5hIHY1IG11bHRpbW9kYWwgaXMgd2h5IHRoaXMgbWF0Y2hlcyBhIHRleHQgcXVlcnkgYWJvdXQgbGVnYWwgY29uY2VybnMuIiwKICAgICAgImNvbmNlcHRzIjogWyJ2ZW5kb3ItbG9jay1pbiIsICJsZWdhbC1yZXZpZXciLCAibXVsdGltb2RhbCIsICJkZWNrIl0sCiAgICAgICJncmFwaCI6IHsgImFjY291bnQiOiAiQWNtZSBDb3JwIiwgImRlYWwiOiAiV2ViZXggQ2FsbGluZyByZW5ld2FsIiB9CiAgICB9LAogICAgewogICAgICAiaWQiOiAiZGVhbC11bWJyZWxsYS1ub2lzZSIsCiAgICAgICJzb3VyY2UiOiAiY3JtIiwKICAgICAgInN5c3RlbSI6ICJTYWxlc2ZvcmNlICh2aWEgTXVsZVNvZnQpIiwKICAgICAgInRpdGxlIjogIlVtYnJlbGxhIENvcnAg4oCUIGxlZ2FsIGhvbGQgb24gZW1haWwgYXJjaGl2ZSIsCiAgICAgICJhY2NvdW50IjogIlVtYnJlbGxhIENvcnAiLAogICAgICAic3RhZ2UiOiAiQ2xvc2VkIGxvc3QiLAogICAgICAiYW1vdW50IjogMjIwMDAwLAogICAgICAiY29tcGV0aXRvcnMiOiBbIlByb29mcG9pbnQiXSwKICAgICAgInJlZ2lvbiI6ICJ1cy1nb3Ytd2VzdCIsCiAgICAgICJjb250ZW50IjogIlRoaXMgZGVhbCBpcyBhYm91dCBlLWRpc2NvdmVyeSBsZWdhbCBob2xkLCBub3QgY29sbGFib3JhdGlvbiBsb2NrLWluLiBLZXl3b3JkICdsZWdhbCcgbWF0Y2hlcyBsb3VkbHkuIFNlbWFudGljIHJhbmtpbmcgc2hvdWxkIGRlbW90ZSBpdCB3aGVuIHRoZSBxdWVyeSBpcyBhYm91dCB2ZW5kb3IgbG9jay1pbiBmZWFycyBvbiBhIFdlYmV4IHJlbmV3YWwuIiwKICAgICAgImNvbmNlcHRzIjogWyJsZWdhbC1ob2xkIiwgImVtYWlsIiwgImVkaXNjb3ZlcnkiXSwKICAgICAgImdyYXBoIjogeyAiYWNjb3VudCI6ICJVbWJyZWxsYSBDb3JwIiwgImRlYWwiOiAiRW1haWwgYXJjaGl2ZSIsICJjb21wZXRpdG9yIjogIlByb29mcG9pbnQiIH0KICAgIH0sCiAgICB7CiAgICAgICJpZCI6ICJydW5ib29rLWNjciIsCiAgICAgICJzb3VyY2UiOiAiaW5mcmEiLAogICAgICAic3lzdGVtIjogIkludGVybmFsIHJ1bmJvb2siLAogICAgICAidGl0bGUiOiAiQ0NSICsgbG9jYWwgc2VhcmNoIOKAlCBVUyBHb3YgRWFzdCAvIFdlc3QiLAogICAgICAiYWNjb3VudCI6ICJDaXNjbyBpbnRlcm5hbCIsCiAgICAgICJyZWdpb24iOiAidXMtZ292LWVhc3QiLAogICAgICAiY29udGVudCI6ICJDcm9zcy1jbHVzdGVyIHJlcGxpY2F0aW9uIGtlZXBzIFdlYmV4IGFuZCBDUk0gaW5kaWNlcyBpbiBib3RoIGdvdiByZWdpb25zLiBTZWFyY2ggbG9jYWxseSB3aXRoIHRoZSBzYW1lIHN5bm9ueW1zIGFuZCByYW5raW5nLiBEbyBub3Qgc2VuZCBxdWVyaWVzIGFjcm9zcyB0aGUgVVMtR292IGJvdW5kYXJ5IGF0IHF1ZXJ5IHRpbWUuIiwKICAgICAgImNvbmNlcHRzIjogWyJjY3IiLCAibXVsdGktcmVnaW9uIiwgImdvdiIsICJyZWxldmFuY2UiXSwKICAgICAgImdyYXBoIjogeyAiYWNjb3VudCI6ICJDaXNjbyBpbnRlcm5hbCIsICJkZWFsIjogIlNlYXJjaCBwbGF0Zm9ybSIgfQogICAgfQogIF0KfQo=
+CISCO_JINA_CORPUS
+base64 -d <<'CISCO_JINA_SEED_PY' > /tmp/seed_cisco_search.py
+IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwoiIiJJbmRleCB0aGUgQ2lzY28gKyBKaW5hIHdvcmtzaG9wIGNvcnB1cyBpbnRvIEVsYXN0aWMgU2VydmVybGVzcyBTZWFyY2guIiIiCmZyb20gX19mdXR1cmVfXyBpbXBvcnQgYW5ub3RhdGlvbnMKCmltcG9ydCBqc29uCmltcG9ydCBvcwppbXBvcnQgc3lzCmltcG9ydCB1cmxsaWIuZXJyb3IKaW1wb3J0IHVybGxpYi5yZXF1ZXN0CmZyb20gcGF0aGxpYiBpbXBvcnQgUGF0aAoKSU5ERVggPSAiY2lzY28tamluYS1jb3JwdXMiCgoKZGVmIGF1dGhfaGVhZGVyKCkgLT4gdHVwbGVbc3RyLCBzdHJdOgogICAgYXBpX2tleSA9IChvcy5lbnZpcm9uLmdldCgiRVNfQVBJX0tFWSIpIG9yIG9zLmVudmlyb24uZ2V0KCJFTEFTVElDU0VBUkNIX0FQSV9LRVkiKSBvciAiIikuc3RyaXAoKQogICAgaWYgYXBpX2tleToKICAgICAgICByZXR1cm4gZiJBcGlLZXkge2FwaV9rZXl9IiwgImFwaV9rZXkiCiAgICB1c2VyID0gb3MuZW52aXJvbi5nZXQoIkVTX1VTRVJOQU1FIiwgImFkbWluIikKICAgIHBhc3N3b3JkID0gb3MuZW52aXJvbi5nZXQoIkVTX1BBU1NXT1JEIikgb3Igb3MuZW52aXJvbi5nZXQoIkVMQVNUSUNTRUFSQ0hfUEFTU1dPUkQiKSBvciAiIgogICAgaWYgcGFzc3dvcmQ6CiAgICAgICAgaW1wb3J0IGJhc2U2NAoKICAgICAgICB0b2tlbiA9IGJhc2U2NC5iNjRlbmNvZGUoZiJ7dXNlcn06e3Bhc3N3b3JkfSIuZW5jb2RlKCkpLmRlY29kZSgpCiAgICAgICAgcmV0dXJuIGYiQmFzaWMge3Rva2VufSIsICJiYXNpYyIKICAgIHJldHVybiAiIiwgIiIKCgpkZWYgcmVxdWVzdChtZXRob2Q6IHN0ciwgdXJsOiBzdHIsIGhlYWRlcjogc3RyLCBib2R5OiBieXRlcyB8IE5vbmUgPSBOb25lKSAtPiB0dXBsZVtpbnQsIHN0cl06CiAgICByZXEgPSB1cmxsaWIucmVxdWVzdC5SZXF1ZXN0KHVybCwgZGF0YT1ib2R5LCBtZXRob2Q9bWV0aG9kKQogICAgcmVxLmFkZF9oZWFkZXIoIkF1dGhvcml6YXRpb24iLCBoZWFkZXIpCiAgICByZXEuYWRkX2hlYWRlcigiQ29udGVudC1UeXBlIiwgImFwcGxpY2F0aW9uL2pzb24iKQogICAgdHJ5OgogICAgICAgIHdpdGggdXJsbGliLnJlcXVlc3QudXJsb3BlbihyZXEsIHRpbWVvdXQ9MTIwKSBhcyByZXNwOgogICAgICAgICAgICByZXR1cm4gcmVzcC5zdGF0dXMsIHJlc3AucmVhZCgpLmRlY29kZSgidXRmLTgiLCBlcnJvcnM9InJlcGxhY2UiKQogICAgZXhjZXB0IHVybGxpYi5lcnJvci5IVFRQRXJyb3IgYXMgZToKICAgICAgICByZXR1cm4gZS5jb2RlLCBlLnJlYWQoKS5kZWNvZGUoInV0Zi04IiwgZXJyb3JzPSJyZXBsYWNlIikKCgpkZWYgbG9hZF9kb2N1bWVudHMoKSAtPiBsaXN0W2RpY3RdOgogICAgY2FuZGlkYXRlcyA9IFsKICAgICAgICBQYXRoKCIvdG1wL3dvcmtzaG9wLWNvcnB1cy5qc29uIiksCiAgICAgICAgUGF0aCgiL3RyYWNrL2Fzc2V0cy9zaGFyZWQvd29ya3Nob3AtY29ycHVzLmpzb24iKSwKICAgICAgICBQYXRoKF9fZmlsZV9fKS5yZXNvbHZlKCkucGFyZW50c1syXSAvICJkYXRhIiAvICJ3b3Jrc2hvcC1jb3JwdXMuanNvbiIsCiAgICAgICAgUGF0aChfX2ZpbGVfXykucmVzb2x2ZSgpLnBhcmVudHNbMV0gLyAid29ya3Nob3AtYXNzZXRzIiAvICJkYXRhIiAvICJ3b3Jrc2hvcC1jb3JwdXMuanNvbiIsCiAgICBdCiAgICBmb3IgcGF0aCBpbiBjYW5kaWRhdGVzOgogICAgICAgIGlmIHBhdGguaXNfZmlsZSgpOgogICAgICAgICAgICBkYXRhID0ganNvbi5sb2FkcyhwYXRoLnJlYWRfdGV4dChlbmNvZGluZz0idXRmLTgiKSkKICAgICAgICAgICAgcmV0dXJuIGRhdGEuZ2V0KCJkb2N1bWVudHMiKSBvciBbXQogICAgcmFpc2UgRmlsZU5vdEZvdW5kRXJyb3IoIndvcmtzaG9wLWNvcnB1cy5qc29uIG5vdCBmb3VuZCIpCgoKZGVmIG1haW4oKSAtPiBpbnQ6CiAgICBlc191cmwgPSAob3MuZW52aXJvbi5nZXQoIkVTX1VSTCIpIG9yICIiKS5yc3RyaXAoIi8iKQogICAgaGVhZGVyLCBtb2RlID0gYXV0aF9oZWFkZXIoKQogICAgaWYgbm90IGVzX3VybCBvciBub3QgaGVhZGVyOgogICAgICAgIHByaW50KCJFUlJPUjogRVNfVVJMIGFuZCBjcmVkZW50aWFscyByZXF1aXJlZCIsIGZpbGU9c3lzLnN0ZGVycikKICAgICAgICByZXR1cm4gMQoKICAgIG1hcHBpbmcgPSB7CiAgICAgICAgIm1hcHBpbmdzIjogewogICAgICAgICAgICAicHJvcGVydGllcyI6IHsKICAgICAgICAgICAgICAgICJpZCI6IHsidHlwZSI6ICJrZXl3b3JkIn0sCiAgICAgICAgICAgICAgICAic291cmNlIjogeyJ0eXBlIjogImtleXdvcmQifSwKICAgICAgICAgICAgICAgICJzeXN0ZW0iOiB7InR5cGUiOiAia2V5d29yZCJ9LAogICAgICAgICAgICAgICAgInRpdGxlIjogeyJ0eXBlIjogInRleHQifSwKICAgICAgICAgICAgICAgICJhY2NvdW50IjogeyJ0eXBlIjogImtleXdvcmQifSwKICAgICAgICAgICAgICAgICJzdGFnZSI6IHsidHlwZSI6ICJrZXl3b3JkIn0sCiAgICAgICAgICAgICAgICAiYW1vdW50IjogeyJ0eXBlIjogImRvdWJsZSJ9LAogICAgICAgICAgICAgICAgImNvbXBldGl0b3JzIjogeyJ0eXBlIjogImtleXdvcmQifSwKICAgICAgICAgICAgICAgICJyZWdpb24iOiB7InR5cGUiOiAia2V5d29yZCJ9LAogICAgICAgICAgICAgICAgImNvbnRlbnQiOiB7InR5cGUiOiAidGV4dCJ9LAogICAgICAgICAgICAgICAgImNvbmNlcHRzIjogeyJ0eXBlIjogImtleXdvcmQifSwKICAgICAgICAgICAgICAgICJieXRlcyI6IHsidHlwZSI6ICJsb25nIn0sCiAgICAgICAgICAgICAgICAiZ3JhcGgiOiB7CiAgICAgICAgICAgICAgICAgICAgInByb3BlcnRpZXMiOiB7CiAgICAgICAgICAgICAgICAgICAgICAgICJhY2NvdW50IjogeyJ0eXBlIjogImtleXdvcmQifSwKICAgICAgICAgICAgICAgICAgICAgICAgImRlYWwiOiB7InR5cGUiOiAia2V5d29yZCJ9LAogICAgICAgICAgICAgICAgICAgICAgICAiY29tcGV0aXRvciI6IHsidHlwZSI6ICJrZXl3b3JkIn0sCiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgfSwKICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KICAgIGNvZGUsIGJvZHkgPSByZXF1ZXN0KCJQVVQiLCBmIntlc191cmx9L3tJTkRFWH0iLCBoZWFkZXIsIGpzb24uZHVtcHMobWFwcGluZykuZW5jb2RlKCkpCiAgICBpZiBjb2RlIG5vdCBpbiAoMjAwLCAyMDEpOgogICAgICAgIHByaW50KGYiSW5kZXggY3JlYXRlIEhUVFAge2NvZGV9OiB7Ym9keVs6NTAwXX0iLCBmaWxlPXN5cy5zdGRlcnIpCgogICAgZG9jcyA9IGxvYWRfZG9jdW1lbnRzKCkKICAgIGxpbmVzOiBsaXN0W3N0cl0gPSBbXQogICAgZm9yIGRvYyBpbiBkb2NzOgogICAgICAgIGRvY19pZCA9IGRvYy5nZXQoImlkIikgb3IgZG9jLmdldCgidGl0bGUiKQogICAgICAgIGxpbmVzLmFwcGVuZChqc29uLmR1bXBzKHsiaW5kZXgiOiB7Il9pbmRleCI6IElOREVYLCAiX2lkIjogZG9jX2lkfX0pKQogICAgICAgIGxpbmVzLmFwcGVuZChqc29uLmR1bXBzKGRvYykpCiAgICBwYXlsb2FkID0gIlxuIi5qb2luKGxpbmVzKSArICJcbiIKICAgIGNvZGUsIGJvZHkgPSByZXF1ZXN0KCJQT1NUIiwgZiJ7ZXNfdXJsfS9fYnVsayIsIGhlYWRlciwgcGF5bG9hZC5lbmNvZGUoKSkKICAgIGlmIGNvZGUgbm90IGluICgyMDAsIDIwMSk6CiAgICAgICAgcHJpbnQoZiJCdWxrIEhUVFAge2NvZGV9OiB7Ym9keVs6ODAwXX0iLCBmaWxlPXN5cy5zdGRlcnIpCiAgICAgICAgcmV0dXJuIDEKICAgIHByaW50KGYiSW5kZXhlZCB7bGVuKGRvY3MpfSBkb2N1bWVudHMgaW50byB7SU5ERVh9IChhdXRoPXttb2RlfSkiKQogICAgcmV0dXJuIDAKCgppZiBfX25hbWVfXyA9PSAiX19tYWluX18iOgogICAgc3lzLmV4aXQobWFpbigpKQo=
+CISCO_JINA_SEED_PY
+
+export ES_URL="${ES_URL:-$(jq -r --arg region "${REGIONS:-aws-us-east-1}" '.[$region].endpoints.elasticsearch // empty' /tmp/project_results.json)}"
+export KIBANA_URL="${KIBANA_URL:-$(jq -r --arg region "${REGIONS:-aws-us-east-1}" '.[$region].endpoints.kibana // empty' /tmp/project_results.json)}"
+export ES_PASSWORD="${ES_PASSWORD:-$(jq -r --arg region "${REGIONS:-aws-us-east-1}" '.[$region].credentials.password // empty' /tmp/project_results.json)}"
+export ES_USERNAME="${ES_USERNAME:-admin}"
+export ES_API_KEY="${ES_API_KEY:-$(jq -r --arg region "${REGIONS:-aws-us-east-1}" '.[$region].credentials.api_key // empty' /tmp/project_results.json)}"
+export ELASTICSEARCH_API_KEY="${ELASTICSEARCH_API_KEY:-$ES_API_KEY}"
+export KIBANA_API_KEY="${KIBANA_API_KEY:-$ES_API_KEY}"
+
+SEED="/tmp/$WORKSHOP_SEED"
+if [ ! -f "$SEED" ]; then
+  echo "ERROR: seed script not found after embed: $SEED"
+  ls -la /tmp/seed_*.py /tmp/workshop-corpus.json 2>/dev/null || true
+  exit 1
+fi
+
+echo "Running workshop seed: $WORKSHOP_SEED"
+if python3 "$SEED" > /tmp/workshop-seed.log 2>&1; then
+  tail -30 /tmp/workshop-seed.log || true
+else
+  echo "WARN: seed reported errors — lab may still be usable; see /tmp/workshop-seed.log"
+  tail -80 /tmp/workshop-seed.log || true
+fi
+
+echo "done"

@@ -1,0 +1,139 @@
+{
+  "documents": [
+    {
+      "id": "deal-acme-webex-renewal",
+      "source": "crm",
+      "system": "Salesforce (via MuleSoft)",
+      "title": "Acme Corp — Webex Calling + Control Hub renewal",
+      "account": "Acme Corp",
+      "stage": "Negotiate",
+      "amount": 2400000,
+      "competitors": ["Microsoft Teams", "Zoom"],
+      "region": "us-gov-east",
+      "content": "Legal flagged exclusive multi-year terms. Counsel described vendor lock-in fears and asked for exit clauses. Similar to last year's Acme campus Wi-Fi refresh. Notes mention procurement wants price-hold and FedRAMP evidence.",
+      "concepts": ["legal-review", "vendor-lock-in", "webex", "renewal", "fedramp", "exit-clause"],
+      "graph": { "account": "Acme Corp", "deal": "Webex Calling renewal", "competitor": "Microsoft Teams" }
+    },
+    {
+      "id": "note-acme-counsel",
+      "source": "notes",
+      "system": "Unstructured notes / S3",
+      "title": "Call notes — Acme general counsel",
+      "account": "Acme Corp",
+      "region": "us-gov-east",
+      "content": "GC: we cannot accept perpetual commitments. Legal concerns around switching costs if we standardize on one collaboration stack. They used the phrase 'we are worried about being stuck' more than 'lock-in'.",
+      "concepts": ["legal-review", "vendor-lock-in", "webex", "switching-cost"],
+      "graph": { "account": "Acme Corp", "deal": "Webex Calling renewal", "competitor": "Zoom" }
+    },
+    {
+      "id": "deal-globex-meraki",
+      "source": "crm",
+      "system": "Salesforce (via MuleSoft)",
+      "title": "Globex — Meraki + ThousandEyes overlay",
+      "account": "Globex",
+      "stage": "Propose",
+      "amount": 1750000,
+      "competitors": ["Aruba", "Juniper"],
+      "region": "us-gov-west",
+      "content": "Network refresh for 140 branches. Buyer is infrastructure, not legal. Price sensitivity on AP density. No counsel involvement yet.",
+      "concepts": ["meraki", "branch", "thousandeyes", "price"],
+      "graph": { "account": "Globex", "deal": "Meraki overlay", "competitor": "Aruba" }
+    },
+    {
+      "id": "deal-initech-fedramp",
+      "source": "crm",
+      "system": "Salesforce (via MuleSoft)",
+      "title": "Initech — Webex for Government",
+      "account": "Initech",
+      "stage": "Technical validation",
+      "amount": 4100000,
+      "competitors": ["Microsoft GCC High"],
+      "region": "us-gov-east",
+      "content": "FedRAMP High path. Security questionnaire references data residency US Gov East + West. Counsel wants audit trails on who searched what. Similar motion to Acme but security-led rather than commercial legal.",
+      "concepts": ["fedramp", "webex", "gov", "audit", "residency", "legal-review"],
+      "graph": { "account": "Initech", "deal": "Webex for Government", "competitor": "Microsoft GCC High" }
+    },
+    {
+      "id": "tx-acme-q1",
+      "source": "lifecycle",
+      "system": "Snowflake",
+      "title": "Acme — 6 month transaction rollup",
+      "account": "Acme Corp",
+      "region": "us-gov-east",
+      "content": "Snowflake fact table: 14 Webex Calling seat expansions, 2 Control Hub add-ons, 1 professional services SOW. Payload pointers to 8.4 MB XML invoices in S3. Account id ACME-4419.",
+      "concepts": ["transactions", "webex", "snowflake", "invoice", "account-history"],
+      "bytes": 8400000,
+      "graph": { "account": "Acme Corp", "deal": "Webex Calling renewal" }
+    },
+    {
+      "id": "tx-acme-s3-invoice",
+      "source": "lifecycle",
+      "system": "S3",
+      "title": "Acme invoice pack — Q2 professional services",
+      "account": "Acme Corp",
+      "region": "us-gov-east",
+      "content": "Large unstructured payload (~10 MB equivalent in lab). Line items: Webex Calling migration, number porting, analog adapter replacements. Hidden in XML: 'counsel requested termination for convenience'. Keyword search on invoice ID misses this; semantic search surfaces legal language inside the payload.",
+      "concepts": ["transactions", "legal-review", "vendor-lock-in", "invoice", "s3", "payload"],
+      "bytes": 10485760,
+      "graph": { "account": "Acme Corp", "deal": "Webex Calling renewal" }
+    },
+    {
+      "id": "log-opensearch-order",
+      "source": "lifecycle",
+      "system": "OpenSearch",
+      "title": "Order orchestration log — ACME-4419",
+      "account": "Acme Corp",
+      "region": "us-gov-west",
+      "content": "OpenSearch system log: MuleSoft flow order-create retried 3x. Downstream CCW reservation delayed. Not a legal document — ops signal that the deal is stuck in provisioning, not in counsel.",
+      "concepts": ["mulesoft", "provisioning", "logs", "opensearch"],
+      "graph": { "account": "Acme Corp", "deal": "Webex Calling renewal" }
+    },
+    {
+      "id": "webex-recording-acme",
+      "source": "webex",
+      "system": "Webex recording transcript",
+      "title": "QBR recording — Acme collaboration owners",
+      "account": "Acme Corp",
+      "region": "us-gov-east",
+      "content": "Transcript excerpt: 'We like Webex quality but legal is nervous about being unable to unwind. Same conversation as the slide deck they sent — vendor lock-in fears, not product complaints.' Multimodal: deck screenshots + audio + notes should share one vector space.",
+      "concepts": ["webex", "legal-review", "vendor-lock-in", "qbr", "multimodal"],
+      "graph": { "account": "Acme Corp", "deal": "Webex Calling renewal" }
+    },
+    {
+      "id": "deck-acme-legal",
+      "source": "webex",
+      "system": "Presentation deck (image + text)",
+      "title": "Acme counsel slide — 'switching costs'",
+      "account": "Acme Corp",
+      "region": "us-gov-west",
+      "content": "Slide OCR: Switching costs · exclusive term · data escrow. Image of a lock icon. No occurrence of the words 'legal concerns' — only 'switching costs'. Jina v5 multimodal is why this matches a text query about legal concerns.",
+      "concepts": ["vendor-lock-in", "legal-review", "multimodal", "deck"],
+      "graph": { "account": "Acme Corp", "deal": "Webex Calling renewal" }
+    },
+    {
+      "id": "deal-umbrella-noise",
+      "source": "crm",
+      "system": "Salesforce (via MuleSoft)",
+      "title": "Umbrella Corp — legal hold on email archive",
+      "account": "Umbrella Corp",
+      "stage": "Closed lost",
+      "amount": 220000,
+      "competitors": ["Proofpoint"],
+      "region": "us-gov-west",
+      "content": "This deal is about e-discovery legal hold, not collaboration lock-in. Keyword 'legal' matches loudly. Semantic ranking should demote it when the query is about vendor lock-in fears on a Webex renewal.",
+      "concepts": ["legal-hold", "email", "ediscovery"],
+      "graph": { "account": "Umbrella Corp", "deal": "Email archive", "competitor": "Proofpoint" }
+    },
+    {
+      "id": "runbook-ccr",
+      "source": "infra",
+      "system": "Internal runbook",
+      "title": "CCR + local search — US Gov East / West",
+      "account": "Cisco internal",
+      "region": "us-gov-east",
+      "content": "Cross-cluster replication keeps Webex and CRM indices in both gov regions. Search locally with the same synonyms and ranking. Do not send queries across the US-Gov boundary at query time.",
+      "concepts": ["ccr", "multi-region", "gov", "relevance"],
+      "graph": { "account": "Cisco internal", "deal": "Search platform" }
+    }
+  ]
+}
