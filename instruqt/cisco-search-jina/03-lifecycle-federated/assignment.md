@@ -44,7 +44,7 @@ Open [button label="Elastic Serverless Search"](tab-0).
 ## 1 — All lifecycle sources for Acme
 
 ```esql
-FROM cisco-jina-corpus
+FROM "cisco-jina-corpus"
 | WHERE source == "lifecycle" AND account == "Acme Corp"
 | KEEP title, system, bytes, content
 ```
@@ -54,7 +54,7 @@ You should see Snowflake, S3 (~10 MB invoice pack), and Elastic orchestration lo
 ## 2 — Drop Elastic logs (provisioning noise)
 
 ```esql
-FROM cisco-jina-corpus
+FROM "cisco-jina-corpus"
 | WHERE source == "lifecycle"
   AND account == "Acme Corp"
   AND system != "Elastic"
@@ -66,7 +66,7 @@ Counsel language stays in the **S3** payload. The log line is gone.
 ## 3 — Fat payload vs invoice-ID thinking
 
 ```esql
-FROM cisco-jina-corpus
+FROM "cisco-jina-corpus"
 | WHERE system == "S3" AND MATCH(content, "termination counsel")
 | KEEP title, bytes, content
 ```

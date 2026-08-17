@@ -256,7 +256,7 @@ cat > /usr/share/nginx/html/loading/index.html <<'HTML_EOF'
 <body>
     <h1>Elastic Serverless Search is starting</h1>
     <p>When Discover opens, stay in <strong>ES|QL</strong>. Do not use KQL. Do not use <code style="display:inline;padding:2px 6px;margin:0">FROM *,-.*</code>. Run:</p>
-    <code>FROM cisco-jina-corpus
+    <code>FROM "cisco-jina-corpus"
 | KEEP title, source, account, region, concepts, content
 | LIMIT 20</code>
 </body>

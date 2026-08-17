@@ -44,7 +44,7 @@ Open [button label="Elastic Serverless Search"](tab-0). Time picker: **Last 24 h
 ## 1 — CRM rows + graph fields
 
 ```esql
-FROM cisco-jina-corpus
+FROM "cisco-jina-corpus"
 | WHERE source == "crm"
 | KEEP title, account, competitors, concepts, content
 ```
@@ -54,7 +54,7 @@ Seed deal: **Acme Corp — Webex Calling + Control Hub renewal**. Graph: Account
 ## 2 — Deals like Acme (explainable)
 
 ```esql
-FROM cisco-jina-corpus
+FROM "cisco-jina-corpus"
 | WHERE source == "crm"
   AND concepts IN ("vendor-lock-in", "legal-review", "webex")
 | KEEP title, account, competitors, concepts
@@ -63,7 +63,7 @@ FROM cisco-jina-corpus
 ## 3 — Why Umbrella should lose
 
 ```esql
-FROM cisco-jina-corpus
+FROM "cisco-jina-corpus"
 | WHERE source == "crm" AND MATCH(content, "legal")
 | KEEP title, account, concepts, content
 ```

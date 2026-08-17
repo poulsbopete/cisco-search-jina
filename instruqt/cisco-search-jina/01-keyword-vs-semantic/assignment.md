@@ -48,7 +48,7 @@ Open [button label="Elastic Serverless Search"](tab-0).
 ## 1 — Confirm the corpus
 
 ```esql
-FROM cisco-jina-corpus
+FROM "cisco-jina-corpus"
 | KEEP title, source, account, region, concepts, content
 | LIMIT 20
 ```
@@ -60,7 +60,7 @@ You should see deals, notes, lifecycle payloads, and Webex artifacts.
 This is the keyword-shaped question: MATCH the word **legal**.
 
 ```esql
-FROM cisco-jina-corpus
+FROM "cisco-jina-corpus"
 | WHERE MATCH(content, "legal")
 | KEEP title, account, concepts, content
 ```
@@ -72,7 +72,7 @@ Note **Umbrella** (e-discovery legal hold). That is a false friend for a lock-in
 Same business intent — vendor lock-in / counsel / switching costs — without requiring the tokens “legal concerns”:
 
 ```esql
-FROM cisco-jina-corpus
+FROM "cisco-jina-corpus"
 | WHERE concepts IN ("vendor-lock-in", "legal-review", "switching-cost")
 | KEEP title, account, concepts, content
 ```
@@ -82,7 +82,7 @@ Compare the two result sets. The deck / GC notes should appear here even when th
 ## 4 — False friend
 
 ```esql
-FROM cisco-jina-corpus
+FROM "cisco-jina-corpus"
 | WHERE MATCH(content, "legal hold")
 | KEEP title, concepts, content
 ```

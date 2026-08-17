@@ -15,7 +15,7 @@ Deck: https://cisco-search-jina.vercel.app/slides
 
 ES|QL only in the Kibana tab. No Vercel links. No KQL. First query:
 
-`FROM cisco-jina-corpus | KEEP title, source, account, region, concepts, content | LIMIT 20`
+`FROM "cisco-jina-corpus" | KEEP title, source, account, region, concepts, content | LIMIT 20`
 
 If Discover shows `FROM *,-.*` and 0 docs, replace the query with the one above and set time to **Last 24 hours**.
 

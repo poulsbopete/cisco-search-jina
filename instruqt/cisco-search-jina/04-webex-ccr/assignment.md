@@ -44,7 +44,7 @@ Open [button label="Elastic Serverless Search"](tab-0).
 ## 1 — Counts by region
 
 ```esql
-FROM cisco-jina-corpus
+FROM "cisco-jina-corpus"
 | STATS docs = COUNT(*) BY region, source
 | SORT region, source
 ```
@@ -52,7 +52,7 @@ FROM cisco-jina-corpus
 ## 2 — Same intent, East only
 
 ```esql
-FROM cisco-jina-corpus
+FROM "cisco-jina-corpus"
 | WHERE region == "us-gov-east"
   AND concepts IN ("vendor-lock-in", "legal-review", "webex", "ccr")
 | KEEP title, system, region, concepts
@@ -61,7 +61,7 @@ FROM cisco-jina-corpus
 ## 3 — Same intent, West only
 
 ```esql
-FROM cisco-jina-corpus
+FROM "cisco-jina-corpus"
 | WHERE region == "us-gov-west"
   AND concepts IN ("vendor-lock-in", "legal-review", "webex", "ccr")
 | KEEP title, system, region, concepts
@@ -72,7 +72,7 @@ Copies differ (transcript vs deck) but the **concepts** should still retrieve. T
 ## 4 — CCR runbook
 
 ```esql
-FROM cisco-jina-corpus
+FROM "cisco-jina-corpus"
 | WHERE source == "infra"
 | KEEP title, region, content
 ```
