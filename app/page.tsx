@@ -1,53 +1,52 @@
 import Link from "next/link";
+import { DemoPlaybook } from "@/components/DemoPlaybook";
 import { CISCO_TEAMS, INSTRUQT_INVITE, KIBANA_URL, SPEAKERS } from "@/lib/config";
+import { ELASTIC } from "@/lib/demo-playbook";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-50">
       <main className="mx-auto max-w-6xl px-4 py-16">
         <p className="font-mono text-xs uppercase tracking-[0.3em] text-cyan-400">
-          90-minute workshop · Elastic Serverless + Jina
+          How to use this in a Cisco room
         </p>
         <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight sm:text-6xl">
-          Cisco-wide search: deals, transactions, logs, notes.
+          Storyboard here. Proof in Elastic. Practice in Instruqt.
         </h1>
         <p className="mt-5 max-w-2xl text-lg text-zinc-400">
-          Keyword today. Semantic + explainable ranking tomorrow. Self-paced Serverless labs —
-          ungated, no login wall. Slides and click-demos on this app.
+          This Vercel app does <span className="text-zinc-200">not</span> query{" "}
+          <a className="text-cyan-200 underline underline-offset-2" href={KIBANA_URL} target="_blank" rel="noopener noreferrer">
+            ai-assistants-ffcafb
+          </a>
+          . That Kibana is the live Search project. Use the panes below to sell the idea, then
+          open Agent Builder and paste the prompt.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <a
-            href={INSTRUQT_INVITE}
+            href={ELASTIC.agents}
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-xl bg-cyan-400 px-5 py-3 font-mono text-sm font-semibold text-zinc-950"
           >
-            Launch the lab (ungated)
+            Open Agent Builder (shared Elastic)
           </a>
           <Link
             href="/slides"
             className="rounded-xl border border-white/20 px-5 py-3 font-mono text-sm"
           >
-            Open slides
-          </Link>
-          <Link
-            href="/demo"
-            className="rounded-xl border border-white/20 px-5 py-3 font-mono text-sm"
-          >
-            Keyword vs semantic
+            Slides
           </Link>
           <a
-            href={KIBANA_URL}
+            href={INSTRUQT_INVITE}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-xl border border-cyan-400/40 px-5 py-3 font-mono text-sm text-cyan-200"
+            className="rounded-xl border border-white/20 px-5 py-3 font-mono text-sm"
           >
-            Shared Kibana
+            Ungated lab
           </a>
         </div>
-        <p className="mt-3 font-mono text-xs text-zinc-500">
-          Instruqt invite: {INSTRUQT_INVITE}
-        </p>
+
+        <DemoPlaybook />
 
         <h2 className="mt-16 font-mono text-xs uppercase tracking-[0.25em] text-zinc-500">
           Who speaks

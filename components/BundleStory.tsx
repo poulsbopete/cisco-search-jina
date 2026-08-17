@@ -1,3 +1,5 @@
+import { ELASTIC } from "@/lib/demo-playbook";
+
 export function BundleStory() {
   const rows = [
     {
@@ -30,8 +32,11 @@ export function BundleStory() {
   return (
     <div>
       <p className="text-sm text-zinc-400">
-        Elastic runs the search. Jina powers the relevance. CRM indexed in Elastic, embedded via
-        Jina, queried with knowledge graphs — one-click answers to complex questions.
+        Elastic runs the search. Jina powers the relevance. Prove storage, audit, and agents in{" "}
+        <a className="text-cyan-200 underline" href={ELASTIC.agents} target="_blank" rel="noopener noreferrer">
+          Agent Builder
+        </a>{" "}
+        on the shared project; this table is the leave-behind.
       </p>
       <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
         <table className="min-w-full text-left text-sm">

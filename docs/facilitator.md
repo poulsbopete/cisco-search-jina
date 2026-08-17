@@ -27,6 +27,14 @@ Ungated invite (anyone can start): https://play.instruqt.com/elastic/invite/rjz8
 - Skipping Umbrella “legal hold” (false-positive teaching moment)
 - “We’ll follow up” with no named Cisco owner (Anshul / Balaji / Webex Infra)
 
-## Shared Kibana (facilitators)
+## Three layers (do not mix them)
 
-https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/
+| Layer | URL | Job in the room |
+| --- | --- | --- |
+| Vercel storyboard | https://cisco-search-jina.vercel.app | Slides + visual aha. Does **not** query Elastic. |
+| Shared Kibana | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/agent_builder | Product proof. Paste the prompt from each Vercel pane. |
+| Instruqt | https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq | Their own Serverless project. Leaves the shared cluster alone. |
+
+On each demo page: **Copy Agent Builder prompt** → **Open in Elastic**.
+
+The Webex East/West toggle is an **architecture visual**. The shared Kibana is a single us-east-1 project — say that out loud.

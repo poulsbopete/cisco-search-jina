@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { INSTRUQT_INVITE, KIBANA_URL } from "@/lib/config";
+import { ELASTIC } from "@/lib/demo-playbook";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -58,6 +59,14 @@ export function AppShell({
               className="rounded-full border border-white/15 px-3 py-1 font-mono text-[11px] text-zinc-300"
             >
               Kibana
+            </a>
+            <a
+              href={ELASTIC.agents}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-cyan-400/40 px-3 py-1 font-mono text-[11px] text-cyan-200"
+            >
+              Agent Builder
             </a>
           </nav>
         </div>

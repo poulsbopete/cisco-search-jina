@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { OpenInElastic } from "@/components/OpenInElastic";
+import { DEMO_BEATS } from "@/lib/demo-playbook";
 import { keywordSearch, semanticSearch } from "@/lib/search";
 
 const DEFAULT_QUERY = "legal concerns about vendor lock-in";
@@ -53,7 +55,8 @@ export function KeywordVsSemantic() {
 
   return (
     <div>
-      <label className="font-mono text-xs uppercase tracking-wide text-zinc-400">
+      <OpenInElastic beat={DEMO_BEATS[0]} />
+      <label className="mt-8 block font-mono text-xs uppercase tracking-wide text-zinc-400">
         Same query
         <input
           value={query}
@@ -79,8 +82,8 @@ export function KeywordVsSemantic() {
         ))}
       </div>
       <p className="mt-4 text-sm text-zinc-400">
-        Workshop replica of Jina-style neighborhood ranking on a Cisco-shaped corpus. No API keys
-        in this app. Kapil: run the default query, then “switching costs”, then “legal hold”.
+        Projector storyboard on a Cisco-shaped corpus (not a live Elastic query). After the aha,
+        open Agent Builder and paste the prompt.
       </p>
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <HitList

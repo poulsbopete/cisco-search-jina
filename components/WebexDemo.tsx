@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { OpenInElastic } from "@/components/OpenInElastic";
+import { DEMO_BEATS } from "@/lib/demo-playbook";
 import { corpus, semanticSearch } from "@/lib/search";
 
 const REGIONS = ["us-gov-east", "us-gov-west"] as const;
@@ -15,9 +17,12 @@ export function WebexDemo() {
 
   return (
     <div>
-      <p className="text-sm text-zinc-400">
-        CCR copies the index. Search stays in-region. Ranking must not drift — same synonyms, same
-        model, local query. Toggle East / West; top concepts should agree even if document copies differ.
+      <OpenInElastic beat={DEMO_BEATS[3]} />
+      <p className="mt-6 text-sm text-zinc-400">
+        Architecture visual only: CCR copies the index, query stays in-region, ranking must not
+        drift. The shared Kibana is <span className="text-zinc-200">one</span> project
+        (us-east-1) — it is not a dual Gov cluster. Toggle East / West here to show the idea;
+        prove retrieval in Agent Builder.
       </p>
       <div className="mt-4 flex gap-2">
         {REGIONS.map((r) => (

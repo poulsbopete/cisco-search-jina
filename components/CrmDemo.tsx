@@ -1,5 +1,7 @@
 "use client";
 
+import { OpenInElastic } from "@/components/OpenInElastic";
+import { DEMO_BEATS } from "@/lib/demo-playbook";
 import { semanticSearch } from "@/lib/search";
 import { corpus } from "@/lib/search";
 
@@ -19,7 +21,9 @@ export function CrmDemo() {
   ];
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
+    <div className="space-y-6">
+      <OpenInElastic beat={DEMO_BEATS[1]} />
+      <div className="grid gap-6 lg:grid-cols-2">
       <section className="rounded-2xl border border-white/10 bg-white/5 p-5">
         <h2 className="font-mono text-sm uppercase tracking-wide text-zinc-300">
           Seed deal
@@ -68,6 +72,7 @@ export function CrmDemo() {
           ))}
         </ul>
       </section>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { OpenInElastic } from "@/components/OpenInElastic";
+import { DEMO_BEATS } from "@/lib/demo-playbook";
 import { corpus, semanticSearch, type WorkshopDoc } from "@/lib/search";
 
 const SOURCES: WorkshopDoc["system"][] = [
@@ -31,7 +33,8 @@ export function LifecycleDemo() {
 
   return (
     <div>
-      <p className="text-sm text-zinc-400">
+      <OpenInElastic beat={DEMO_BEATS[2]} />
+      <p className="mt-6 text-sm text-zinc-400">
         Balaji&apos;s team: federate Snowflake facts, S3 payloads (~10 MB), and OpenSearch logs in
         one question. Toggle sources — Ivan demos the agent question without hopping tools.
       </p>
