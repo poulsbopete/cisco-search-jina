@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 TRACK = ROOT / "instruqt" / "cisco-search-jina"
-HEAD = TRACK / "track_scripts" / "setup-es3-api.head"
+HEAD = ROOT / "scripts" / "setup-es3-api.head"
 SEED = TRACK / "track_scripts" / "seed_cisco_search.py"
 CORPUS = ROOT / "data" / "workshop-corpus.json"
 OUT = TRACK / "track_scripts" / "setup-es3-api"
