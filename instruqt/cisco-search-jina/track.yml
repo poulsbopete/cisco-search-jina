@@ -5,7 +5,7 @@ teaser: Self-paced ES|QL labs on Elastic Serverless Search — cisco-jina-corpus
 description: |
   Self-paced. Per-learner **Elastic Cloud Serverless Search**. Seeded index
   `cisco-jina-corpus` (deals, transactions, notes, Webex artifacts). **ES|QL only**
-  (no KQL). Stay in Kibana — no external demo sites.
+  (no KQL). Wait slides embed the Vercel deck; labs stay in Kibana.
 icon: https://www.elastic.co/favicon.ico
 tags:
 - cisco

@@ -24,6 +24,15 @@ tabs:
 difficulty: intermediate
 timelimit: 600
 enhanced_loading: null
+notes:
+- type: text
+  contents: |
+    ## While you wait…
+
+    <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=webex"
+      width="100%" height="1400" frameborder="0"
+      style="border-radius:8px;display:block;width:100%;min-height:900px;aspect-ratio:16/9;border:0">
+    </iframe>
 ---
 
 # Webex / Infra — East + West
