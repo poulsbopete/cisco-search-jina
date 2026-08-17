@@ -2,6 +2,11 @@ export const KIBANA_URL =
   process.env.NEXT_PUBLIC_KIBANA_URL ??
   "https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud";
 
+/** Shared Search-AI Agent Builder agent (cisco-jina-corpus). */
+export const AGENT_BUILDER_URL =
+  process.env.NEXT_PUBLIC_AGENT_BUILDER_URL ??
+  `${KIBANA_URL.replace(/\/$/, "")}/app/agent_builder`;
+
 export const APP_URL =
   process.env.NEXT_PUBLIC_APP_URL ?? "https://cisco-search-jina.vercel.app";
 

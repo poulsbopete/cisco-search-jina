@@ -1,4 +1,4 @@
-import { INSTRUQT_INVITE } from "@/lib/config";
+import { AGENT_BUILDER_URL, INSTRUQT_INVITE } from "@/lib/config";
 
 export function BundleStory() {
   const rows = [
@@ -39,11 +39,15 @@ export function BundleStory() {
       <p className="rounded-2xl border border-cyan-400/30 bg-cyan-400/5 p-5 text-sm leading-relaxed text-zinc-200">
         Cisco teams told us <span className="text-white">AWS OpenSearch does not offer embeddings</span>.
         That is a keyword ceiling: the words you typed, nothing else. Elastic runs embeddings in
-        Serverless Search. Jina makes them multimodal. Prove it in Discover ES|QL on your lab
-        project — not in Agent Builder.{" "}
+        Serverless Search. Jina makes them multimodal. Chat the corpus in{" "}
+        <a className="text-cyan-200 underline" href={AGENT_BUILDER_URL} target="_blank" rel="noopener noreferrer">
+          Agent Builder
+        </a>{" "}
+        (agent <span className="text-zinc-200">Cisco Jina Search</span>), or run ES|QL yourself in{" "}
         <a className="text-cyan-200 underline" href={INSTRUQT_INVITE} target="_blank" rel="noopener noreferrer">
-          Open the Serverless lab
+          the Serverless lab
         </a>
+        .
       </p>
       <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
         <table className="min-w-full text-left text-sm">

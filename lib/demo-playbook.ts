@@ -1,4 +1,4 @@
-import { INSTRUQT_INVITE, KIBANA_URL } from "@/lib/config";
+import { AGENT_BUILDER_URL, INSTRUQT_INVITE, KIBANA_URL } from "@/lib/config";
 
 const kb = (path: string) => `${KIBANA_URL.replace(/\/$/, "")}${path}`;
 
@@ -8,6 +8,7 @@ export const CORPUS_ESQL =
 
 export const ELASTIC = {
   home: kb("/"),
+  agentBuilder: AGENT_BUILDER_URL,
   discover: kb(
     "/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-24h,to:now))",
   ),
