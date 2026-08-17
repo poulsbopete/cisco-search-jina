@@ -20,8 +20,10 @@ export function WorkshopHub() {
         Semantic search on Elastic Serverless
       </h1>
       <p className="mt-4 max-w-xl text-lg text-zinc-400">
-        Your own Search project in the browser. The Cisco search bar stays here — the lab
-        opens in a new tab (Instruqt cannot be embedded).
+        Your own Search project in the browser. Use the <span className="text-zinc-200">Discover</span> tab
+        and <span className="text-zinc-200">ES|QL</span> against{" "}
+        <code className="text-cyan-200">cisco-jina-corpus</code>. Skip AI Agent / Agent Builder — it
+        is not wired to this index.
       </p>
       <div className="mt-8 flex flex-wrap gap-3">
         <a

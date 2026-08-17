@@ -2,12 +2,16 @@ import { INSTRUQT_INVITE, KIBANA_URL } from "@/lib/config";
 
 const kb = (path: string) => `${KIBANA_URL.replace(/\/$/, "")}${path}`;
 
+/** First lab query — hyphens in the index name must be quoted. */
+export const CORPUS_ESQL =
+  'FROM "cisco-jina-corpus" | KEEP title, source, account, region, concepts, content | LIMIT 20';
+
 export const ELASTIC = {
   home: kb("/"),
-  discover: kb("/app/discover"),
-  esql: kb("/app/elasticsearch"),
-  agents: kb("/app/agent_builder"),
-  playground: kb("/app/search_playground"),
+  discover: kb(
+    "/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-24h,to:now))",
+  ),
+  esql: kb("/app/dev_tools#/console"),
 } as const;
 
 export type DemoBeat = {
@@ -15,7 +19,6 @@ export type DemoBeat = {
   href: string;
   title: string;
   summary: string;
-  elasticPath: keyof typeof ELASTIC;
 };
 
 export const DEMO_BEATS: DemoBeat[] = [
@@ -25,7 +28,6 @@ export const DEMO_BEATS: DemoBeat[] = [
     title: "Keyword vs semantic",
     summary:
       "The same question, two retrieval styles. AWS OpenSearch stops at keyword — Cisco teams told us it does not offer embeddings. Elastic + Jina rank meaning, so “legal concerns” and “vendor lock-in fears” can surface the same deals.",
-    elasticPath: "agents",
   },
   {
     id: "crm",
@@ -33,7 +35,6 @@ export const DEMO_BEATS: DemoBeat[] = [
     title: "CRM Analytics",
     summary:
       "Find deals like this one, with a reason for every match. Account, deal, and competitor stay connected so forecast narratives are grounded — not guessed.",
-    elasticPath: "agents",
   },
   {
     id: "lifecycle",
@@ -41,7 +42,6 @@ export const DEMO_BEATS: DemoBeat[] = [
     title: "Lifecycle Platform",
     summary:
       "One question across Snowflake facts, S3 payloads, and Elastic logs. Large transaction documents become searchable without standing up another warehouse.",
-    elasticPath: "esql",
   },
   {
     id: "webex",
@@ -49,7 +49,6 @@ export const DEMO_BEATS: DemoBeat[] = [
     title: "Webex / Infrastructure",
     summary:
       "Consistent relevance in US Gov East and West. Replicate with CCR, search locally, and keep ranking aligned so queries never cross the Gov boundary.",
-    elasticPath: "agents",
   },
 ];
 

@@ -37,7 +37,8 @@ enhanced_loading: null
 
 # Keyword vs semantic — ES|QL only
 
-Stay in this Kibana tab. Use **ES|QL** (Discover’s query editor). **Do not use KQL.** Do not run `FROM *,-.*` — that misses the lab index.
+Stay in this Kibana tab. Use **Discover → ES|QL**. **Do not use KQL.** Do not open **AI Agent**
+or Agent Builder — that chat is not connected to this lab index. Do not run `FROM *,-.*`.
 
 MATCH is the OpenSearch ceiling (keyword, no embeddings). `concepts IN (...)` is the Elastic + Jina motion — meaning, not just tokens.
 
