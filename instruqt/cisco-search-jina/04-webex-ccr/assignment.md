@@ -53,7 +53,7 @@ FROM "cisco-jina-corpus"
 
 ```esql
 FROM "cisco-jina-corpus"
-| WHERE region == "us-gov-east" AND concepts IN ("vendor-lock-in", "legal-review", "webex", "ccr")
+| WHERE region == "us-gov-east" AND MV_INTERSECTS(concepts, ["vendor-lock-in", "legal-review", "webex", "ccr"])
 | KEEP title, system, region, concepts
 ```
 
@@ -61,7 +61,7 @@ FROM "cisco-jina-corpus"
 
 ```esql
 FROM "cisco-jina-corpus"
-| WHERE region == "us-gov-west" AND concepts IN ("vendor-lock-in", "legal-review", "webex", "ccr")
+| WHERE region == "us-gov-west" AND MV_INTERSECTS(concepts, ["vendor-lock-in", "legal-review", "webex", "ccr"])
 | KEEP title, system, region, concepts
 ```
 

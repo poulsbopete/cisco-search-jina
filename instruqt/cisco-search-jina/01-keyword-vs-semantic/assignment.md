@@ -40,7 +40,7 @@ enhanced_loading: null
 Stay in this Kibana tab. Use **Discover → ES|QL**. **Do not use KQL.** Do not open **AI Agent**
 or Agent Builder — that chat is not connected to this lab index. Do not run `FROM *,-.*`.
 
-MATCH is the OpenSearch ceiling (keyword, no embeddings). `concepts IN (...)` is the Elastic + Jina motion — meaning, not just tokens.
+MATCH is the OpenSearch ceiling (keyword, no embeddings). `MV_INTERSECTS(concepts, [...])` is the Elastic + Jina motion — any overlapping concept, not just tokens. Do **not** use `concepts IN (...)`: `concepts` is multi-valued, so `IN` matches nothing.
 
 Seeded index: **`"cisco-jina-corpus"`**. If you see **0 documents processed**, set the time picker to **Last 24 hours** (not Last 15 minutes), then run:
 
@@ -81,7 +81,7 @@ Same business intent — vendor lock-in / counsel / switching costs — without 
 
 ```esql
 FROM "cisco-jina-corpus"
-| WHERE concepts IN ("vendor-lock-in", "legal-review", "switching-cost")
+| WHERE MV_INTERSECTS(concepts, ["vendor-lock-in", "legal-review", "switching-cost"])
 | KEEP title, account, concepts, content
 ```
 
@@ -98,4 +98,4 @@ FROM "cisco-jina-corpus"
 ## Success
 
 - You queried **only** `cisco-jina-corpus` with ES|QL.
-- You can explain why MATCH("legal") and `concepts IN (...)` disagree.
+- You can explain why MATCH("legal") and `MV_INTERSECTS(concepts, [...])` disagree.

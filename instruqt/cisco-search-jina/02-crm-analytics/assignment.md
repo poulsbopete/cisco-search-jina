@@ -57,7 +57,7 @@ Seed deal: **Acme Corp — Webex Calling + Control Hub renewal**. Graph: Account
 
 ```esql
 FROM "cisco-jina-corpus"
-| WHERE source == "crm" AND concepts IN ("vendor-lock-in", "legal-review", "webex")
+| WHERE source == "crm" AND MV_INTERSECTS(concepts, ["vendor-lock-in", "legal-review", "webex"])
 | KEEP title, account, competitors, concepts
 ```
 
