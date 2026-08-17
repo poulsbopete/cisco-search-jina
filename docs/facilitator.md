@@ -4,10 +4,12 @@
 
 ## Live talk (not Instruqt)
 
-- **Aaron Byers** — `/slides?section=opening`
-- **Peter Simkins** — `/slides?section=cisco` then later `/slides?section=bundle`
-- **Kapil Jadhav** — `/slides?section=tech` and `/demo`
-- **Ivan Silva** — `/crm`, `/lifecycle`, `/webex`
+Name Cisco groups, not people: **CRM Analytics**, **Lifecycle Platform**, **Webex / Infrastructure**.
+
+- Opening — `/slides?section=opening`
+- Cisco story — `/slides?section=cisco` then later `/slides?section=bundle`
+- Tech / keyword vs semantic — `/slides?section=tech` and `/demo`
+- CRM, Lifecycle, Webex — `/crm`, `/lifecycle`, `/webex`
 
 Deck: https://cisco-search-jina.vercel.app/slides
 
@@ -24,9 +26,9 @@ Ungated invite (anyone can start): https://play.instruqt.com/elastic/invite/rjz8
 
 ## Anti-patterns
 
-- Challenges that say “Aaron opens” or “Peter covers”
+- Challenges that name people instead of Cisco groups
 - Skipping Umbrella “legal hold” (false-positive teaching moment)
-- “We’ll follow up” with no named Cisco owner (Anshul / Balaji / Webex Infra)
+- “We’ll follow up” with no Cisco group (CRM Analytics / Lifecycle / Webex Infra)
 
 ## Three layers (do not mix them)
 

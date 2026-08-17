@@ -37,7 +37,7 @@ enhanced_loading: null
 
 # CRM Analytics — find deals like this
 
-**Anshul's team:** similar-deal search with a reason on every row. Stay in ES|QL. **Do not use KQL.**
+**CRM Analytics:** similar-deal search with a reason on every row. Stay in ES|QL. **Do not use KQL.**
 
 Open [button label="Elastic Serverless Search"](tab-0). Time picker: **Last 24 hours** if empty.
 
