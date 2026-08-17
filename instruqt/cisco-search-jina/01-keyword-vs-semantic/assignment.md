@@ -4,6 +4,15 @@ id: 5z1utyxhg6sp
 type: challenge
 title: Keyword vs semantic
 teaser: Same corpus, two ES|QL queries — MATCH tokens vs concept neighborhood.
+notes:
+- type: text
+  contents: |
+    ## While you wait…
+
+    <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1"
+      width="100%" height="1400" frameborder="0"
+      style="border-radius:8px;display:block;width:100%;min-height:900px;aspect-ratio:16/9;border:0">
+    </iframe>
 tabs:
 - id: a8soimgdzqmm
   title: Elastic Serverless Search
@@ -24,15 +33,6 @@ tabs:
 difficulty: intermediate
 timelimit: 900
 enhanced_loading: null
-notes:
-- type: text
-  contents: |
-    ## While you wait…
-
-    <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1"
-      width="100%" height="1400" frameborder="0"
-      style="border-radius:8px;display:block;width:100%;min-height:900px;aspect-ratio:16/9;border:0">
-    </iframe>
 ---
 
 # Keyword vs semantic — ES|QL only

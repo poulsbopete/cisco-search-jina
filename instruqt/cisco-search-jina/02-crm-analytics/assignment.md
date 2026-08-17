@@ -4,6 +4,15 @@ id: 6eq0qbedvzi8
 type: challenge
 title: CRM Analytics — find deals like this
 teaser: Similar CRM deals with explainable concepts. Acme vs Umbrella in ES|QL.
+notes:
+- type: text
+  contents: |
+    ## While you wait…
+
+    <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=crm"
+      width="100%" height="1400" frameborder="0"
+      style="border-radius:8px;display:block;width:100%;min-height:900px;aspect-ratio:16/9;border:0">
+    </iframe>
 tabs:
 - id: rlkxkwgckcyc
   title: Elastic Serverless Search
@@ -24,15 +33,6 @@ tabs:
 difficulty: intermediate
 timelimit: 720
 enhanced_loading: null
-notes:
-- type: text
-  contents: |
-    ## While you wait…
-
-    <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=crm"
-      width="100%" height="1400" frameborder="0"
-      style="border-radius:8px;display:block;width:100%;min-height:900px;aspect-ratio:16/9;border:0">
-    </iframe>
 ---
 
 # CRM Analytics — find deals like this

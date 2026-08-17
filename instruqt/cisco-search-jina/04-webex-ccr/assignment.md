@@ -4,6 +4,15 @@ id: zmewr7hksnrp
 type: challenge
 title: Webex / Infra — East + West
 teaser: Same ES|QL in us-gov-east and us-gov-west. CCR copies; search stays local.
+notes:
+- type: text
+  contents: |
+    ## While you wait…
+
+    <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=webex"
+      width="100%" height="1400" frameborder="0"
+      style="border-radius:8px;display:block;width:100%;min-height:900px;aspect-ratio:16/9;border:0">
+    </iframe>
 tabs:
 - id: gs4xqwjgvkuz
   title: Elastic Serverless Search
@@ -24,15 +33,6 @@ tabs:
 difficulty: intermediate
 timelimit: 600
 enhanced_loading: null
-notes:
-- type: text
-  contents: |
-    ## While you wait…
-
-    <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=webex"
-      width="100%" height="1400" frameborder="0"
-      style="border-radius:8px;display:block;width:100%;min-height:900px;aspect-ratio:16/9;border:0">
-    </iframe>
 ---
 
 # Webex / Infra — East + West

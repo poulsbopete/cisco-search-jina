@@ -4,6 +4,15 @@ id: yaojzusqumuc
 type: challenge
 title: Lifecycle — federated sources
 teaser: Snowflake + S3 + OpenSearch in one ES|QL. Drop a source. See the fat payload.
+notes:
+- type: text
+  contents: |
+    ## While you wait…
+
+    <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=lifecycle"
+      width="100%" height="1400" frameborder="0"
+      style="border-radius:8px;display:block;width:100%;min-height:900px;aspect-ratio:16/9;border:0">
+    </iframe>
 tabs:
 - id: bsonkefngbfp
   title: Elastic Serverless Search
@@ -24,15 +33,6 @@ tabs:
 difficulty: intermediate
 timelimit: 720
 enhanced_loading: null
-notes:
-- type: text
-  contents: |
-    ## While you wait…
-
-    <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=lifecycle"
-      width="100%" height="1400" frameborder="0"
-      style="border-radius:8px;display:block;width:100%;min-height:900px;aspect-ratio:16/9;border:0">
-    </iframe>
 ---
 
 # Lifecycle — federated sources
