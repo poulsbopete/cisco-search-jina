@@ -82,17 +82,17 @@ export function KeywordVsSemantic() {
         ))}
       </div>
       <p className="mt-4 text-sm text-zinc-400">
-        Same question, two retrieval styles. Keyword matches the words you typed. Semantic ranking
-        matches meaning — so different wording can still surface the same deals.
+        Left is the OpenSearch ceiling: keyword only, no embeddings. Right is Elastic + Jina:
+        meaning as numbers, so different wording can still surface the same deals.
       </p>
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <HitList
-          title="Keyword"
+          title="Keyword — OpenSearch ceiling"
           hits={keyword}
           empty="No exact tokens. This is the gap reps feel."
         />
         <HitList
-          title="Semantic + ranking"
+          title="Semantic — Elastic + Jina"
           hits={semantic}
           empty="No neighborhood overlap."
         />

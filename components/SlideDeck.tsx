@@ -58,9 +58,9 @@ export const SLIDES: Slide[] = [
     title: "What you walk away with",
     bullets: [
       "Keyword vs semantic on the same Cisco-shaped corpus.",
+      "Why leave OpenSearch: Cisco teams told us AWS OpenSearch does not offer embeddings.",
       "A Cisco-wide narrative: CRM Analytics + Lifecycle + Webex / Infra.",
-      "What Elastic owns vs what Jina owns — and why you need both.",
-      "A hands-on Elastic Cloud Serverless Search lab you can run yourself.",
+      "Elastic runs search; Jina powers multimodal relevance — plus a hands-on Serverless lab.",
     ],
     demoHref: INSTRUQT_INVITE,
     demoLabel: "Start the hands-on lab",
@@ -72,7 +72,7 @@ export const SLIDES: Slide[] = [
     subtitle:
       "Cisco teams already own search across deal data, transaction data, system logs, and unstructured notes.",
     bullets: [
-      "Today: keyword search + manual correlation.",
+      "Today: keyword search — the ceiling teams report on AWS OpenSearch (no embeddings).",
       "Tomorrow: semantic search + AI-powered insights — with audit and explainability.",
       "You already have MuleSoft, Snowflake, S3.",
       "The gap is search and understanding on top of that infrastructure — not another warehouse.",
@@ -126,7 +126,8 @@ export const SLIDES: Slide[] = [
     title: "Embeddings: meaning as numbers",
     subtitle: "“Legal concerns” and “vendor lock-in fears” can live in the same vector space.",
     bullets: [
-      "A keyword engine matches strings. An embedding model matches intent.",
+      "A keyword engine matches strings. That is the OpenSearch ceiling — no embeddings.",
+      "An embedding model matches intent. Elastic runs it; Jina tunes it.",
       "That is why similar deals stay invisible when counsel uses different words.",
       "False positives drop when ranking understands neighborhood, not just tokens.",
       "Better relevance = fewer wild-goose chases = more confident decisions.",
@@ -200,6 +201,30 @@ export const SLIDES: Slide[] = [
   {
     section: "bundle",
     speaker: "Elastic + Jina",
+    title: "The OpenSearch ceiling",
+    subtitle:
+      "Cisco teams told us AWS OpenSearch does not offer embeddings. Keyword matching is the product.",
+    statCards: [
+      {
+        figure: "OS",
+        title: "AWS OpenSearch",
+        caption: "No embeddings. Token match only — “legal concerns” never finds “switching costs.”",
+      },
+      {
+        figure: "ES",
+        title: "Elastic",
+        caption: "Native embeddings, vector search, inference, and explainability in Serverless Search.",
+      },
+      {
+        figure: "Jina",
+        title: "Jina",
+        caption: "Multimodal embeddings — decks, notes, and transcripts in one vector space.",
+      },
+    ],
+  },
+  {
+    section: "bundle",
+    speaker: "Elastic + Jina",
     title: "Why Elastic + Jina together",
     statCards: [
       {
@@ -224,9 +249,10 @@ export const SLIDES: Slide[] = [
     speaker: "Elastic + Jina",
     title: "Why not just one of them",
     bullets: [
+      "Why not stay on OpenSearch: no embeddings — Cisco teams were explicit. Keyword is the ceiling.",
       "Why not just Jina: it is an embeddings API. You still need storage, versioning, audit, explainability.",
       "Why not just Elasticsearch: ES embeddings are good. Jina’s are better for multimodal enterprise content.",
-      "Real pattern: CRM in Elastic, embedded via Jina, queried with knowledge graphs. One-click answers.",
+      "Real pattern: leave keyword OpenSearch, land CRM in Elastic, embed via Jina, query with graphs.",
     ],
     demoHref: `${APP_URL}/bundle`,
     demoLabel: "Open the bundle story",

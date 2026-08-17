@@ -24,7 +24,7 @@ export const DEMO_BEATS: DemoBeat[] = [
     href: "/demo",
     title: "Keyword vs semantic",
     summary:
-      "The same question, two retrieval styles. Keyword matches the words you typed. Semantic ranking matches meaning — so “legal concerns” and “vendor lock-in fears” can surface the same deals.",
+      "The same question, two retrieval styles. AWS OpenSearch stops at keyword — Cisco teams told us it does not offer embeddings. Elastic + Jina rank meaning, so “legal concerns” and “vendor lock-in fears” can surface the same deals.",
     elasticPath: "agents",
   },
   {

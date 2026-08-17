@@ -39,6 +39,8 @@ enhanced_loading: null
 
 Stay in this Kibana tab. Use **ES|QL** (Discover’s query editor). **Do not use KQL.** Do not run `FROM *,-.*` — that misses the lab index.
 
+MATCH is the OpenSearch ceiling (keyword, no embeddings). `concepts IN (...)` is the Elastic + Jina motion — meaning, not just tokens.
+
 Seeded index: **`cisco-jina-corpus`**. If you see 0 rows, set the time picker to **Last 24 hours** and re-run.
 
 Open [button label="Elastic Serverless Search"](tab-0).
