@@ -1,10 +1,5 @@
-import { AppShell } from "@/components/AppShell";
-import { BundleStory } from "@/components/BundleStory";
+import { ConceptApp } from "@/components/ConceptApp";
 
 export default function BundlePage() {
-  return (
-    <AppShell kicker="Elastic + Jina" title="Elastic runs search. Jina powers relevance.">
-      <BundleStory />
-    </AppShell>
-  );
+  return <ConceptApp />;
 }

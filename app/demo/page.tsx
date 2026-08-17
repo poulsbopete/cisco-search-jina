@@ -1,10 +1,5 @@
-import { AppShell } from "@/components/AppShell";
-import { KeywordVsSemantic } from "@/components/KeywordVsSemantic";
+import { ConceptApp } from "@/components/ConceptApp";
 
 export default function DemoPage() {
-  return (
-    <AppShell kicker="Interactive demo" title="Keyword vs semantic">
-      <KeywordVsSemantic />
-    </AppShell>
-  );
+  return <ConceptApp />;
 }

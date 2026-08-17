@@ -294,11 +294,11 @@ export function SlideDeck({ embed, section, start }: Props) {
   const slide = SLIDES[i];
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-zinc-950 text-zinc-50">
+    <div className="relative min-h-[calc(100dvh-3rem)] overflow-hidden bg-zinc-950 text-zinc-50">
       <div className="pointer-events-none absolute inset-0 opacity-80">
         <FallingPattern className="h-full" density={1.1} />
       </div>
-      <div className="relative z-10 flex min-h-screen flex-col">
+      <div className="relative z-10 flex min-h-[calc(100dvh-3rem)] flex-col">
         <header className="flex items-center justify-between gap-4 border-b border-white/10 bg-black/30 px-5 py-3 backdrop-blur-md">
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cyan-300">
             {slide.section}

@@ -1,63 +1,74 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { INSTRUQT_INVITE } from "@/lib/config";
-import { ELASTIC } from "@/lib/demo-playbook";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
+import { MODULES } from "@/lib/modules";
+import { useModule } from "@/components/ModuleProvider";
 import { cn } from "@/lib/utils";
 
-export const NAV = [
-  { href: "/", label: "Home" },
-  { href: "/slides", label: "Slides" },
-  { href: "/demo", label: "Keyword vs semantic" },
-  { href: "/crm", label: "CRM Analytics" },
-  { href: "/lifecycle", label: "Lifecycle" },
-  { href: "/webex", label: "Webex / Infra" },
-  { href: "/bundle", label: "Elastic + Jina" },
-] as const;
-
 export function SiteNav() {
-  const pathname = usePathname();
+  const { active, setActive } = useModule();
+  const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/95 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
-        <Link href="/" className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/90 backdrop-blur-xl">
+      <div className="mx-auto flex h-12 max-w-6xl items-center justify-between gap-3 px-4">
+        <button
+          type="button"
+          onClick={() => setActive("semantic")}
+          className="shrink-0 font-mono text-xs uppercase tracking-[0.2em] text-cyan-300"
+        >
           Cisco search
-        </Link>
-        <nav className="flex flex-wrap gap-2" aria-label="Primary">
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
+        </button>
+
+        <nav className="hidden items-center gap-0.5 md:flex" aria-label="Concepts">
+          {MODULES.map((mod) => (
+            <button
+              key={mod.id}
+              type="button"
+              onClick={() => setActive(mod.id)}
               className={cn(
-                "rounded-full border px-3 py-1 font-mono text-[11px] hover:border-cyan-400/50 hover:text-white",
-                pathname === item.href
-                  ? "border-cyan-400/60 bg-cyan-400/10 text-cyan-100"
-                  : "border-white/10 text-zinc-300",
+                "rounded-full px-3 py-1 font-mono text-[11px] tracking-wide",
+                active === mod.id
+                  ? "bg-white/10 text-white"
+                  : "text-zinc-400 hover:text-white",
               )}
             >
-              {item.label}
-            </Link>
+              {mod.label}
+            </button>
           ))}
-          <a
-            href={INSTRUQT_INVITE}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full bg-cyan-400 px-3 py-1 font-mono text-[11px] font-semibold text-zinc-950"
-          >
-            Hands-on lab
-          </a>
-          <a
-            href={ELASTIC.home}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-cyan-400/40 px-3 py-1 font-mono text-[11px] text-cyan-200"
-          >
-            Open Elastic
-          </a>
         </nav>
+
+        <button
+          type="button"
+          className="p-2 text-zinc-200 md:hidden"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="Menu"
+        >
+          {open ? <X className="size-5" /> : <Menu className="size-5" />}
+        </button>
       </div>
+
+      {open ? (
+        <nav className="space-y-1 border-t border-white/10 px-4 py-3 md:hidden">
+          {MODULES.map((mod) => (
+            <button
+              key={mod.id}
+              type="button"
+              onClick={() => {
+                setActive(mod.id);
+                setOpen(false);
+              }}
+              className={cn(
+                "block w-full py-2 text-left font-mono text-sm",
+                active === mod.id ? "text-white" : "text-zinc-400",
+              )}
+            >
+              {mod.label}
+            </button>
+          ))}
+        </nav>
+      ) : null}
     </header>
   );
 }

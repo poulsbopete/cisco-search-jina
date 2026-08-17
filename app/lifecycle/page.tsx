@@ -1,10 +1,5 @@
-import { AppShell } from "@/components/AppShell";
-import { LifecycleDemo } from "@/components/LifecycleDemo";
+import { ConceptApp } from "@/components/ConceptApp";
 
 export default function LifecyclePage() {
-  return (
-    <AppShell kicker="Lifecycle Platform" title="Federated search on large payloads">
-      <LifecycleDemo />
-    </AppShell>
-  );
+  return <ConceptApp />;
 }
