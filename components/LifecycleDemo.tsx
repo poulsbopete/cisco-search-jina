@@ -8,7 +8,7 @@ import { corpus, semanticSearch, type WorkshopDoc } from "@/lib/search";
 const SOURCES: WorkshopDoc["system"][] = [
   "Snowflake",
   "S3",
-  "OpenSearch",
+  "Elastic",
 ];
 
 export function LifecycleDemo() {
@@ -16,7 +16,7 @@ export function LifecycleDemo() {
   const [enabled, setEnabled] = useState<Record<string, boolean>>({
     Snowflake: true,
     S3: true,
-    OpenSearch: true,
+    Elastic: true,
   });
 
   const hits = useMemo(() => {
@@ -35,7 +35,7 @@ export function LifecycleDemo() {
     <div>
       <OpenInElastic beat={DEMO_BEATS[2]} />
       <p className="mt-6 text-sm text-zinc-400">
-        One question across Snowflake facts, S3 payloads (~10 MB), and OpenSearch logs. Toggle
+        One question across Snowflake facts, S3 payloads (~10 MB), and Elastic logs. Toggle
         sources to see which systems contribute — without hopping tools.
       </p>
       <input

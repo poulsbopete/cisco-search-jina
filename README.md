@@ -12,7 +12,7 @@ Deep links: `/#semantic` `/#crm` `/#lifecycle` `/#webex` `/#bundle` `/#workshop`
 
 1. Keyword vs semantic
 2. CRM Analytics — find deals like this
-3. Lifecycle — federated Snowflake + S3 + OpenSearch
+3. Lifecycle — federated Snowflake + S3 + Elastic logs
 4. Webex / Infra — US Gov East + West, CCR + local search
 
 ## App

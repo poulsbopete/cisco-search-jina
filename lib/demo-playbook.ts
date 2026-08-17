@@ -40,7 +40,7 @@ export const DEMO_BEATS: DemoBeat[] = [
     href: "/lifecycle",
     title: "Lifecycle Platform",
     summary:
-      "One question across Snowflake facts, S3 payloads, and OpenSearch logs. Large transaction documents become searchable without standing up another warehouse.",
+      "One question across Snowflake facts, S3 payloads, and Elastic logs. Large transaction documents become searchable without standing up another warehouse.",
     elasticPath: "esql",
   },
   {

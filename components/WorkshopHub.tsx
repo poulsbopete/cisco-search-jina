@@ -6,7 +6,7 @@ import { useModule } from "@/components/ModuleProvider";
 const STEPS = [
   "Keyword vs semantic — MATCH tokens vs concept neighborhood",
   "CRM Analytics — find deals like this one",
-  "Lifecycle — Snowflake, S3, and OpenSearch in one ES|QL",
+  "Lifecycle — Snowflake, S3, and Elastic logs in one ES|QL",
   "Webex / Infra — same query in East and West after CCR",
 ];
 

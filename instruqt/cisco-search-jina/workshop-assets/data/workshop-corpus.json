@@ -78,14 +78,14 @@
       "graph": { "account": "Acme Corp", "deal": "Webex Calling renewal" }
     },
     {
-      "id": "log-opensearch-order",
+      "id": "log-elastic-order",
       "source": "lifecycle",
-      "system": "OpenSearch",
+      "system": "Elastic",
       "title": "Order orchestration log — ACME-4419",
       "account": "Acme Corp",
       "region": "us-gov-west",
-      "content": "OpenSearch system log: MuleSoft flow order-create retried 3x. Downstream CCW reservation delayed. Not a legal document — ops signal that the deal is stuck in provisioning, not in counsel.",
-      "concepts": ["mulesoft", "provisioning", "logs", "opensearch"],
+      "content": "Elastic log: MuleSoft flow order-create retried 3x. Downstream CCW reservation delayed. Not a legal document — ops signal that the deal is stuck in provisioning, not in counsel.",
+      "concepts": ["mulesoft", "provisioning", "logs", "elasticsearch"],
       "graph": { "account": "Acme Corp", "deal": "Webex Calling renewal" }
     },
     {

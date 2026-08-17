@@ -3,7 +3,7 @@ slug: lifecycle-federated
 id: yaojzusqumuc
 type: challenge
 title: Lifecycle — federated sources
-teaser: Snowflake + S3 + OpenSearch in one ES|QL. Drop a source. See the fat payload.
+teaser: Snowflake + S3 + Elastic logs in one ES|QL. Drop a source. See the fat payload.
 notes:
 - type: text
   contents: |
@@ -37,7 +37,7 @@ enhanced_loading: null
 
 # Lifecycle — federated sources
 
-**Balaji's team:** one question across Snowflake facts, S3 payloads, and OpenSearch logs. MuleSoft is the pipe. Stay in ES|QL. **Do not use KQL.**
+One question across Snowflake facts, S3 payloads, and Elastic logs. MuleSoft is the pipe. Stay in ES|QL. **Do not use KQL.**
 
 Open [button label="Elastic Serverless Search"](tab-0).
 
@@ -49,15 +49,15 @@ FROM cisco-jina-corpus
 | KEEP title, system, bytes, content
 ```
 
-You should see Snowflake, S3 (~10 MB invoice pack), and OpenSearch orchestration.
+You should see Snowflake, S3 (~10 MB invoice pack), and Elastic orchestration logs.
 
-## 2 — Drop OpenSearch (provisioning noise)
+## 2 — Drop Elastic logs (provisioning noise)
 
 ```esql
 FROM cisco-jina-corpus
 | WHERE source == "lifecycle"
   AND account == "Acme Corp"
-  AND system != "OpenSearch"
+  AND system != "Elastic"
 | KEEP title, system, bytes, content
 ```
 

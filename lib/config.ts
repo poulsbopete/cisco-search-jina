@@ -23,7 +23,7 @@ export const CISCO_TEAMS = [
     name: "Lifecycle Platform",
     owner: "Federated sources",
     href: "/#lifecycle",
-    promise: "One query across Snowflake, S3, and OpenSearch / Elastic.",
+    promise: "One query across Snowflake, S3, and Elastic logs.",
   },
   {
     slug: "webex",

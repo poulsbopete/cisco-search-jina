@@ -47,7 +47,7 @@ export const SLIDES: Slide[] = [
       { figure: "Why", title: "The time tax", caption: "Hours spent hunting similar deals and stitching forecast narratives." },
       { figure: "How", title: "Embeddings", caption: "Meaning as numbers — not just the words on the page." },
       { figure: "CRM", title: "Analytics", caption: "Find deals like this one, with a reason for every match." },
-      { figure: "Life", title: "Lifecycle", caption: "One question across Snowflake, S3, and OpenSearch." },
+      { figure: "Life", title: "Lifecycle", caption: "One question across Snowflake, S3, and Elastic logs." },
       { figure: "WX", title: "Webex / Infra", caption: "Same relevance in US Gov East and West after CCR." },
       { figure: "Lab", title: "Hands-on", caption: "Your own Elastic Serverless Search project in the browser." },
     ],
@@ -74,7 +74,7 @@ export const SLIDES: Slide[] = [
     bullets: [
       "Today: keyword search + manual correlation.",
       "Tomorrow: semantic search + AI-powered insights — with audit and explainability.",
-      "You already have MuleSoft, Snowflake, OpenSearch, S3.",
+      "You already have MuleSoft, Snowflake, S3.",
       "The gap is search and understanding on top of that infrastructure — not another warehouse.",
     ],
   },
@@ -111,7 +111,7 @@ export const SLIDES: Slide[] = [
       {
         figure: "Life",
         title: "Lifecycle Platform",
-        caption: "Federated Snowflake + S3 + OpenSearch. 10 MB payloads. Multi-source agents.",
+        caption: "Federated Snowflake + S3 + Elastic logs. 10 MB payloads. Multi-source agents.",
       },
       {
         figure: "WX",
@@ -174,7 +174,7 @@ export const SLIDES: Slide[] = [
     section: "lifecycle",
     speaker: "Cisco teams",
     title: "Lifecycle Platform",
-    subtitle: "One question. Snowflake + S3 + OpenSearch/Elastic.",
+    subtitle: "One question. Snowflake + S3 + Elastic logs.",
     bullets: [
       "Federated search: do not copy the warehouse to start answering.",
       "Semantic on big payloads: ~10 MB transaction docs become searchable.",
