@@ -3,7 +3,7 @@ slug: webex-ccr
 id: zmewr7hksnrp
 type: challenge
 title: Webex / Infra — East + West
-teaser: Same relevance in US Gov East and West. CCR replicates; search stays local.
+teaser: Same ES|QL in us-gov-east and us-gov-west. CCR copies; search stays local.
 tabs:
 - id: gs4xqwjgvkuz
   title: Elastic Serverless Search
@@ -26,31 +26,49 @@ timelimit: 600
 enhanced_loading: null
 ---
 
-# Webex / Infrastructure — multi-region
+# Webex / Infra — East + West
 
-Cisco story for **Webex / Infra:** consistent relevance in **US Gov East** and **US Gov West**. Replicate with CCR. Query locally — do not send searches across the Gov boundary at query time.
+This lab project is **one** region. The `region` field on each doc is how we practice **CCR + local search**: same query, slice East then West. Stay in ES|QL. **Do not use KQL.**
 
-Optional bundle recap (Elastic vs Jina): [cisco-search-jina.vercel.app/bundle](https://cisco-search-jina.vercel.app/bundle)
+Open [button label="Elastic Serverless Search"](tab-0).
 
-## 1 — Region toggle
-
-Open [https://cisco-search-jina.vercel.app/webex](https://cisco-search-jina.vercel.app/webex)
-
-1. Search **US Gov East**, then **West**, same query.
-2. The ranking neighborhood should agree even when the local copy differs (deck in West, transcript in East).
-3. Read the CCR runbook hit: replicate the index, search locally, keep synonyms + model with the cluster.
-
-## 2 — Region breakdown on Serverless
-
-In [button label="Elastic Serverless Search"](tab-0):
+## 1 — Counts by region
 
 ```esql
 FROM cisco-jina-corpus
-| WHERE region == "us-gov-east" OR region == "us-gov-west"
-| STATS count = COUNT(*) BY region, source
+| STATS docs = COUNT(*) BY region, source
+| SORT region, source
+```
+
+## 2 — Same intent, East only
+
+```esql
+FROM cisco-jina-corpus
+| WHERE region == "us-gov-east"
+  AND concepts IN ("vendor-lock-in", "legal-review", "webex", "ccr")
+| KEEP title, system, region, concepts
+```
+
+## 3 — Same intent, West only
+
+```esql
+FROM cisco-jina-corpus
+| WHERE region == "us-gov-west"
+  AND concepts IN ("vendor-lock-in", "legal-review", "webex", "ccr")
+| KEEP title, system, region, concepts
+```
+
+Copies differ (transcript vs deck) but the **concepts** should still retrieve. That is the ranking-must-not-drift story: CCR replicates the index; you search locally; you do not query across the US-Gov boundary.
+
+## 4 — CCR runbook
+
+```esql
+FROM cisco-jina-corpus
+| WHERE source == "infra"
+| KEEP title, region, content
 ```
 
 ## Success
 
-- You can explain **CCR + local search** without a single global query plane for US Gov.
-- You compared East vs West on the same query.
+- You ran the same ES|QL sliced by `region`.
+- You can explain CCR + local search without a global Gov query plane.

@@ -3,7 +3,7 @@ slug: crm-analytics
 id: 6eq0qbedvzi8
 type: challenge
 title: CRM Analytics — find deals like this
-teaser: Similar deals with explainability. Account → deal → competitor. Why it matched.
+teaser: Similar CRM deals with explainable concepts. Acme vs Umbrella in ES|QL.
 tabs:
 - id: rlkxkwgckcyc
   title: Elastic Serverless Search
@@ -28,19 +28,11 @@ enhanced_loading: null
 
 # CRM Analytics — find deals like this
 
-Cisco story for **CRM Analytics (Anshul's team):** similar-deal search with a reason for every hit — not a black-box score.
+**Anshul's team:** similar-deal search with a reason on every row. Stay in ES|QL. **Do not use KQL.**
 
-## 1 — Deal intelligence demo
+Open [button label="Elastic Serverless Search"](tab-0). Time picker: **Last 24 hours** if empty.
 
-Open [https://cisco-search-jina.vercel.app/crm](https://cisco-search-jina.vercel.app/crm)
-
-1. Seed deal = **Acme Webex Calling renewal**
-2. Graph: Account → Deal → Competitor (Teams / Zoom)
-3. **Why these matched** — shared concepts, not a mystery rank
-
-## 2 — CRM docs on Serverless
-
-In [button label="Elastic Serverless Search"](tab-0), run:
+## 1 — CRM rows + graph fields
 
 ```esql
 FROM cisco-jina-corpus
@@ -48,9 +40,28 @@ FROM cisco-jina-corpus
 | KEEP title, account, competitors, concepts, content
 ```
 
-Compare **Acme** vs **Umbrella**: both mention “legal”; only one is a lock-in motion. Umbrella is e-discovery **legal hold** — a keyword trap.
+Seed deal: **Acme Corp — Webex Calling + Control Hub renewal**. Graph: Account → Deal → Competitor.
+
+## 2 — Deals like Acme (explainable)
+
+```esql
+FROM cisco-jina-corpus
+| WHERE source == "crm"
+  AND concepts IN ("vendor-lock-in", "legal-review", "webex")
+| KEEP title, account, competitors, concepts
+```
+
+## 3 — Why Umbrella should lose
+
+```esql
+FROM cisco-jina-corpus
+| WHERE source == "crm" AND MATCH(content, "legal")
+| KEEP title, account, concepts, content
+```
+
+Acme is lock-in / counsel. Umbrella is **legal hold** on email archive — same token, different motion.
 
 ## Success
 
-- You can describe “find deals like this” with explainability.
-- You can say why Umbrella should not win a vendor-lock-in query.
+- You listed CRM deals with account / competitor / concepts in ES|QL.
+- You can say why Umbrella is a keyword trap for “find deals like Acme.”

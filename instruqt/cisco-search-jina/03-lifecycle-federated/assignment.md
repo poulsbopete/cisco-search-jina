@@ -3,7 +3,7 @@ slug: lifecycle-federated
 id: yaojzusqumuc
 type: challenge
 title: Lifecycle — federated sources
-teaser: Snowflake + S3 + OpenSearch in one question. Semantic on ~10 MB payloads.
+teaser: Snowflake + S3 + OpenSearch in one ES|QL. Drop a source. See the fat payload.
 tabs:
 - id: bsonkefngbfp
   title: Elastic Serverless Search
@@ -26,31 +26,45 @@ timelimit: 720
 enhanced_loading: null
 ---
 
-# Lifecycle Platform — federated search
+# Lifecycle — federated sources
 
-Cisco story for **Lifecycle Platform (Balaji's team):** one question across Snowflake facts, S3 payloads, and OpenSearch logs. MuleSoft is the pipe; search is the understanding layer.
+**Balaji's team:** one question across Snowflake facts, S3 payloads, and OpenSearch logs. MuleSoft is the pipe. Stay in ES|QL. **Do not use KQL.**
 
-## 1 — Toggle sources
+Open [button label="Elastic Serverless Search"](tab-0).
 
-Open [https://cisco-search-jina.vercel.app/lifecycle](https://cisco-search-jina.vercel.app/lifecycle)
+## 1 — All lifecycle sources for Acme
 
-Question: **Show me transactions from this account over 6 months.**
+```esql
+FROM cisco-jina-corpus
+| WHERE source == "lifecycle" AND account == "Acme Corp"
+| KEEP title, system, bytes, content
+```
 
-1. Leave Snowflake + S3 + OpenSearch on.
-2. Turn **OpenSearch** off — provisioning noise drops; counsel language in the S3 payload remains.
-3. Note the **~10 MB** invoice pack: keyword on invoice ID misses legal language inside the payload.
+You should see Snowflake, S3 (~10 MB invoice pack), and OpenSearch orchestration.
 
-## 2 — Lifecycle docs on Serverless
-
-In [button label="Elastic Serverless Search"](tab-0):
+## 2 — Drop OpenSearch (provisioning noise)
 
 ```esql
 FROM cisco-jina-corpus
 | WHERE source == "lifecycle"
+  AND account == "Acme Corp"
+  AND system != "OpenSearch"
 | KEEP title, system, bytes, content
 ```
 
+Counsel language stays in the **S3** payload. The log line is gone.
+
+## 3 — Fat payload vs invoice-ID thinking
+
+```esql
+FROM cisco-jina-corpus
+| WHERE system == "S3" AND MATCH(content, "termination counsel")
+| KEEP title, bytes, content
+```
+
+A keyword search on invoice ID would miss this. MATCH on payload text finds it.
+
 ## Success
 
-- You can describe federated search without “copy Snowflake into Elastic first.”
-- You found a fat payload document that semantic ranking can surface from a business question.
+- You filtered federated `system` values in one ES|QL.
+- You found the large S3 payload with counsel language inside.

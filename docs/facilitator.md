@@ -13,10 +13,11 @@ Deck: https://cisco-search-jina.vercel.app/slides
 
 ## Labs (Instruqt)
 
-1. Keyword vs semantic
-2. CRM Analytics — find deals like this
-3. Lifecycle — federated sources
-4. Webex / Infra — East + West
+ES|QL only in the Kibana tab. No Vercel links. No KQL. First query:
+
+`FROM cisco-jina-corpus | KEEP title, source, account, region, concepts, content | LIMIT 20`
+
+If Discover shows `FROM *,-.*` and 0 docs, replace the query with the one above and set time to **Last 24 hours**.
 
 Track (manage): https://play.instruqt.com/manage/elastic/tracks/cisco-search-jina  
 Ungated invite (anyone can start): https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq

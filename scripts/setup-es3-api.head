@@ -238,47 +238,27 @@ echo "Configure NGINX"
 # Create directory for static files
 mkdir -p /usr/share/nginx/html/loading
 
-# Create HTML file with iframe for interactive content during loading
 cat > /usr/share/nginx/html/loading/index.html <<'HTML_EOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Content</title>
+    <title>Cisco semantic search lab</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #1a1a1a; color: #ffffff; height: 100vh; overflow: hidden; }
-        .container { display: flex; flex-direction: column; height: 100vh; }
-        .header { background: #2d2d2d; padding: 15px 20px; border-bottom: 1px solid #404040; }
-        .header h1 { font-size: 18px; font-weight: 600; color: #ffffff; }
-        .tabs { display: flex; gap: 10px; background: #2d2d2d; padding: 0 20px; border-bottom: 1px solid #404040; }
-        .tab { padding: 12px 20px; background: transparent; border: none; color: #a0a0a0; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; font-size: 14px; }
-        .tab:hover { color: #ffffff; }
-        .tab.active { color: #4CAF50; border-bottom-color: #4CAF50; }
-        .content { flex: 1; position: relative; overflow: hidden; }
-        .iframe-container { width: 100%; height: 100%; border: none; }
-        .iframe-container iframe { width: 100%; height: 100%; border: none; background: #ffffff; }
+        body { font-family: ui-sans-serif, system-ui, sans-serif; background: #09090b; color: #fafafa; min-height: 100vh; padding: 32px; }
+        h1 { font-size: 22px; margin-bottom: 12px; }
+        p { color: #a1a1aa; line-height: 1.5; max-width: 40rem; }
+        code { display: block; margin-top: 20px; padding: 16px; background: #18181b; border: 1px solid #27272a; border-radius: 12px; font-family: ui-monospace, monospace; font-size: 13px; white-space: pre; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header"><h1>Interactive Content</h1></div>
-        <div class="tabs">
-            <button class="tab active" onclick="showTab('dashboard')">Metrics Dashboard</button>
-        </div>
-        <div class="content">
-            <div id="dashboard-container" class="iframe-container">
-                <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=opening" allow="fullscreen"></iframe>
-            </div>
-        </div>
-    </div>
-    <script>
-        function showTab(tabName) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-    </script>
+    <h1>Elastic Serverless Search is starting</h1>
+    <p>When Discover opens, stay in <strong>ES|QL</strong>. Do not use KQL. Do not use <code style="display:inline;padding:2px 6px;margin:0">FROM *,-.*</code>. Run:</p>
+    <code>FROM cisco-jina-corpus
+| KEEP title, source, account, region, concepts, content
+| LIMIT 20</code>
 </body>
 </html>
 HTML_EOF

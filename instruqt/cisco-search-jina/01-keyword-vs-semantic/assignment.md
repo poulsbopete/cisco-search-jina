@@ -3,7 +3,7 @@ slug: keyword-vs-semantic
 id: 5z1utyxhg6sp
 type: challenge
 title: Keyword vs semantic
-teaser: Run the same query two ways. See what keyword misses and what semantic ranks.
+teaser: Same corpus, two ES|QL queries — MATCH tokens vs concept neighborhood.
 tabs:
 - id: a8soimgdzqmm
   title: Elastic Serverless Search
@@ -26,33 +26,57 @@ timelimit: 900
 enhanced_loading: null
 ---
 
-# Keyword vs semantic
+# Keyword vs semantic — ES|QL only
 
-Your lab is a per-learner **Elastic Cloud Serverless Search** project. Seeded index: **`cisco-jina-corpus`** (deals, notes, transactions, Webex artifacts).
+Stay in this Kibana tab. Use **ES|QL** (Discover’s query editor). **Do not use KQL.** Do not run `FROM *,-.*` — that misses the lab index.
 
-Optional background (slides live on Vercel — not part of this lab): [cisco-search-jina.vercel.app/slides](https://cisco-search-jina.vercel.app/slides)
+Seeded index: **`cisco-jina-corpus`**. If you see 0 rows, set the time picker to **Last 24 hours** and re-run.
 
-## 1 — Split-pane demo
+Open [button label="Elastic Serverless Search"](tab-0).
 
-Open [https://cisco-search-jina.vercel.app/demo](https://cisco-search-jina.vercel.app/demo) and run these queries on **both** sides:
+## 1 — Confirm the corpus
 
-1. `legal concerns about vendor lock-in`
-2. `switching costs on a collaboration stack` — keyword goes quiet; semantic still finds the deck and GC notes
-3. `legal hold` — keyword lights up Umbrella e-discovery (a **false friend** for a lock-in search)
-
-## 2 — Same corpus on Serverless
-
-Open [button label="Elastic Serverless Search"](tab-0). In Discover, search **`cisco-jina-corpus`**.
-
-KQL:
-
-```text
-legal
+```esql
+FROM cisco-jina-corpus
+| KEEP title, source, account, region, concepts, content
+| LIMIT 20
 ```
 
-Then find documents whose **concepts** include `vendor-lock-in` but whose **text** never says “legal concerns” (deck + transcript).
+You should see deals, notes, lifecycle payloads, and Webex artifacts.
+
+## 2 — Lexical (token) search
+
+This is the keyword-shaped question: MATCH the word **legal**.
+
+```esql
+FROM cisco-jina-corpus
+| WHERE MATCH(content, "legal")
+| KEEP title, account, concepts, content
+```
+
+Note **Umbrella** (e-discovery legal hold). That is a false friend for a lock-in search.
+
+## 3 — Concept neighborhood (semantic-shaped)
+
+Same business intent — vendor lock-in / counsel / switching costs — without requiring the tokens “legal concerns”:
+
+```esql
+FROM cisco-jina-corpus
+| WHERE concepts IN ("vendor-lock-in", "legal-review", "switching-cost")
+| KEEP title, account, concepts, content
+```
+
+Compare the two result sets. The deck / GC notes should appear here even when they never say “legal concerns”.
+
+## 4 — False friend
+
+```esql
+FROM cisco-jina-corpus
+| WHERE MATCH(content, "legal hold")
+| KEEP title, concepts, content
+```
 
 ## Success
 
-- You can explain why keyword and semantic disagree on the same corpus.
-- You ran the three queries on the Vercel demo.
+- You queried **only** `cisco-jina-corpus` with ES|QL.
+- You can explain why MATCH("legal") and `concepts IN (...)` disagree.
