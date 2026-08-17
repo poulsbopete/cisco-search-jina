@@ -18,7 +18,7 @@ tabs:
   title: Elastic Serverless Search
   type: service
   hostname: es3-api
-  path: /app/discover
+  path: '/app/discover#/?_g=(time:(from:now-24h,to:now))'
   port: 8080
   custom_request_headers:
   - key: Content-Security-Policy
@@ -39,7 +39,7 @@ enhanced_loading: null
 
 This lab project is **one** region. The `region` field on each doc is how we practice **CCR + local search**: same query, slice East then West. Stay in ES|QL. **Do not use KQL.**
 
-Open [button label="Elastic Serverless Search"](tab-0). If **0 documents processed**, set the time picker to **Last 24 hours**.
+Open [button label="Elastic Serverless Search"](tab-0). If status is **0 documents processed**, set time to **Last 24 hours**. Keep `AND` on the same `WHERE` line — never `| AND`.
 
 ## 1 — Counts by region
 
@@ -53,8 +53,7 @@ FROM "cisco-jina-corpus"
 
 ```esql
 FROM "cisco-jina-corpus"
-| WHERE region == "us-gov-east"
-  AND concepts IN ("vendor-lock-in", "legal-review", "webex", "ccr")
+| WHERE region == "us-gov-east" AND concepts IN ("vendor-lock-in", "legal-review", "webex", "ccr")
 | KEEP title, system, region, concepts
 ```
 
@@ -62,8 +61,7 @@ FROM "cisco-jina-corpus"
 
 ```esql
 FROM "cisco-jina-corpus"
-| WHERE region == "us-gov-west"
-  AND concepts IN ("vendor-lock-in", "legal-review", "webex", "ccr")
+| WHERE region == "us-gov-west" AND concepts IN ("vendor-lock-in", "legal-review", "webex", "ccr")
 | KEEP title, system, region, concepts
 ```
 

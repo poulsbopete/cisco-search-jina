@@ -18,7 +18,7 @@ tabs:
   title: Elastic Serverless Search
   type: service
   hostname: es3-api
-  path: /app/discover
+  path: '/app/discover#/?_g=(time:(from:now-24h,to:now))'
   port: 8080
   custom_request_headers:
   - key: Content-Security-Policy

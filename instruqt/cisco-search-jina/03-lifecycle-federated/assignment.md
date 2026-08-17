@@ -18,7 +18,7 @@ tabs:
   title: Elastic Serverless Search
   type: service
   hostname: es3-api
-  path: /app/discover
+  path: '/app/discover#/?_g=(time:(from:now-24h,to:now))'
   port: 8080
   custom_request_headers:
   - key: Content-Security-Policy
@@ -55,9 +55,7 @@ You should see Snowflake, S3 (~10 MB invoice pack), and Elastic orchestration lo
 
 ```esql
 FROM "cisco-jina-corpus"
-| WHERE source == "lifecycle"
-  AND account == "Acme Corp"
-  AND system != "Elastic"
+| WHERE source == "lifecycle" AND account == "Acme Corp" AND system != "Elastic"
 | KEEP title, system, bytes, content
 ```
 
