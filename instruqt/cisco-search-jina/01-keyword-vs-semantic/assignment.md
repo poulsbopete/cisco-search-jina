@@ -18,7 +18,7 @@ tabs:
   title: Elastic Serverless Search
   type: service
   hostname: es3-api
-  path: '/app/discover#/?_g=(time:(from:now-24h,to:now))'
+  path: /app/discover#/?_g=(time:(from:now-24h,to:now))
   port: 8080
   custom_request_headers:
   - key: Content-Security-Policy
@@ -47,6 +47,13 @@ Seeded index: **`"cisco-jina-corpus"`**. If you see **0 documents processed**, s
 Open [button label="Elastic Serverless Search"](tab-0).
 
 ## 1 — Confirm the corpus
+
+```esql
+FROM "cisco-jina-corpus"
+| STATS docs = COUNT(*)
+```
+
+You should see **11**. If you see **0**, this lab never seeded — **Stop** and start a new invite. Then:
 
 ```esql
 FROM "cisco-jina-corpus"

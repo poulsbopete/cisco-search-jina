@@ -13,16 +13,21 @@ INDEX = "cisco-jina-corpus"
 
 
 def auth_header() -> tuple[str, str]:
-    api_key = (os.environ.get("ES_API_KEY") or os.environ.get("ELASTICSEARCH_API_KEY") or "").strip()
-    if api_key:
-        return f"ApiKey {api_key}", "api_key"
+    # Prefer password: Serverless setup often creates a narrow API key that cannot index.
     user = os.environ.get("ES_USERNAME", "admin")
-    password = os.environ.get("ES_PASSWORD") or os.environ.get("ELASTICSEARCH_PASSWORD") or ""
+    password = (
+        os.environ.get("ES_PASSWORD")
+        or os.environ.get("ELASTICSEARCH_PASSWORD")
+        or ""
+    ).strip()
     if password:
         import base64
 
         token = base64.b64encode(f"{user}:{password}".encode()).decode()
         return f"Basic {token}", "basic"
+    api_key = (os.environ.get("ES_API_KEY") or os.environ.get("ELASTICSEARCH_API_KEY") or "").strip()
+    if api_key and api_key not in ("null", "None"):
+        return f"ApiKey {api_key}", "api_key"
     return "", ""
 
 
