@@ -39,12 +39,16 @@ def request(method: str, url: str, header: str, body: bytes | None = None) -> tu
 
 
 def load_documents() -> list[dict]:
+    here = Path(__file__).resolve()
     candidates = [
         Path("/tmp/workshop-corpus.json"),
         Path("/track/assets/shared/workshop-corpus.json"),
-        Path(__file__).resolve().parents[2] / "data" / "workshop-corpus.json",
-        Path(__file__).resolve().parents[1] / "workshop-assets" / "data" / "workshop-corpus.json",
     ]
+    # Instruqt copies this script to /tmp — parents[2] does not exist there.
+    if len(here.parents) > 2:
+        candidates.append(here.parents[2] / "data" / "workshop-corpus.json")
+    if len(here.parents) > 1:
+        candidates.append(here.parents[1] / "workshop-assets" / "data" / "workshop-corpus.json")
     for path in candidates:
         if path.is_file():
             data = json.loads(path.read_text(encoding="utf-8"))
