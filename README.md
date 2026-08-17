@@ -1,32 +1,20 @@
-# Cisco-wide semantic search workshop
+# Cisco-wide semantic search
 
-Self-paced **Instruqt labs** on Elastic Cloud Serverless Search, plus a **Vercel** app for slides and click-demos. Repo: [poulsbopete/cisco-search-jina](https://github.com/poulsbopete/cisco-search-jina).
+Interactive demos and slides for semantic search over deals, transactions, logs, and notes — Elastic Serverless Search with Jina relevance. Repo: [poulsbopete/cisco-search-jina](https://github.com/poulsbopete/cisco-search-jina).
 
-Talking points live on the Vercel deck — they are **not** Instruqt challenges.
+**No API keys in git.** App URLs only. Instruqt creates per-learner Serverless projects via the `ESS_CLOUD_API_KEY` Instruqt secret (never committed).
 
-**This app does not query Kibana.** Use three layers: Vercel = storyboard, [shared Agent Builder](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/agent_builder) = product proof, [ungated Instruqt](https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq) = their lab.
+Live app: https://cisco-search-jina.vercel.app  
+Hands-on lab: https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq
 
-**No API keys in git.** Facilitator Kibana: `https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/` (URL only). Instruqt creates per-learner Serverless projects via the `ESS_CLOUD_API_KEY` *Instruqt secret* (never committed).
-
-## Instruqt labs (self-paced)
+## Labs (self-paced)
 
 1. Keyword vs semantic
-2. CRM Analytics — find deals like this (Anshul's team)
-3. Lifecycle — federated Snowflake + S3 + OpenSearch (Balaji's team)
+2. CRM Analytics — find deals like this
+3. Lifecycle — federated Snowflake + S3 + OpenSearch
 4. Webex / Infra — US Gov East + West, CCR + local search
 
-## Live session (slides only)
-
-| Minutes | Owner | Deck |
-| --- | --- | --- |
-| 0–5 | Aaron Byers (Elastic AE) | `/slides?section=opening` |
-| 5–10 | Peter Simkins (Elastic SA) | `/slides?section=cisco` |
-| 10–25 | Kapil Jadhav | `/slides?section=tech` + `/demo` |
-| 20–30 | Peter + Ivan Silva | `/crm` `/lifecycle` `/webex` |
-| 30–35 | Peter | `/slides?section=bundle` |
-| After | Learners | This Instruqt track |
-
-## Vercel app
+## App
 
 ```bash
 npm install
@@ -36,14 +24,14 @@ npm run dev
 
 | Path | Use |
 | --- | --- |
-| `/slides?embed=1&section=opening` | Live talk / embed (`cisco`, `tech`, `crm`, `lifecycle`, `webex`, `bundle`) |
+| `/slides` | Narrative deck |
 | `/demo` | Keyword vs semantic |
-| `/crm` | Anshul's team |
-| `/lifecycle` | Balaji's team |
+| `/crm` | CRM Analytics |
+| `/lifecycle` | Lifecycle Platform |
 | `/webex` | East / West + CCR |
 | `/bundle` | Elastic vs Jina vs together |
 
-The Vercel UI ranks a **workshop replica** of Jina-style neighborhoods (synonyms + concepts) so the repo stays key-free. Live Elastic is the Serverless project in Instruqt.
+Interactive ranking uses a local synonym/concept replica so the repo stays key-free.
 
 ## Push the track
 

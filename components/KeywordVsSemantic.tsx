@@ -82,8 +82,8 @@ export function KeywordVsSemantic() {
         ))}
       </div>
       <p className="mt-4 text-sm text-zinc-400">
-        Projector storyboard on a Cisco-shaped corpus (not a live Elastic query). After the aha,
-        open Agent Builder and paste the prompt.
+        Same question, two retrieval styles. Keyword matches the words you typed. Semantic ranking
+        matches meaning — so different wording can still surface the same deals.
       </p>
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <HitList

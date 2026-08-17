@@ -5,7 +5,7 @@ export const KIBANA_URL =
 export const APP_URL =
   process.env.NEXT_PUBLIC_APP_URL ?? "https://cisco-search-jina.vercel.app";
 
-/** Ungated Instruqt invite — anyone can start the Serverless labs. */
+/** Hands-on lab invite (Elastic Serverless Search). */
 export const INSTRUQT_INVITE =
   process.env.NEXT_PUBLIC_INSTRUQT_INVITE ??
   "https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq";

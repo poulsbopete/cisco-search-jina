@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { INSTRUQT_INVITE, KIBANA_URL } from "@/lib/config";
+import { INSTRUQT_INVITE } from "@/lib/config";
 import { ELASTIC } from "@/lib/demo-playbook";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { href: "/", label: "Hub" },
+  { href: "/", label: "Home" },
   { href: "/slides", label: "Slides" },
   { href: "/demo", label: "Keyword vs semantic" },
   { href: "/crm", label: "CRM Analytics" },
@@ -22,7 +22,7 @@ export function AppShell({
 }: {
   children: ReactNode;
   title: string;
-  speaker: string;
+  speaker?: string;
   kicker?: string;
 }) {
   return (
@@ -30,7 +30,7 @@ export function AppShell({
       <header className="border-b border-white/10 bg-zinc-950/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
           <Link href="/" className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">
-            Cisco search workshop
+            Cisco search
           </Link>
           <nav className="flex flex-wrap gap-2">
             {NAV.map((item) => (
@@ -50,23 +50,15 @@ export function AppShell({
               rel="noopener noreferrer"
               className="rounded-full bg-cyan-400 px-3 py-1 font-mono text-[11px] font-semibold text-zinc-950"
             >
-              Launch lab
+              Hands-on lab
             </a>
             <a
-              href={KIBANA_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-white/15 px-3 py-1 font-mono text-[11px] text-zinc-300"
-            >
-              Kibana
-            </a>
-            <a
-              href={ELASTIC.agents}
+              href={ELASTIC.home}
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-full border border-cyan-400/40 px-3 py-1 font-mono text-[11px] text-cyan-200"
             >
-              Agent Builder
+              Open Elastic
             </a>
           </nav>
         </div>
@@ -76,7 +68,7 @@ export function AppShell({
           <p className="font-mono text-xs uppercase tracking-[0.25em] text-cyan-400">{kicker}</p>
         ) : null}
         <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h1>
-        <p className="mt-2 font-mono text-sm text-zinc-400">{speaker}</p>
+        {speaker ? <p className="mt-2 font-mono text-sm text-zinc-400">{speaker}</p> : null}
         <div className="mt-8">{children}</div>
       </div>
     </div>

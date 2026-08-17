@@ -31,7 +31,7 @@ export function CrmDemo() {
         <p className="mt-3 text-lg font-medium">{seed.title}</p>
         <p className="mt-2 text-sm text-zinc-400">{seed.content}</p>
         <p className="mt-4 font-mono text-xs text-cyan-300">
-          Anshul&apos;s team · find deals like this one
+          CRM Analytics · find deals like this one
         </p>
       </section>
       <section className="rounded-2xl border border-white/10 bg-white/5 p-5">

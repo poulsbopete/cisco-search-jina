@@ -19,10 +19,8 @@ export function WebexDemo() {
     <div>
       <OpenInElastic beat={DEMO_BEATS[3]} />
       <p className="mt-6 text-sm text-zinc-400">
-        Architecture visual only: CCR copies the index, query stays in-region, ranking must not
-        drift. The shared Kibana is <span className="text-zinc-200">one</span> project
-        (us-east-1) — it is not a dual Gov cluster. Toggle East / West here to show the idea;
-        prove retrieval in Agent Builder.
+        Cross-cluster replication copies the index. Queries stay in-region so they never cross the
+        Gov boundary. Ranking stays aligned so East and West return the same quality of results.
       </p>
       <div className="mt-4 flex gap-2">
         {REGIONS.map((r) => (

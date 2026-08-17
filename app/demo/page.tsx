@@ -3,11 +3,7 @@ import { KeywordVsSemantic } from "@/components/KeywordVsSemantic";
 
 export default function DemoPage() {
   return (
-    <AppShell
-      kicker="10–25 min"
-      title="Keyword vs semantic"
-      speaker="Kapil Jadhav · live demo (5 min)"
-    >
+    <AppShell kicker="Interactive demo" title="Keyword vs semantic">
       <KeywordVsSemantic />
     </AppShell>
   );

@@ -3,11 +3,7 @@ import { WebexDemo } from "@/components/WebexDemo";
 
 export default function WebexPage() {
   return (
-    <AppShell
-      kicker="Webex / Infrastructure"
-      title="US Gov East + West · CCR + local search"
-      speaker="Peter Simkins + Ivan Silva"
-    >
+    <AppShell kicker="Webex / Infrastructure" title="US Gov East + West · CCR + local search">
       <WebexDemo />
     </AppShell>
   );

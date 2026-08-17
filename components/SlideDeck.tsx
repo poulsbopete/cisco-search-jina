@@ -28,46 +28,46 @@ export type Slide = {
 export const SLIDES: Slide[] = [
   {
     section: "opening",
-    speaker: "Aaron Byers · Elastic AE",
+    speaker: "Overview",
     title: "Cisco-wide search, one story",
     subtitle:
-      "90 minutes. Four voices. Three Cisco teams. Elastic Serverless + Jina — not a Peter-only briefing.",
+      "Semantic search for CRM Analytics, Lifecycle Platform, and Webex / Infrastructure — Elastic Serverless Search with Jina relevance.",
     bullets: [
-      "Aaron Byers — open, intros, why Elastic is in the room",
-      "Peter Simkins — Cisco problem frame, then later the bundle close",
-      "Kapil Jadhav — embeddings, multimodal, live keyword vs semantic",
-      "Ivan Silva — apply it with CRM Analytics, Lifecycle, and Webex / Infra",
+      "One narrative across deals, transactions, logs, and notes",
+      "Keyword vs semantic on the same Cisco-shaped corpus",
+      "Explainable ranking: why this deal, this payload, this region",
+      "Hands-on lab on Elastic Cloud Serverless Search",
     ],
   },
   {
     section: "opening",
-    speaker: "Aaron Byers · Elastic AE",
-    title: "How we will spend 90 minutes",
+    speaker: "Overview",
+    title: "What you will see",
     statCards: [
-      { figure: "0–5", title: "Open", caption: "Aaron — room, outcomes, who speaks when." },
-      { figure: "5–10", title: "Cisco why", caption: "Peter — deal data, logs, notes. The 4–8 hour tax." },
-      { figure: "10–25", title: "The tech", caption: "Kapil — embeddings + 5 min live demo." },
-      { figure: "20–30", title: "Your stack", caption: "Peter + Ivan — Anshul, Balaji, Webex / Infra." },
-      { figure: "30–35", title: "The bundle", caption: "Peter — Elastic runs search; Jina powers relevance." },
-      { figure: "35–90", title: "Labs", caption: "Ungated Instruqt — your own Serverless project." },
+      { figure: "Why", title: "The time tax", caption: "Hours spent hunting similar deals and stitching forecast narratives." },
+      { figure: "How", title: "Embeddings", caption: "Meaning as numbers — not just the words on the page." },
+      { figure: "CRM", title: "Analytics", caption: "Find deals like this one, with a reason for every match." },
+      { figure: "Life", title: "Lifecycle", caption: "One question across Snowflake, S3, and OpenSearch." },
+      { figure: "WX", title: "Webex / Infra", caption: "Same relevance in US Gov East and West after CCR." },
+      { figure: "Lab", title: "Hands-on", caption: "Your own Elastic Serverless Search project in the browser." },
     ],
   },
   {
     section: "opening",
-    speaker: "Aaron Byers · Elastic AE",
-    title: "Outcomes for this room",
+    speaker: "Overview",
+    title: "What you walk away with",
     bullets: [
-      "See keyword vs semantic on the same Cisco-shaped corpus — live.",
-      "Leave with a Cisco-wide narrative: CRM Analytics + Lifecycle + Webex / Infra.",
-      "Know what Elastic owns vs what Jina owns — and why you need both.",
-      "Every lab is Elastic Cloud Serverless Search. No API keys in the repo. Ungated invite — anyone can try it.",
+      "Keyword vs semantic on the same Cisco-shaped corpus.",
+      "A Cisco-wide narrative: CRM Analytics + Lifecycle + Webex / Infra.",
+      "What Elastic owns vs what Jina owns — and why you need both.",
+      "A hands-on Elastic Cloud Serverless Search lab you can run yourself.",
     ],
     demoHref: INSTRUQT_INVITE,
-    demoLabel: "Launch the Instruqt lab",
+    demoLabel: "Start the hands-on lab",
   },
   {
     section: "cisco",
-    speaker: "Peter Simkins · Elastic SA",
+    speaker: "Cisco",
     title: "Why this matters to Cisco",
     subtitle:
       "Cisco teams already own search across deal data, transaction data, system logs, and unstructured notes.",
@@ -80,7 +80,7 @@ export const SLIDES: Slide[] = [
   },
   {
     section: "cisco",
-    speaker: "Peter Simkins · Elastic SA",
+    speaker: "Cisco",
     title: "The time tax",
     subtitle: "Seller and manager hours still go to hunting, not deciding.",
     statCards: [
@@ -100,7 +100,7 @@ export const SLIDES: Slide[] = [
   },
   {
     section: "cisco",
-    speaker: "Peter Simkins · Elastic SA",
+    speaker: "Cisco",
     title: "One Cisco story — three owners",
     statCards: [
       {
@@ -122,7 +122,7 @@ export const SLIDES: Slide[] = [
   },
   {
     section: "tech",
-    speaker: "Kapil Jadhav · Guest",
+    speaker: "Relevance",
     title: "Embeddings: meaning as numbers",
     subtitle: "“Legal concerns” and “vendor lock-in fears” can live in the same vector space.",
     bullets: [
@@ -134,7 +134,7 @@ export const SLIDES: Slide[] = [
   },
   {
     section: "tech",
-    speaker: "Kapil Jadhav · Guest",
+    speaker: "Relevance",
     title: "Why multimodal (Jina v5) matters here",
     bullets: [
       "Cisco does not only have CRM text. You have call recordings, decks, and notes.",
@@ -145,7 +145,7 @@ export const SLIDES: Slide[] = [
   },
   {
     section: "tech",
-    speaker: "Kapil Jadhav · Guest",
+    speaker: "Relevance",
     title: "Live demo — same query, two engines",
     subtitle: "Query: legal concerns about vendor lock-in on a Webex-like renewal.",
     bullets: [
@@ -158,35 +158,35 @@ export const SLIDES: Slide[] = [
   },
   {
     section: "crm",
-    speaker: "Peter Simkins + Ivan Silva · Elastic",
+    speaker: "Cisco teams",
     title: "CRM Analytics — Anshul's team",
     subtitle: "Find deals like this one. Show why. Graph the account.",
     bullets: [
       "Deal intelligence with full explainability — not a mystery score.",
       "Knowledge graph: Account → Deal → Competitor.",
       "Relevance tracking: which field, which concept, which similar closed-won.",
-      "Ivan: walk the graph. Peter: keep it tied to forecast hours.",
+      "Forecast narratives grounded in similar closed-won — not guessed.",
     ],
     demoHref: `${APP_URL}/crm`,
     demoLabel: "Open CRM demo",
   },
   {
     section: "lifecycle",
-    speaker: "Peter Simkins + Ivan Silva · Elastic",
+    speaker: "Cisco teams",
     title: "Lifecycle Platform — Balaji's team",
     subtitle: "One question. Snowflake + S3 + OpenSearch/Elastic.",
     bullets: [
       "Federated search: do not copy the warehouse to start answering.",
       "Semantic on big payloads: ~10 MB transaction docs become searchable.",
       "Agents: “Show me transactions from this account over 6 months.”",
-      "Ivan: hit each source filter. Call out MuleSoft as the pipe, Elastic as the understanding layer.",
+      "MuleSoft moves the data. Elastic is the understanding layer on top.",
     ],
     demoHref: `${APP_URL}/lifecycle`,
     demoLabel: "Open Lifecycle demo",
   },
   {
     section: "webex",
-    speaker: "Peter Simkins + Ivan Silva · Elastic",
+    speaker: "Cisco teams",
     title: "Webex / Infrastructure",
     subtitle: "Same relevance in US Gov East and US Gov West.",
     bullets: [
@@ -199,7 +199,7 @@ export const SLIDES: Slide[] = [
   },
   {
     section: "bundle",
-    speaker: "Peter Simkins · Elastic SA",
+    speaker: "Elastic + Jina",
     title: "Why Elastic + Jina together",
     statCards: [
       {
@@ -221,7 +221,7 @@ export const SLIDES: Slide[] = [
   },
   {
     section: "bundle",
-    speaker: "Peter Simkins · Elastic SA",
+    speaker: "Elastic + Jina",
     title: "Why not just one of them",
     bullets: [
       "Why not just Jina: it is an embeddings API. You still need storage, versioning, audit, explainability.",
@@ -233,16 +233,16 @@ export const SLIDES: Slide[] = [
   },
   {
     section: "bundle",
-    speaker: "Aaron Byers · close the loop",
-    title: "What we need from this room",
+    speaker: "Next step",
+    title: "Try it on your own project",
     bullets: [
-      "Anshul / CRM Analytics — nominate 2–3 “find deals like this” queries.",
-      "Balaji / Lifecycle — nominate one Snowflake fact + one fat S3 payload.",
-      "Webex / Infra — confirm East/West constraint and audit requirement.",
-      "Aaron + Peter + Ivan + Kapil stay on the same Cisco-wide narrative — not four side quests.",
+      "CRM Analytics — start with “find deals like this” queries you already ask by hand.",
+      "Lifecycle — one Snowflake fact plus one large S3 payload is enough to prove federation.",
+      "Webex / Infra — East/West CCR with ranking that does not drift.",
+      "Same Cisco-wide story in every demo: Elastic runs search; Jina powers relevance.",
     ],
     demoHref: INSTRUQT_INVITE,
-    demoLabel: "Launch the Instruqt lab (ungated)",
+    demoLabel: "Start the hands-on lab",
   },
 ];
 

@@ -35,8 +35,8 @@ export function LifecycleDemo() {
     <div>
       <OpenInElastic beat={DEMO_BEATS[2]} />
       <p className="mt-6 text-sm text-zinc-400">
-        Balaji&apos;s team: federate Snowflake facts, S3 payloads (~10 MB), and OpenSearch logs in
-        one question. Toggle sources — Ivan demos the agent question without hopping tools.
+        One question across Snowflake facts, S3 payloads (~10 MB), and OpenSearch logs. Toggle
+        sources to see which systems contribute — without hopping tools.
       </p>
       <input
         value={query}

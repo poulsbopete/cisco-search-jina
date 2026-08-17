@@ -32,11 +32,11 @@ export function BundleStory() {
   return (
     <div>
       <p className="text-sm text-zinc-400">
-        Elastic runs the search. Jina powers the relevance. Prove storage, audit, and agents in{" "}
-        <a className="text-cyan-200 underline" href={ELASTIC.agents} target="_blank" rel="noopener noreferrer">
-          Agent Builder
-        </a>{" "}
-        on the shared project; this table is the leave-behind.
+        Elastic stores, indexes, filters, and explains. Jina supplies multimodal embeddings. Use
+        them together so relevance improves without giving up audit, graphs, or Serverless Search.{" "}
+        <a className="text-cyan-200 underline" href={ELASTIC.home} target="_blank" rel="noopener noreferrer">
+          Open Elastic
+        </a>
       </p>
       <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
         <table className="min-w-full text-left text-sm">
