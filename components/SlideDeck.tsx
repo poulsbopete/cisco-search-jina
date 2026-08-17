@@ -101,16 +101,16 @@ export const SLIDES: Slide[] = [
   {
     section: "cisco",
     speaker: "Cisco",
-    title: "One Cisco story — three owners",
+    title: "One Cisco story — three teams",
     statCards: [
       {
         figure: "CRM",
-        title: "Anshul's team",
+        title: "CRM Analytics",
         caption: "Deal intelligence, account → deal → competitor graphs, why this deal matched.",
       },
       {
         figure: "Life",
-        title: "Balaji's team",
+        title: "Lifecycle Platform",
         caption: "Federated Snowflake + S3 + OpenSearch. 10 MB payloads. Multi-source agents.",
       },
       {
@@ -159,7 +159,7 @@ export const SLIDES: Slide[] = [
   {
     section: "crm",
     speaker: "Cisco teams",
-    title: "CRM Analytics — Anshul's team",
+    title: "CRM Analytics",
     subtitle: "Find deals like this one. Show why. Graph the account.",
     bullets: [
       "Deal intelligence with full explainability — not a mystery score.",
@@ -173,7 +173,7 @@ export const SLIDES: Slide[] = [
   {
     section: "lifecycle",
     speaker: "Cisco teams",
-    title: "Lifecycle Platform — Balaji's team",
+    title: "Lifecycle Platform",
     subtitle: "One question. Snowflake + S3 + OpenSearch/Elastic.",
     bullets: [
       "Federated search: do not copy the warehouse to start answering.",
