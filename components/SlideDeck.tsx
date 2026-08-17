@@ -72,9 +72,9 @@ export const SLIDES: Slide[] = [
     subtitle:
       "Cisco teams already own search across deal data, transaction data, system logs, and unstructured notes.",
     bullets: [
-      "Today: keyword search — the ceiling teams report on AWS OpenSearch (no embeddings).",
+      "Today: keyword search + manual correlation.",
       "Tomorrow: semantic search + AI-powered insights — with audit and explainability.",
-      "You already have MuleSoft, Snowflake, S3.",
+      "You already have MuleSoft, Snowflake, and S3.",
       "The gap is search and understanding on top of that infrastructure — not another warehouse.",
     ],
   },
