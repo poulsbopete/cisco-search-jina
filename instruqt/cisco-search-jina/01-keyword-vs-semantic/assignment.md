@@ -41,7 +41,7 @@ Stay in this Kibana tab. Use **ES|QL** (Discover’s query editor). **Do not use
 
 MATCH is the OpenSearch ceiling (keyword, no embeddings). `concepts IN (...)` is the Elastic + Jina motion — meaning, not just tokens.
 
-Seeded index: **`cisco-jina-corpus`**. If you see 0 rows, set the time picker to **Last 24 hours** and re-run.
+Seeded index: **`"cisco-jina-corpus"`**. Set the time picker to **Last 24 hours** (not Last 15 minutes), then run:
 
 Open [button label="Elastic Serverless Search"](tab-0).
 
