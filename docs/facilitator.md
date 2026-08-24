@@ -9,7 +9,7 @@ Name Cisco groups, not people: **CRM Analytics**, **Lifecycle Platform**, **Webe
 - Opening — `/slides?section=opening`
 - Cisco story — `/slides?section=cisco` then later `/slides?section=bundle`
 - Tech / keyword vs semantic — `/slides?section=tech` and `/demo`
-- CRM, Lifecycle, Webex — `/crm`, `/lifecycle`, `/webex`
+- CRM, Lifecycle, Webex, FIPS — `/crm`, `/lifecycle`, `/webex`, `/fips`
 
 Deck: https://cisco-search-jina.vercel.app/slides
 

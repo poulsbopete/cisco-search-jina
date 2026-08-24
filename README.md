@@ -4,9 +4,9 @@ Interactive demos and slides for semantic search over deals, transactions, logs,
 
 **No API keys in git.** App URLs only. Instruqt creates per-learner Serverless projects via the `ESS_CLOUD_API_KEY` Instruqt secret (never committed).
 
-Live app: https://cisco-search-jina.vercel.app — one bar, many concepts (same idea as the telco demo): **Semantic · CRM · Lifecycle · Webex · Bundle · Slides · Lab**.
+Live app: https://cisco-search-jina.vercel.app — one bar, many concepts (same idea as the telco demo): **Semantic · CRM · Lifecycle · Webex · FIPS · Bundle · Slides · Lab**.
 
-Deep links: `/#semantic` `/#crm` `/#lifecycle` `/#webex` `/#bundle` `/#workshop`. Deck for wait slides: `/slides`.
+Deep links: `/#semantic` `/#crm` `/#lifecycle` `/#webex` `/#fips` `/#bundle` `/#workshop`. Deck for wait slides: `/slides`.
 
 ## Labs (self-paced)
 
@@ -27,7 +27,7 @@ npm run dev
 | --- | --- |
 | `/` | Concept app (hash selects the tab) |
 | `/slides` | Deck (Instruqt wait-slide iframe) |
-| `/demo` `/crm` `/lifecycle` `/webex` `/bundle` | Same tabs via path |
+| `/demo` `/crm` `/lifecycle` `/webex` `/fips` `/bundle` | Same tabs via path |
 
 Interactive ranking uses a local synonym/concept replica so the repo stays key-free.
 

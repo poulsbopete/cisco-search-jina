@@ -199,6 +199,19 @@ export const SLIDES: Slide[] = [
     demoLabel: "Open multi-region demo",
   },
   {
+    section: "fips",
+    speaker: "Cisco teams",
+    title: "FIPS on the cluster you already run",
+    subtitle: "Open Source has no FIPS switch. Enterprise is one setting plus a FIPS JVM.",
+    bullets: [
+      "Today: on-prem Open Source. Crypto is yours to assemble.",
+      "Enterprise: xpack.security.fips_mode.enabled: true, password-protected keystore, rolling restart.",
+      "Stage TLS, hashing, and node join first. FIPS is crypto — not FedRAMP by itself.",
+    ],
+    demoHref: `${APP_URL}/fips`,
+    demoLabel: "Open FIPS enablement",
+  },
+  {
     section: "bundle",
     speaker: "Elastic + Jina",
     title: "The OpenSearch ceiling",
@@ -279,7 +292,8 @@ export const SECTION_START: Record<string, number> = {
   crm: 9,
   lifecycle: 10,
   webex: 11,
-  bundle: 12,
+  fips: 12,
+  bundle: 13,
 };
 
 type Props = {
