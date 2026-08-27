@@ -95,7 +95,7 @@ function SavingsBar({
 }
 
 export function EchCostComparison() {
-  const [scenario, setScenario] = useState<CostScenario>(COST_SCENARIOS[1]);
+  const [scenario, setScenario] = useState<CostScenario>(COST_SCENARIOS[0]);
   const est = useMemo(() => estimateCosts(scenario), [scenario]);
   const maxTotal = Math.max(
     est.opensearch.total,

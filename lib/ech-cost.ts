@@ -11,13 +11,6 @@ export type CostScenario = {
 /** Cisco-shaped presets (Elasticsearch nodes + Kibana RAM). */
 export const COST_SCENARIOS: CostScenario[] = [
   {
-    label: "Dev / POC",
-    totalRamGb: 16,
-    zones: 1,
-    storageGb: 500,
-    opsFte: 0.1,
-  },
-  {
     label: "Production search",
     totalRamGb: 48,
     zones: 2,
