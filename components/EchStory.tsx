@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { EchCostComparison } from "@/components/EchCostComparison";
 
 type Region = "commercial" | "govcloud";
 
@@ -182,8 +183,19 @@ export function EchStory() {
         >
           FedRAMP authorized Cloud offerings
         </a>
+        {" · "}
+        <a
+          className="text-cyan-300 underline"
+          href="https://www.elastic.co/docs/deploy-manage/cloud-organization/billing/cloud-hosted-deployment-billing-dimensions"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Hosted billing dimensions
+        </a>
         . Self-hosted FIPS: use the <span className="text-zinc-400">FIPS</span> tab.
       </p>
+
+      <EchCostComparison />
     </div>
   );
 }
