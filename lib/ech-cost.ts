@@ -48,6 +48,9 @@ export const OSS_STORAGE_GB_MONTH = 0.08;
 /** Snapshot storage on ECH (metered separately). */
 export const ECH_SNAPSHOT_GB_MONTH = 0.06;
 
+/** Illustrative Enterprise subscription when OSS teams add vectors / support / CCR. */
+export const ENTERPRISE_LICENSE_MONTHLY = 7_500;
+
 export type CostEstimate = {
   ech: {
     capacity: number;
@@ -58,7 +61,18 @@ export type CostEstimate = {
     compute: number;
     storage: number;
     ops: number;
+    enterprise: number;
+    infra: number;
     total: number;
+    totalWithEnterprise: number;
+  };
+  savings: {
+    vsOss: number;
+    vsOssEnterprise: number;
+    opsReclaimed: number;
+    annualVsEnterprise: number;
+    threeYearVsEnterprise: number;
+    percentVsEnterprise: number;
   };
   notes: string[];
 };
@@ -71,25 +85,45 @@ export function estimateCosts(s: CostScenario): CostEstimate {
   const ossCompute = s.totalRamGb * OSS_COMPUTE_GB_MONTH;
   const ossStorage = s.storageGb * OSS_STORAGE_GB_MONTH;
   const ossOps = s.opsFte * OPS_FTE_MONTHLY;
+  const ossInfra = ossCompute + ossStorage;
+  const ossTotal = ossInfra + ossOps;
+  const ossWithEnterprise = ossTotal + ENTERPRISE_LICENSE_MONTHLY;
+  const echTotal = echCapacity + echSnapshots;
 
   const notes = [
+    "Compare to self-hosted OSS + Enterprise — that is the real upgrade path for semantic search.",
     "ECH: deployment capacity (GB RAM × hours) is usually the largest line item.",
-    "OSS license is $0, but Enterprise features (vectors, CCR, advanced security) require a subscription on self-managed too.",
     "OSS ops FTE is the hidden cost — patching, upgrades, backups, and incident response.",
     "GovCloud ECH requires Platinum or Enterprise; rates differ — use your account team or the pricing calculator.",
   ];
+
+  const vsOssEnterprise = ossWithEnterprise - echTotal;
 
   return {
     ech: {
       capacity: Math.round(echCapacity),
       snapshots: Math.round(echSnapshots),
-      total: Math.round(echCapacity + echSnapshots),
+      total: Math.round(echTotal),
     },
     oss: {
       compute: Math.round(ossCompute),
       storage: Math.round(ossStorage),
       ops: Math.round(ossOps),
-      total: Math.round(ossCompute + ossStorage + ossOps),
+      enterprise: ENTERPRISE_LICENSE_MONTHLY,
+      infra: Math.round(ossInfra),
+      total: Math.round(ossTotal),
+      totalWithEnterprise: Math.round(ossWithEnterprise),
+    },
+    savings: {
+      vsOss: Math.round(ossTotal - echTotal),
+      vsOssEnterprise: Math.round(vsOssEnterprise),
+      opsReclaimed: Math.round(ossOps),
+      annualVsEnterprise: Math.round(vsOssEnterprise * 12),
+      threeYearVsEnterprise: Math.round(vsOssEnterprise * 36),
+      percentVsEnterprise:
+        ossWithEnterprise > 0
+          ? Math.round((vsOssEnterprise / ossWithEnterprise) * 100)
+          : 0,
     },
     notes,
   };
