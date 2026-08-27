@@ -49,6 +49,7 @@ The Webex East/West toggle is an **architecture visual**. The shared Kibana is a
 
 ## ECH cost (TCO, not license line)
 
-- OSS **license is $0**; Hosted bills **GB RAM × hours** (plus snapshots and transfer). The ECH tab has illustrative scenarios — always send production quotes to [cloud.elastic.co/pricing](https://cloud.elastic.co/pricing).
-- The crossover is usually **ops FTE** (patch, upgrade, on-call), not raw EC2. Self-managed still needs an **Enterprise** subscription if they want vectors / CCR / support.
-- Jina API spend is **separate** on both paths.
+- Lead with **AWS OpenSearch + semantic overlay** vs **ECH on AWS Marketplace** — same EDP, embeddings included on Hosted.
+- OSS **license is $0**; OpenSearch looks EDP-friendly but has **no native embeddings** (overlay line on the ECH tab).
+- Always send production quotes to [cloud.elastic.co/pricing](https://cloud.elastic.co/pricing) and AWS OpenSearch pricing.
+- Jina API spend is **separate** on all paths.

@@ -86,10 +86,11 @@ export function EchStory() {
     <div>
       <p className="rounded-2xl border border-cyan-400/30 bg-cyan-400/5 p-5 text-sm leading-relaxed text-zinc-200">
         Cisco groups already run <span className="text-white">Open Source Elasticsearch</span>{" "}
-        self-hosted. The upgrade path for search is not Observability or Security — it is{" "}
-        <span className="text-white">Elasticsearch Enterprise</span> on{" "}
-        <span className="text-white">Elastic Cloud Hosted</span> or self-managed, with{" "}
-        <span className="text-white">Jina</span> for multimodal relevance. Serverless Search
+        self-hosted — or get pushed to <span className="text-white">AWS OpenSearch</span> for EDP.
+        Elastic Cloud Hosted is on <span className="text-white">AWS Marketplace</span> (same commit,
+        more search). The upgrade path is{" "}
+        <span className="text-white">Elasticsearch Enterprise</span> on Hosted or self-managed,
+        with <span className="text-white">Jina</span> for multimodal relevance. Serverless Search
         powers this workshop, but it does not run in GovCloud — Hosted does.
       </p>
 
