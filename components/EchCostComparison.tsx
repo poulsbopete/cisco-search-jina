@@ -1,8 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import {
-  COST_SCENARIOS,
   ECH_RATE_GB_HOUR,
   estimateCosts,
   formatUsd,
@@ -94,8 +93,7 @@ function SavingsBar({
   );
 }
 
-export function EchCostComparison() {
-  const [scenario, setScenario] = useState<CostScenario>(COST_SCENARIOS[0]);
+export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
   const est = useMemo(() => estimateCosts(scenario), [scenario]);
   const maxTotal = Math.max(
     est.opensearch.total,
@@ -110,11 +108,10 @@ export function EchCostComparison() {
         Cost comparison — OpenSearch vs OSS vs Hosted
       </h2>
       <p className="mt-2 max-w-3xl text-sm leading-relaxed text-zinc-400">
-        Cisco teams get steered to <span className="text-zinc-200">AWS OpenSearch</span> because
-        of existing AWS commits. Elastic Cloud Hosted is on{" "}
-        <span className="text-zinc-200">AWS Marketplace</span> — it can count toward that same
-        commit while shipping embeddings, ES|QL, and Enterprise search OpenSearch cannot. Numbers
-        are illustrative.
+        Illustrative monthly TCO for{" "}
+        <span className="text-zinc-200">{scenario.label.toLowerCase()}</span> at{" "}
+        {scenario.totalRamGb} GB RAM, {scenario.zones} AZ
+        {scenario.zones > 1 ? "s" : ""}, {scenario.storageGb.toLocaleString()} GB storage.
       </p>
 
       <p className="mt-3 rounded-xl border border-orange-400/25 bg-orange-400/5 px-4 py-3 text-xs leading-relaxed text-orange-100/90">
@@ -166,36 +163,7 @@ export function EchCostComparison() {
         </div>
       ) : null}
 
-      <div className="mt-4 flex flex-wrap gap-2">
-        {COST_SCENARIOS.map((s) => {
-          const preview = estimateCosts(s);
-          const delta = preview.savings.vsOpenSearch;
-          return (
-            <button
-              key={s.label}
-              type="button"
-              onClick={() => setScenario(s)}
-              className={`rounded-full border px-4 py-2 font-mono text-xs ${
-                scenario.label === s.label
-                  ? "border-cyan-400 bg-cyan-400/15 text-cyan-200"
-                  : "border-white/15 text-zinc-400"
-              }`}
-            >
-              {s.label}
-              {delta > 0 ? (
-                <span className="ml-2 text-emerald-400">−{formatUsd(delta)}/mo vs OS</span>
-              ) : null}
-            </button>
-          );
-        })}
-      </div>
-
-      <p className="mt-3 font-mono text-[11px] text-zinc-500">
-        {scenario.totalRamGb} GB RAM · {scenario.zones} AZ
-        {scenario.zones > 1 ? "s" : ""} · {scenario.storageGb.toLocaleString()} GB storage
-      </p>
-
-      <div className="mt-4 grid gap-4 lg:grid-cols-3">
+      <div className="mt-6 grid gap-4 lg:grid-cols-3">
         <div className="rounded-2xl border border-orange-400/30 bg-orange-400/5 p-5">
           <p className="font-mono text-xs uppercase tracking-wide text-orange-300/90">
             AWS OpenSearch

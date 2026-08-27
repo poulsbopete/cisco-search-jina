@@ -2,24 +2,32 @@
 
 import { useState } from "react";
 import { EchCostComparison } from "@/components/EchCostComparison";
+import { COST_SCENARIOS, type CostScenario } from "@/lib/ech-cost";
 
 type Region = "commercial" | "govcloud";
 
-const REGION_COPY: Record<
+const REGION_CONFIG: Record<
   Region,
-  { label: string; headline: string; detail: string }
+  {
+    label: string;
+    headline: string;
+    detail: string;
+    scenario: CostScenario;
+  }
 > = {
   commercial: {
     label: "Commercial cloud",
     headline: "AWS · GCP · Azure — Elasticsearch only",
     detail:
       "Hosted deployments in commercial regions. Pick Elasticsearch as the solution (not Observability or Security). Autoscaling, snapshots, and upgrades are Elastic-operated.",
+    scenario: COST_SCENARIOS[0],
   },
   govcloud: {
     label: "AWS GovCloud",
     headline: "FedRAMP Moderate / High — Elasticsearch on us-gov-east-1",
     detail:
       "Serverless Search is not in GovCloud today. Elastic Cloud Hosted is the managed path for CRM, Lifecycle, and Webex / Infra teams that must stay in the authorization boundary. Elastic is moving towards IL5 certification for Hosted gov offerings — not authorized today; plan with your account team.",
+    scenario: COST_SCENARIOS[1],
   },
 };
 
@@ -77,10 +85,13 @@ const PATHS = [
 const JINA_ROW =
   "Jina is the embeddings API. Elasticsearch is the search engine. Ingest Jina vectors into Hosted indices — CRM deals, lifecycle payloads, Webex artifacts — without standing up a separate observability platform.";
 
-export function EchStory() {
-  const [region, setRegion] = useState<Region>("govcloud");
+function formatSizing(s: CostScenario): string {
+  return `${s.totalRamGb} GB RAM · ${s.zones} AZ${s.zones > 1 ? "s" : ""} · ${s.storageGb.toLocaleString()} GB storage`;
+}
 
-  const copy = REGION_COPY[region];
+export function EchStory() {
+  const [region, setRegion] = useState<Region>("commercial");
+  const config = REGION_CONFIG[region];
 
   return (
     <div>
@@ -95,7 +106,7 @@ export function EchStory() {
       </p>
 
       <div className="mt-6 flex flex-wrap gap-2">
-        {(Object.keys(REGION_COPY) as Region[]).map((key) => (
+        {(Object.keys(REGION_CONFIG) as Region[]).map((key) => (
           <button
             key={key}
             type="button"
@@ -106,16 +117,19 @@ export function EchStory() {
                 : "border-white/15 text-zinc-400"
             }`}
           >
-            {REGION_COPY[key].label}
+            {REGION_CONFIG[key].label}
           </button>
         ))}
       </div>
 
       <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-5">
         <p className="font-mono text-xs uppercase tracking-wide text-cyan-300">
-          {copy.headline}
+          {config.headline}
         </p>
-        <p className="mt-2 text-sm leading-relaxed text-zinc-300">{copy.detail}</p>
+        <p className="mt-2 text-sm leading-relaxed text-zinc-300">{config.detail}</p>
+        <p className="mt-3 font-mono text-[11px] text-zinc-500">
+          TCO sizing: {formatSizing(config.scenario)} · {config.scenario.label}
+        </p>
         {region === "govcloud" ? (
           <p className="mt-3 rounded-xl border border-amber-400/25 bg-amber-400/5 px-3 py-2 text-xs leading-relaxed text-amber-100/90">
             <span className="font-mono uppercase tracking-wide text-amber-200/90">Roadmap</span>
@@ -127,7 +141,9 @@ export function EchStory() {
         ) : null}
       </div>
 
-      <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
+      <EchCostComparison scenario={config.scenario} />
+
+      <div className="mt-10 overflow-x-auto rounded-2xl border border-white/10">
         <table className="min-w-full text-left text-sm">
           <thead className="bg-white/5 font-mono text-xs uppercase tracking-wide text-zinc-400">
             <tr>
@@ -195,8 +211,6 @@ export function EchStory() {
         </a>
         . Self-hosted FIPS: use the <span className="text-zinc-400">FIPS</span> tab.
       </p>
-
-      <EchCostComparison />
     </div>
   );
 }
