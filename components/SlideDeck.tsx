@@ -212,6 +212,19 @@ export const SLIDES: Slide[] = [
     demoLabel: "Open FIPS enablement",
   },
   {
+    section: "ech",
+    speaker: "Elastic + Jina",
+    title: "Elastic Cloud Hosted — the GovCloud path",
+    subtitle: "Open Source self-hosted today. Serverless is not in GovCloud. Hosted is.",
+    bullets: [
+      "Elasticsearch only — not Observability or Security. Same CRM / Lifecycle / Webex search story.",
+      "Commercial AWS, GCP, Azure — or FedRAMP Moderate / High on AWS GovCloud.",
+      "Enterprise features Elastic operates: upgrades, snapshots, autoscaling. Jina supplies embeddings.",
+    ],
+    demoHref: `${APP_URL}/ech`,
+    demoLabel: "Open ECH story",
+  },
+  {
     section: "bundle",
     speaker: "Elastic + Jina",
     title: "The OpenSearch ceiling",
@@ -293,7 +306,8 @@ export const SECTION_START: Record<string, number> = {
   lifecycle: 10,
   webex: 11,
   fips: 12,
-  bundle: 13,
+  ech: 13,
+  bundle: 14,
 };
 
 type Props = {

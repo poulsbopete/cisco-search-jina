@@ -6,6 +6,7 @@ import { LifecycleDemo } from "@/components/LifecycleDemo";
 import { WebexDemo } from "@/components/WebexDemo";
 import { BundleStory } from "@/components/BundleStory";
 import { FipsStory } from "@/components/FipsStory";
+import { EchStory } from "@/components/EchStory";
 import { WorkshopHub } from "@/components/WorkshopHub";
 import { SlideDeck } from "@/components/SlideDeck";
 import { useActiveModuleMeta, useModule } from "@/components/ModuleProvider";
@@ -32,13 +33,15 @@ export function ConceptApp() {
         {active === "lifecycle" ? <LifecycleDemo /> : null}
         {active === "webex" ? <WebexDemo /> : null}
         {active === "fips" ? <FipsStory /> : null}
+        {active === "ech" ? <EchStory /> : null}
         {active === "bundle" ? <BundleStory /> : null}
       </div>
       <footer className="mt-16 border-t border-white/10 py-6 text-xs leading-relaxed text-zinc-500">
         <p>Cisco search × Elastic Serverless × Jina</p>
         <p className="mt-1">
-          One app for retrieval, CRM Analytics, Lifecycle, Webex / Infra, FIPS on-prem, and the
-          Elastic + Jina bundle. Interactive ranking on a Cisco-shaped corpus.
+          One app for retrieval, CRM Analytics, Lifecycle, Webex / Infra, FIPS on-prem, Elastic
+          Cloud Hosted, and the Elastic + Jina bundle. Interactive ranking on a Cisco-shaped
+          corpus.
         </p>
       </footer>
     </div>

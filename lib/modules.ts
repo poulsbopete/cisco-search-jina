@@ -4,6 +4,7 @@ export const MODULE_IDS = [
   "lifecycle",
   "webex",
   "fips",
+  "ech",
   "bundle",
   "slides",
   "workshop",
@@ -49,6 +50,12 @@ export const MODULES: {
     title: "Turn on FIPS for an existing cluster",
   },
   {
+    id: "ech",
+    label: "ECH",
+    kicker: "Elastic Cloud Hosted",
+    title: "Managed Elasticsearch — commercial and GovCloud",
+  },
+  {
     id: "bundle",
     label: "Bundle",
     kicker: "Elastic + Jina",
@@ -81,6 +88,7 @@ export function moduleFromPath(pathname: string, hash: string): ModuleId {
   if (pathname.startsWith("/lifecycle")) return "lifecycle";
   if (pathname.startsWith("/webex")) return "webex";
   if (pathname.startsWith("/fips")) return "fips";
+  if (pathname.startsWith("/ech")) return "ech";
   if (pathname.startsWith("/bundle")) return "bundle";
   const h = hash.replace(/^#/, "");
   if (isModuleId(h)) return h;
