@@ -41,3 +41,8 @@ Ungated invite (anyone can start): https://play.instruqt.com/elastic/invite/rjz8
 On each demo page: **Open Agent Builder** → pick **Cisco Jina Search**. Index: `cisco-jina-corpus` (11 docs). Do not use **Cisco NextGen** — that tool searches Cisco/Webex product docs.
 
 The Webex East/West toggle is an **architecture visual**. The shared Kibana is a single us-east-1 project — say that out loud.
+
+## ECH / Gov (sales guardrails)
+
+- **FedRAMP Moderate / High** on Elastic Cloud Hosted is authorized today (see ECH tab).
+- **IL5** — Elastic is **moving towards** IL5 certification for Hosted gov offerings. It is **not authorized yet**. Say “in progress” and point Cisco to their account team for timeline. Do not sell IL5 as available.

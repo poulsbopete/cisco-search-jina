@@ -18,7 +18,7 @@ const REGION_COPY: Record<
     label: "AWS GovCloud",
     headline: "FedRAMP Moderate / High — Elasticsearch on us-gov-east-1",
     detail:
-      "Serverless Search is not in GovCloud today. Elastic Cloud Hosted is the managed path for CRM, Lifecycle, and Webex / Infra teams that must stay in the authorization boundary.",
+      "Serverless Search is not in GovCloud today. Elastic Cloud Hosted is the managed path for CRM, Lifecycle, and Webex / Infra teams that must stay in the authorization boundary. Elastic is moving towards IL5 certification for Hosted gov offerings — not authorized today; plan with your account team.",
   },
 };
 
@@ -69,7 +69,7 @@ const PATHS = [
   {
     title: "Elastic Cloud Hosted (GovCloud)",
     detail:
-      "Same search story inside FedRAMP. For teams that cannot use Serverless and cannot stay on unsupported OSS builds.",
+      "Same search story inside FedRAMP. For teams that cannot use Serverless and cannot stay on unsupported OSS builds. Elastic is working toward IL5 — ask your account team for timeline and scope.",
   },
 ];
 
@@ -114,6 +114,15 @@ export function EchStory() {
           {copy.headline}
         </p>
         <p className="mt-2 text-sm leading-relaxed text-zinc-300">{copy.detail}</p>
+        {region === "govcloud" ? (
+          <p className="mt-3 rounded-xl border border-amber-400/25 bg-amber-400/5 px-3 py-2 text-xs leading-relaxed text-amber-100/90">
+            <span className="font-mono uppercase tracking-wide text-amber-200/90">Roadmap</span>
+            {" — "}
+            Elastic Cloud Hosted is FedRAMP authorized today. IL5 (DoD Impact Level 5) certification
+            is in progress — not a current authorization. Do not represent IL5 as available until
+            Elastic publishes it.
+          </p>
+        ) : null}
       </div>
 
       <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">

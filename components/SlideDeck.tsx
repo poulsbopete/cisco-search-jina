@@ -219,6 +219,7 @@ export const SLIDES: Slide[] = [
     bullets: [
       "Elasticsearch only — not Observability or Security. Same CRM / Lifecycle / Webex search story.",
       "Commercial AWS, GCP, Azure — or FedRAMP Moderate / High on AWS GovCloud.",
+      "Elastic is moving towards IL5 certification for Hosted gov — in progress, not authorized yet.",
       "Enterprise features Elastic operates: upgrades, snapshots, autoscaling. Jina supplies embeddings.",
     ],
     demoHref: `${APP_URL}/ech`,
