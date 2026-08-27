@@ -46,8 +46,8 @@ export const OPENSEARCH_STORAGE_GB_MONTH = 0.09;
 /** Snapshot storage on ECH (metered separately). */
 export const ECH_SNAPSHOT_GB_MONTH = 0.06;
 
-/** Illustrative Enterprise subscription when OSS teams add vectors / support / CCR. */
-export const ENTERPRISE_LICENSE_MONTHLY = 7_500;
+/** Illustrative Enterprise subscription — search-tier; volume / self-hosted quotes are often lower. */
+export const ENTERPRISE_LICENSE_MONTHLY = 2_500;
 
 /**
  * Illustrative monthly cost to bolt semantic search onto OpenSearch (no native embeddings):
@@ -80,10 +80,12 @@ export type CostEstimate = {
     infra: number;
     total: number;
     totalWithEnterprise: number;
+    licensePlusInfra: number;
   };
   savings: {
     vsOpenSearch: number;
     vsOssEnterprise: number;
+    vsOpenSearchLicenseOnly: number;
     opsReclaimed: number;
     annualVsOpenSearch: number;
     threeYearVsOpenSearch: number;
@@ -118,11 +120,14 @@ export function estimateCosts(s: CostScenario): CostEstimate {
 
   const vsOpenSearch = osTotal - echTotal;
   const vsOssEnterprise = ossWithEnterprise - echTotal;
+  const licensePlusInfra = ossInfra + ENTERPRISE_LICENSE_MONTHLY;
+  const vsOpenSearchLicenseOnly = osTotal - licensePlusInfra;
 
   const notes = [
     "AWS OpenSearch fits EDP — Elastic Cloud Hosted is also on AWS Marketplace and can count toward AWS commit.",
     "OpenSearch has no native embeddings; the semantic overlay line is illustrative (Jina + engineering).",
-    "Compare Hosted to OpenSearch + overlay for the CRM / Lifecycle / Webex semantic story — not keyword-only.",
+    "Already on OSS? Enterprise self-hosted licensing is often the lowest cash add-on for vectors + support — ask for a search-tier quote.",
+    "Full OSS + Enterprise TCO includes ops labor; Hosted wins when you want Elastic to run the platform.",
     "GovCloud ECH requires Platinum or Enterprise; OpenSearch Gov pricing differs — use your account team.",
   ];
 
@@ -148,10 +153,12 @@ export function estimateCosts(s: CostScenario): CostEstimate {
       infra: Math.round(ossInfra),
       total: Math.round(ossTotal),
       totalWithEnterprise: Math.round(ossWithEnterprise),
+      licensePlusInfra: Math.round(licensePlusInfra),
     },
     savings: {
       vsOpenSearch: Math.round(vsOpenSearch),
       vsOssEnterprise: Math.round(vsOssEnterprise),
+      vsOpenSearchLicenseOnly: Math.round(vsOpenSearchLicenseOnly),
       opsReclaimed: Math.round(ossOps),
       annualVsOpenSearch: Math.round(vsOpenSearch * 12),
       threeYearVsOpenSearch: Math.round(vsOpenSearch * 36),

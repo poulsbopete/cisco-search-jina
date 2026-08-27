@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import {
   ECH_RATE_GB_HOUR,
+  ENTERPRISE_LICENSE_MONTHLY,
   estimateCosts,
   formatUsd,
   OPENSEARCH_SEMANTIC_OVERLAY_MONTHLY,
@@ -20,7 +21,7 @@ const LINE_ITEMS = [
   {
     line: "Semantic search (vectors + Jina)",
     opensearch: "Not offered — keyword ceiling. Bolt on Jina + custom pipeline (overlay cost).",
-    oss: "Not in OSS. Add Enterprise subscription + build ingest yourself.",
+    oss: "Enterprise license on existing cluster — competitive search-tier pricing.",
     ech: "Enterprise Hosted: inference endpoints + pipelines; Jina API separate.",
     highlight: true,
   },
@@ -34,7 +35,7 @@ const LINE_ITEMS = [
   {
     line: "Enterprise search features",
     opensearch: "Lexical + filters. No ES|QL parity, CCR story, or Elastic support path.",
-    oss: "$0 OSS — or + Enterprise license for vectors / CCR.",
+    oss: "$0 OSS stack — add a low Enterprise license for vectors, CCR, and support.",
     ech: "Included in Hosted Enterprise tier.",
     highlight: false,
   },
@@ -101,6 +102,7 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
     est.ech.total,
   );
   const savesVsOs = est.savings.vsOpenSearch > 0;
+  const savesLicenseOnly = est.savings.vsOpenSearchLicenseOnly > 0;
 
   return (
     <section className="mt-10">
@@ -121,6 +123,37 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
         this workshop&apos;s semantic story you still pay a{" "}
         <span className="text-white">Jina + pipeline overlay</span> (
         {formatUsd(OPENSEARCH_SEMANTIC_OVERLAY_MONTHLY)}/mo est.) on top of keyword-only search.
+      </p>
+
+      <p className="mt-3 rounded-xl border border-violet-400/25 bg-violet-400/5 px-4 py-3 text-xs leading-relaxed text-violet-100/90">
+        <span className="font-mono uppercase tracking-wide text-violet-200">
+          Enterprise self-hosted
+        </span>
+        {" — "}
+        Teams already running OSS often only need an{" "}
+        <span className="text-white">Enterprise license</span> for vectors, ES|QL, CCR, and
+        support. Illustrative{" "}
+        <span className="font-mono text-white">
+          {formatUsd(ENTERPRISE_LICENSE_MONTHLY)}/mo
+        </span>{" "}
+        — volume pricing is frequently lower. With existing infra that is{" "}
+        <span className="font-mono text-white">
+          {formatUsd(est.oss.licensePlusInfra)}/mo
+        </span>{" "}
+        total vs{" "}
+        <span className="font-mono text-white">{formatUsd(est.opensearch.total)}/mo</span>{" "}
+        for OpenSearch + semantic overlay
+        {savesLicenseOnly ? (
+          <>
+            {" "}
+            (<span className="text-emerald-300">
+              −{formatUsd(est.savings.vsOpenSearchLicenseOnly)}/mo
+            </span>
+            ).
+          </>
+        ) : (
+          "."
+        )}
       </p>
 
       {savesVsOs ? (
@@ -205,7 +238,12 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
             {formatUsd(est.oss.totalWithEnterprise)}
             <span className="text-base font-normal text-zinc-500"> / mo</span>
           </p>
-          <p className="mt-2 text-xs text-zinc-500">Self-managed upgrade path</p>
+          <p className="mt-2 text-xs text-zinc-500">
+            Self-managed · license often the smallest line item
+          </p>
+          <p className="mt-2 inline-block rounded-full bg-violet-400/15 px-3 py-1 font-mono text-[10px] text-violet-200">
+            License + infra only: {formatUsd(est.oss.licensePlusInfra)}/mo
+          </p>
           <div className="mt-4 space-y-3">
             <SavingsBar
               label="Ops labor"
@@ -253,10 +291,10 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
         {[
           {
-            title: "Skip the overlay tax",
-            value: formatUsd(est.opensearch.semanticOverlay),
+            title: "Enterprise license",
+            value: formatUsd(ENTERPRISE_LICENSE_MONTHLY),
             detail:
-              "OpenSearch cannot embed natively. Hosted + Jina avoids a parallel semantic stack.",
+              "Competitive self-hosted subscription — vectors, CCR, and Elastic support without changing where you run.",
           },
           {
             title: "Keep AWS commit",
@@ -284,8 +322,9 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
       </div>
 
       <p className="mt-4 rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-xs leading-relaxed text-zinc-500">
-        ECH rate: ${ECH_RATE_GB_HOUR}/GB RAM/hour. OpenSearch overlay:{" "}
-        {formatUsd(OPENSEARCH_SEMANTIC_OVERLAY_MONTHLY)}/mo illustrative. Size real quotes in{" "}
+        ECH rate: ${ECH_RATE_GB_HOUR}/GB RAM/hour. Enterprise license:{" "}
+        {formatUsd(ENTERPRISE_LICENSE_MONTHLY)}/mo illustrative (self-hosted, search-tier). OpenSearch
+        overlay: {formatUsd(OPENSEARCH_SEMANTIC_OVERLAY_MONTHLY)}/mo. Size real quotes in{" "}
         <a
           className="text-cyan-300 underline"
           href="https://cloud.elastic.co/pricing"

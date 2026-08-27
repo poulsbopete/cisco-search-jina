@@ -39,7 +39,7 @@ const OSS_ROWS = [
   },
   {
     need: "Enterprise search (vectors, inference, ES|QL)",
-    oss: "Not in Open Source. You assemble or stay on keyword.",
+    oss: "Add Enterprise — low license cost on the cluster you already operate.",
     ech: "Enterprise subscription on Hosted — native embeddings + pipelines.",
   },
   {
@@ -68,7 +68,7 @@ const PATHS = [
   {
     title: "Self-hosted Enterprise",
     detail:
-      "Stay on-prem or in your VPC. Enterprise license + optional FIPS JVM. You operate the cluster; Elastic supports the stack.",
+      "Stay on-prem or in your VPC. Competitive Enterprise licensing for search — vectors, CCR, and Elastic support on the cluster you already run. Optional FIPS JVM; you operate the platform.",
   },
   {
     title: "Elastic Cloud Hosted (commercial)",
@@ -99,8 +99,10 @@ export function EchStory() {
         Cisco groups already run <span className="text-white">Open Source Elasticsearch</span>{" "}
         self-hosted — or get pushed to <span className="text-white">AWS OpenSearch</span> for EDP.
         Elastic Cloud Hosted is on <span className="text-white">AWS Marketplace</span> (same commit,
-        more search). The upgrade path is{" "}
-        <span className="text-white">Elasticsearch Enterprise</span> on Hosted or self-managed,
+        more search). For teams staying on-prem,{" "}
+        <span className="text-white">Enterprise self-hosted licensing</span> is a low-cost path to
+        vectors and support. Or move to{" "}
+        <span className="text-white">Elasticsearch Enterprise</span> on Hosted,
         with <span className="text-white">Jina</span> for multimodal relevance. Serverless Search
         powers this workshop, but it does not run in GovCloud — Hosted does.
       </p>
