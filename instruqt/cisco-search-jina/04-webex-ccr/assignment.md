@@ -7,10 +7,12 @@ teaser: Same ES|QL in us-gov-east and us-gov-west. CCR copies; search stays loca
 notes:
 - type: text
   contents: |
-    <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=webex&v=4"
-      width="100%" height="420" frameborder="0"
-      style="border-radius:8px;display:block;width:100%;height:420px;max-height:55vh;border:0;background:#061525">
+    <div style="width:100%;max-width:100%;margin:0;padding:0">
+    <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=webex&v=5"
+      width="100%" height="640" frameborder="0" scrolling="no"
+      style="border-radius:8px;display:block;width:100%;min-width:100%;height:640px;border:0;background:#061525">
     </iframe>
+    </div>
 tabs:
 - id: gs4xqwjgvkuz
   title: Elastic Serverless Search
