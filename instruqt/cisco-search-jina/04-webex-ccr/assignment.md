@@ -10,8 +10,8 @@ notes:
     ## While you wait…
 
     <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=webex"
-      width="100%" height="1400" frameborder="0"
-      style="border-radius:8px;display:block;width:100%;min-height:900px;aspect-ratio:16/9;border:0">
+      width="100%" height="520" frameborder="0"
+      style="border-radius:8px;display:block;width:100%;height:520px;max-height:55vh;border:0">
     </iframe>
 tabs:
 - id: gs4xqwjgvkuz
