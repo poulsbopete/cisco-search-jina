@@ -58,7 +58,7 @@ export const SLIDES: Slide[] = [
     title: "What you walk away with",
     bullets: [
       "Keyword vs semantic on the same Cisco-shaped corpus.",
-      "Why leave OpenSearch: Cisco teams told us AWS OpenSearch does not offer embeddings.",
+      "Why Elastic vs everyone else: native embeddings, ES|QL, and Enterprise search — not keyword-only.",
       "A Cisco-wide narrative: CRM Analytics + Lifecycle + Webex / Infra.",
       "Elastic runs search; Jina powers multimodal relevance — plus a hands-on Serverless lab.",
     ],
