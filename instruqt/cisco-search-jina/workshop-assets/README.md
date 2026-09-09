@@ -4,8 +4,9 @@ Everything Elastic for this workshop is seeded into the **per-learner Serverless
 
 | Path | Purpose |
 | --- | --- |
-| `dashboards/*.json` | Five ES|QL dashboards (Dashboard API) |
-| `workflows/cisco-jina-dashboard-tour.yaml` | Facilitator markdown tour (`waitForInput`) |
+| `dashboards/*.json` | Five ES\|QL dashboards (Dashboard API); heroes use library markdown `ref_id` |
+| `markdown/*.md` | Talking-point markdown saved objects (`cisco-jina-md-*`) |
+| `workflows/cisco-jina-dashboard-notes.yaml` | Scheduled every **10m** (+ manual); refreshes those markdown panels — **no pauses** |
 
 Installers: `track_scripts/seed_cisco_jina_dashboards.py`, `seed_cisco_jina_workflow.py` (embedded into `setup-es3-api` by `scripts/generate_es3_setup.py`).
 

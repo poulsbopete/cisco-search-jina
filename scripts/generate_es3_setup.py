@@ -13,6 +13,7 @@ DASH_SEED = TRACK / "track_scripts" / "seed_cisco_jina_dashboards.py"
 WF_SEED = TRACK / "track_scripts" / "seed_cisco_jina_workflow.py"
 CORPUS = ROOT / "data" / "workshop-corpus.json"
 DASH_DIR = TRACK / "workshop-assets" / "dashboards"
+MD_DIR = TRACK / "workshop-assets" / "markdown"
 WF_DIR = TRACK / "workshop-assets" / "workflows"
 OUT = TRACK / "track_scripts" / "setup-es3-api"
 
@@ -23,7 +24,14 @@ DASHBOARDS = (
     "cisco-jina-webex-ccr.json",
     "cisco-jina-circuit.json",
 )
-WORKFLOWS = ("cisco-jina-dashboard-tour.yaml",)
+MARKDOWN = (
+    "cisco-jina-md-keyword.md",
+    "cisco-jina-md-crm.md",
+    "cisco-jina-md-lifecycle.md",
+    "cisco-jina-md-webex.md",
+    "cisco-jina-md-circuit.md",
+)
+WORKFLOWS = ("cisco-jina-dashboard-notes.yaml",)
 
 
 def b64(path: Path) -> str:
@@ -37,13 +45,19 @@ def main() -> None:
         if not path.is_file():
             raise SystemExit(f"missing {path}")
 
-    blocks = ["mkdir -p /tmp/dashboards /tmp/workflows"]
+    blocks = ["mkdir -p /tmp/dashboards /tmp/markdown /tmp/workflows"]
     for name in DASHBOARDS:
         path = DASH_DIR / name
         if not path.is_file():
             raise SystemExit(f"missing dashboard {path}")
         tag = "CISCO_JINA_DASH_" + name.replace(".json", "").replace("-", "_").upper()
         blocks.append(f"base64 -d <<'{tag}' > /tmp/dashboards/{name}\n{b64(path)}\n{tag}")
+    for name in MARKDOWN:
+        path = MD_DIR / name
+        if not path.is_file():
+            raise SystemExit(f"missing markdown {path}")
+        tag = "CISCO_JINA_MD_" + name.replace(".md", "").replace("-", "_").upper()
+        blocks.append(f"base64 -d <<'{tag}' > /tmp/markdown/{name}\n{b64(path)}\n{tag}")
     for name in WORKFLOWS:
         path = WF_DIR / name
         if not path.is_file():
@@ -95,7 +109,7 @@ else
   exit 1
 fi
 
-echo "Installing workshop dashboards into $KIBANA_URL (ApiKey preferred, then Basic)"
+echo "Installing workshop dashboards + markdown notes into $KIBANA_URL (ApiKey preferred, then Basic)"
 if python3 /tmp/seed_cisco_jina_dashboards.py > /tmp/workshop-dashboards.log 2>&1; then
   tail -40 /tmp/workshop-dashboards.log || true
 else
@@ -105,7 +119,7 @@ else
   echo "WARN: continuing without dashboards (corpus still usable)"
 fi
 
-echo "Installing dashboard-tour workflow into $KIBANA_URL"
+echo "Installing dashboard-notes workflow (scheduled every 10m) into $KIBANA_URL"
 if python3 /tmp/seed_cisco_jina_workflow.py > /tmp/workshop-workflow.log 2>&1; then
   tail -20 /tmp/workshop-workflow.log || true
 else

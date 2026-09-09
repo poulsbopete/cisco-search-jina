@@ -1,0 +1,220 @@
+version: "1"
+name: Cisco Jina Workshop — Dashboard notes
+description: >
+  Every 10 minutes (and on manual run), refreshes library Markdown talking-point
+  panels on the five Cisco Jina dashboards with live corpus stats. No pauses —
+  open Dashboards to read the MD strip; open Workflows to highlight this run.
+enabled: true
+tags:
+  - cisco
+  - jina
+  - workshop
+  - dashboards
+  - DEMO
+triggers:
+  - type: scheduled
+    with:
+      every: "10m"
+  - type: manual
+settings:
+  timeout: 15m
+steps:
+  - name: workflow_start
+    type: console
+    with:
+      message: |
+        Cisco Jina dashboard notes started (execution {{ execution.id }}).
+        Refreshing markdown panels on keyword / CRM / lifecycle / Webex / CIRCUIT boards.
+
+  - name: corpus_overview
+    type: elasticsearch.esql.query
+    with:
+      format: json
+      query: |
+        FROM cisco-jina-corpus
+        | STATS docs = COUNT(*), accounts = COUNT_DISTINCT(account), sources = COUNT_DISTINCT(source)
+
+  - name: corpus_by_source
+    type: elasticsearch.esql.query
+    with:
+      format: json
+      query: |
+        FROM cisco-jina-corpus
+        | STATS docs = COUNT(*) BY source
+        | SORT docs DESC
+
+  - name: keyword_snapshot
+    type: elasticsearch.esql.query
+    with:
+      format: json
+      query: |
+        FROM cisco-jina-corpus
+        | WHERE MATCH(content, "legal")
+        | STATS legal_docs = COUNT(*)
+
+  - name: lockin_snapshot
+    type: elasticsearch.esql.query
+    with:
+      format: json
+      query: |
+        FROM cisco-jina-corpus
+        | MV_EXPAND concepts
+        | WHERE concepts == "vendor-lock-in"
+        | STATS lockin_docs = COUNT(*)
+
+  - name: publish_keyword_md
+    type: kibana.request
+    with:
+      method: POST
+      path: /api/saved_objects/markdown/cisco-jina-md-keyword?overwrite=true
+      headers:
+        kbn-xsrf: "true"
+      body:
+        attributes:
+          title: "Cisco Jina — Keyword vs semantic notes"
+          description: "Talking points for keyword vs semantic dashboard"
+          content: |
+            ## Keyword vs semantic
+
+            _Refreshed by **Workflows → Cisco Jina Workshop — Dashboard notes** (every 10 minutes)._
+            _Execution `{{ execution.id }}` · {{ now | date: "%Y-%m-%d %H:%M UTC" }}_
+
+            **Live corpus**
+            ```
+            {{ steps.corpus_overview.output }}
+            ```
+            Keyword `MATCH(legal)`:
+            ```
+            {{ steps.keyword_snapshot.output }}
+            ```
+            Concept `vendor-lock-in`:
+            ```
+            {{ steps.lockin_snapshot.output }}
+            ```
+
+            **What you are looking at**
+            - Metrics: corpus size vs `MATCH(content, "legal")` vs concept `vendor-lock-in`
+            - Left table: keyword / OpenSearch-shaped ceiling — Umbrella *legal hold* noise
+            - Right table: semantic neighborhood — Acme stays; Umbrella drops
+            - Bottom: top concepts across `cisco-jina-corpus`
+
+            **Talking point:** same business question, two retrieval ceilings.
+
+  - name: publish_crm_md
+    type: kibana.request
+    with:
+      method: POST
+      path: /api/saved_objects/markdown/cisco-jina-md-crm?overwrite=true
+      headers:
+        kbn-xsrf: "true"
+      body:
+        attributes:
+          title: "Cisco Jina — CRM Analytics notes"
+          description: "Talking points for CRM dashboard"
+          content: |
+            ## CRM Analytics
+
+            _Refreshed by **Workflows → Cisco Jina Workshop — Dashboard notes** (every 10 minutes)._
+            _Execution `{{ execution.id }}` · {{ now | date: "%Y-%m-%d %H:%M UTC" }}_
+
+            **Docs by source**
+            ```
+            {{ steps.corpus_by_source.output }}
+            ```
+
+            **What you are looking at**
+            - Pipeline dollars and deal counts by Salesforce stage
+            - Competitor graph for similar-deal narratives
+
+            **Talking point:** find deals like Acme’s Webex renewal with a reason for every match.
+
+  - name: publish_lifecycle_md
+    type: kibana.request
+    with:
+      method: POST
+      path: /api/saved_objects/markdown/cisco-jina-md-lifecycle?overwrite=true
+      headers:
+        kbn-xsrf: "true"
+      body:
+        attributes:
+          title: "Cisco Jina — Lifecycle notes"
+          description: "Talking points for lifecycle dashboard"
+          content: |
+            ## Lifecycle federated search
+
+            _Refreshed by **Workflows → Cisco Jina Workshop — Dashboard notes** (every 10 minutes)._
+            _Execution `{{ execution.id }}` · {{ now | date: "%Y-%m-%d %H:%M UTC" }}_
+
+            **Docs by source**
+            ```
+            {{ steps.corpus_by_source.output }}
+            ```
+
+            **What you are looking at**
+            - Donut: Snowflake · S3 · Elastic as peers
+            - Table: payload bytes by system
+
+            **Talking point:** counsel language inside a large payload without a second warehouse.
+
+  - name: publish_webex_md
+    type: kibana.request
+    with:
+      method: POST
+      path: /api/saved_objects/markdown/cisco-jina-md-webex?overwrite=true
+      headers:
+        kbn-xsrf: "true"
+      body:
+        attributes:
+          title: "Cisco Jina — Webex CCR notes"
+          description: "Talking points for Webex / CCR dashboard"
+          content: |
+            ## Webex / CCR East & West
+
+            _Refreshed by **Workflows → Cisco Jina Workshop — Dashboard notes** (every 10 minutes)._
+            _Execution `{{ execution.id }}` · {{ now | date: "%Y-%m-%d %H:%M UTC" }}_
+
+            **Docs by source**
+            ```
+            {{ steps.corpus_by_source.output }}
+            ```
+
+            **What you are looking at**
+            - Gov East / West × source coverage
+            - Webex + infra artifact counts by region
+
+            **Talking point:** CCR replicates; search locally — never cross the Gov boundary at query time.
+
+  - name: publish_circuit_md
+    type: kibana.request
+    with:
+      method: POST
+      path: /api/saved_objects/markdown/cisco-jina-md-circuit?overwrite=true
+      headers:
+        kbn-xsrf: "true"
+      body:
+        attributes:
+          title: "Cisco Jina — CIRCUIT notes"
+          description: "Talking points for CIRCUIT dashboard"
+          content: |
+            ## CIRCUIT LLM proxy (ECS)
+
+            _Refreshed by **Workflows → Cisco Jina Workshop — Dashboard notes** (every 10 minutes)._
+            _Execution `{{ execution.id }}` · {{ now | date: "%Y-%m-%d %H:%M UTC" }}_
+
+            **Docs by source**
+            ```
+            {{ steps.corpus_by_source.output }}
+            ```
+
+            **What you are looking at**
+            - Concept neighborhood: circuit, llm-proxy, prompt-injection, pii, token-budget, …
+            - Events by region
+
+            **Talking point:** customers choose Elastic LLM, CIRCUIT, or both; Elastic searches the ECS stream either way.
+
+  - name: workflow_done
+    type: console
+    with:
+      message: |
+        Refreshed cisco-jina-md-* markdown panels. Open Dashboards and reload a board to see the updated strip.
+        Highlight this workflow under **Workflows** (scheduled every 10m).

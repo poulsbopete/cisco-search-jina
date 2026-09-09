@@ -30,6 +30,15 @@ DASHBOARDS = (
     ("cisco-jina-circuit", "cisco-jina-circuit.json"),
 )
 
+# Library markdown panels referenced by dashboard heroes (ref_id). Workflow refreshes these every 10m.
+MARKDOWN_NOTES = (
+    ("cisco-jina-md-keyword", "cisco-jina-md-keyword.md", "Cisco Jina — Keyword vs semantic notes"),
+    ("cisco-jina-md-crm", "cisco-jina-md-crm.md", "Cisco Jina — CRM Analytics notes"),
+    ("cisco-jina-md-lifecycle", "cisco-jina-md-lifecycle.md", "Cisco Jina — Lifecycle notes"),
+    ("cisco-jina-md-webex", "cisco-jina-md-webex.md", "Cisco Jina — Webex CCR notes"),
+    ("cisco-jina-md-circuit", "cisco-jina-md-circuit.md", "Cisco Jina — CIRCUIT notes"),
+)
+
 
 def decode(raw: bytes) -> str:
     if raw[:2] == b"\x1f\x8b":
@@ -96,6 +105,15 @@ def dashboard_paths() -> list[Path]:
     ]
 
 
+def markdown_paths() -> list[Path]:
+    here = Path(__file__).resolve().parent
+    return [
+        Path("/tmp/markdown"),
+        here.parent / "workshop-assets" / "markdown",
+        here / "workshop-assets" / "markdown",
+    ]
+
+
 def load_spec(filename: str) -> dict:
     for root in dashboard_paths():
         path = root / filename
@@ -103,6 +121,47 @@ def load_spec(filename: str) -> dict:
             print(f"loading dashboard spec from {path}")
             return json.loads(path.read_text(encoding="utf-8"))
     raise FileNotFoundError(f"dashboard JSON not found: {filename}")
+
+
+def load_markdown(filename: str) -> str:
+    for root in markdown_paths():
+        path = root / filename
+        if path.is_file():
+            print(f"loading markdown from {path}")
+            return path.read_text(encoding="utf-8")
+    raise FileNotFoundError(f"markdown not found: {filename}")
+
+
+def ensure_markdown(base: str, header: str, so_id: str, title: str, content: str) -> None:
+    body = {
+        "attributes": {
+            "title": title,
+            "description": "Cisco Jina workshop talking points (refreshed by scheduled workflow)",
+            "content": content,
+        }
+    }
+    code, resp = request(
+        "POST",
+        f"{base}/api/saved_objects/markdown/{so_id}?overwrite=true",
+        header,
+        json.dumps(body).encode(),
+        api_version=API_VERSION_DATED,
+    )
+    if code in (200, 201):
+        print(f"markdown ok: {so_id}")
+        return
+    # Some stacks omit Elastic-Api-Version for saved_objects
+    code2, resp2 = request(
+        "POST",
+        f"{base}/api/saved_objects/markdown/{so_id}?overwrite=true",
+        header,
+        json.dumps(body).encode(),
+        api_version=None,
+    )
+    if code2 in (200, 201):
+        print(f"markdown ok (no api-version hdr): {so_id}")
+        return
+    raise RuntimeError(f"markdown {so_id} failed HTTP {code}: {resp[:300]} | {code2}: {resp2[:300]}")
 
 
 def ensure_data_view(base: str, header: str, view_id: str, title: str) -> None:
@@ -198,6 +257,13 @@ def main() -> int:
         print(f"warn: using {auth_mode} without successful /api/status probe", file=sys.stderr)
 
     ensure_data_view(base, header, INDEX, INDEX)
+
+    for so_id, filename, title in MARKDOWN_NOTES:
+        try:
+            ensure_markdown(base, header, so_id, title, load_markdown(filename))
+        except Exception as exc:  # noqa: BLE001
+            print(f"ERROR installing markdown {so_id}: {exc}", file=sys.stderr)
+            return 1
 
     failed = 0
     for dash_id, filename in DASHBOARDS:

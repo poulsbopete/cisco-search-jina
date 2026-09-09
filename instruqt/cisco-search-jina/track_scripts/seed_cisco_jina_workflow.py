@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Upsert the facilitator dashboard-tour workflow into the learner Kibana."""
+"""Upsert the scheduled dashboard-notes workflow into the learner Kibana."""
 from __future__ import annotations
 
 import gzip
@@ -10,8 +10,8 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-WORKFLOW_ID = "cisco-jina-dashboard-tour"
-WORKFLOW_FILE = "cisco-jina-dashboard-tour.yaml"
+WORKFLOW_ID = "cisco-jina-dashboard-notes"
+WORKFLOW_FILE = "cisco-jina-dashboard-notes.yaml"
 API_VERSION = "2023-10-31"
 
 
