@@ -1,16 +1,8 @@
 {
-  "title": "Cisco Jina \u2014 CIRCUIT LLM proxy (ECS)",
+  "title": "Cisco Jina — CIRCUIT LLM proxy (ECS)",
   "description": "CIRCUIT ECS concept neighborhood and regions.",
-  "tags": [
-    "cisco",
-    "jina",
-    "workshop",
-    "cisco-search-jina"
-  ],
-  "time_range": {
-    "from": "now-24h",
-    "to": "now"
-  },
+  "tags": ["cisco", "jina", "workshop", "cisco-search-jina"],
+  "time_range": { "from": "now-7d", "to": "now" },
   "options": {
     "use_margins": true,
     "sync_colors": true,
@@ -20,112 +12,77 @@
     "auto_apply_filters": true,
     "hide_panel_borders": false
   },
-  "query": {
-    "expression": "",
-    "language": "kuery"
-  },
+  "query": { "expression": "", "language": "kql" },
   "filters": [],
   "panels": [
     {
       "id": "md-hero",
       "type": "markdown",
-      "grid": {
-        "x": 0,
-        "y": 0,
-        "w": 48,
-        "h": 4
-      },
+      "grid": { "x": 0, "y": 0, "w": 48, "h": 4 },
       "config": {
-        "content": "## CIRCUIT LLM proxy\n\nPolicy deny, token budget, PII leakage. Customers choose Elastic LLM, CIRCUIT, or both \u2014 Elastic searches the ECS stream either way.",
-        "settings": {
-          "open_links_in_new_tab": true
-        }
+        "content": "## CIRCUIT LLM proxy\n\nPolicy deny, token budget, PII leakage. Customers choose Elastic LLM, CIRCUIT, or both — Elastic searches the ECS stream either way.",
+        "settings": { "open_links_in_new_tab": true }
+      }
+    },
+    {
+      "id": "kpi-circuit",
+      "type": "vis",
+      "grid": { "x": 0, "y": 4, "w": 24, "h": 5 },
+      "config": {
+        "title": "",
+        "type": "metric",
+        "data_source": {
+          "type": "esql",
+          "query": "FROM cisco-jina-corpus\n| WHERE source == \"circuit\"\n| STATS `CIRCUIT events` = COUNT(*)"
+        },
+        "metrics": [{ "type": "primary", "column": "CIRCUIT events" }]
+      }
+    },
+    {
+      "id": "kpi-concepts",
+      "type": "vis",
+      "grid": { "x": 24, "y": 4, "w": 24, "h": 5 },
+      "config": {
+        "title": "",
+        "type": "metric",
+        "data_source": {
+          "type": "esql",
+          "query": "FROM cisco-jina-corpus\n| WHERE source == \"circuit\"\n| MV_EXPAND concepts\n| STATS `Concept tags` = COUNT(*)"
+        },
+        "metrics": [{ "type": "primary", "column": "Concept tags" }]
       }
     },
     {
       "id": "circuit-concepts",
       "type": "vis",
-      "grid": {
-        "x": 0,
-        "y": 4,
-        "w": 24,
-        "h": 12
-      },
+      "grid": { "x": 0, "y": 9, "w": 24, "h": 12 },
       "config": {
         "title": "CIRCUIT concepts",
-        "type": "xy",
-        "axis": {
-          "x": {
-            "title": {
-              "visible": false
-            }
-          },
-          "y": {
-            "title": {
-              "visible": false
-            }
-          }
+        "type": "data_table",
+        "data_source": {
+          "type": "esql",
+          "query": "FROM cisco-jina-corpus\n| WHERE source == \"circuit\"\n| MV_EXPAND concepts\n| STATS docs = COUNT(*) BY concepts\n| SORT docs DESC"
         },
-        "layers": [
-          {
-            "type": "bar_horizontal",
-            "data_source": {
-              "type": "esql",
-              "query": "FROM \"cisco-jina-corpus\"\n| WHERE source == \"circuit\"\n| MV_EXPAND concepts\n| STATS docs = COUNT(*) BY concepts\n| SORT docs DESC"
-            },
-            "x": {
-              "column": "concepts"
-            },
-            "y": [
-              {
-                "column": "docs"
-              }
-            ]
-          }
-        ]
+        "sampling": 1,
+        "ignore_global_filters": false,
+        "rows": [{ "column": "concepts" }, { "column": "docs" }],
+        "styling": { "paging": 15 }
       }
     },
     {
       "id": "circuit-region",
       "type": "vis",
-      "grid": {
-        "x": 24,
-        "y": 4,
-        "w": 24,
-        "h": 12
-      },
+      "grid": { "x": 24, "y": 9, "w": 24, "h": 12 },
       "config": {
         "title": "CIRCUIT events by region",
-        "type": "xy",
-        "axis": {
-          "x": {
-            "title": {
-              "visible": false
-            }
-          },
-          "y": {
-            "title": {
-              "visible": false
-            }
-          }
+        "type": "pie",
+        "data_source": {
+          "type": "esql",
+          "query": "FROM cisco-jina-corpus\n| WHERE source == \"circuit\"\n| STATS events = COUNT(*) BY region"
         },
-        "layers": [
-          {
-            "type": "bar",
-            "data_source": {
-              "type": "esql",
-              "query": "FROM \"cisco-jina-corpus\"\n| WHERE source == \"circuit\"\n| STATS events = COUNT(*) BY region\n| SORT events DESC"
-            },
-            "x": {
-              "column": "region"
-            },
-            "y": [
-              {
-                "column": "events"
-              }
-            ]
-          }
-        ]
+        "metrics": [{ "column": "events" }],
+        "group_by": [{ "column": "region" }],
+        "styling": { "donut_hole": "m" }
       }
     }
   ]

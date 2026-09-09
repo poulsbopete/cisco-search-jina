@@ -22,14 +22,7 @@ def decode(raw: bytes) -> str:
 
 
 def auth_header() -> str:
-    user = os.environ.get("ES_USERNAME", "admin")
-    password = (
-        os.environ.get("ES_PASSWORD") or os.environ.get("ELASTICSEARCH_PASSWORD") or ""
-    ).strip()
-    if password:
-        import base64
-
-        return "Basic " + base64.b64encode(f"{user}:{password}".encode()).decode()
+    # Prefer ApiKey first — matches cisco-serverless-workshop Kibana seeding.
     api_key = (
         os.environ.get("ES_API_KEY")
         or os.environ.get("ELASTICSEARCH_API_KEY")
@@ -38,6 +31,14 @@ def auth_header() -> str:
     ).strip()
     if api_key and api_key not in ("null", "None"):
         return f"ApiKey {api_key}"
+    user = os.environ.get("ES_USERNAME", "admin")
+    password = (
+        os.environ.get("ES_PASSWORD") or os.environ.get("ELASTICSEARCH_PASSWORD") or ""
+    ).strip()
+    if password:
+        import base64
+
+        return "Basic " + base64.b64encode(f"{user}:{password}".encode()).decode()
     return ""
 
 

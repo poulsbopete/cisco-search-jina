@@ -95,12 +95,14 @@ else
   exit 1
 fi
 
-echo "Installing workshop dashboards into $KIBANA_URL"
+echo "Installing workshop dashboards into $KIBANA_URL (ApiKey preferred, then Basic)"
 if python3 /tmp/seed_cisco_jina_dashboards.py > /tmp/workshop-dashboards.log 2>&1; then
   tail -40 /tmp/workshop-dashboards.log || true
 else
-  echo "WARN: dashboard seed failed — corpus is still usable; see /tmp/workshop-dashboards.log"
-  tail -80 /tmp/workshop-dashboards.log || true
+  echo "ERROR: dashboard seed failed — see /tmp/workshop-dashboards.log"
+  tail -120 /tmp/workshop-dashboards.log || true
+  # Soft-fail so Challenge Check still passes if Kibana API flaps; learners need a new invite after a fix.
+  echo "WARN: continuing without dashboards (corpus still usable)"
 fi
 
 echo "Installing dashboard-tour workflow into $KIBANA_URL"

@@ -1,16 +1,8 @@
 {
-  "title": "Cisco Jina \u2014 Lifecycle federated search",
+  "title": "Cisco Jina — Lifecycle federated search",
   "description": "Snowflake / S3 / Elastic lifecycle docs.",
-  "tags": [
-    "cisco",
-    "jina",
-    "workshop",
-    "cisco-search-jina"
-  ],
-  "time_range": {
-    "from": "now-24h",
-    "to": "now"
-  },
+  "tags": ["cisco", "jina", "workshop", "cisco-search-jina"],
+  "time_range": { "from": "now-7d", "to": "now" },
   "options": {
     "use_margins": true,
     "sync_colors": true,
@@ -20,100 +12,77 @@
     "auto_apply_filters": true,
     "hide_panel_borders": false
   },
-  "query": {
-    "expression": "",
-    "language": "kuery"
-  },
+  "query": { "expression": "", "language": "kql" },
   "filters": [],
   "panels": [
     {
       "id": "md-hero",
       "type": "markdown",
-      "grid": {
-        "x": 0,
-        "y": 0,
-        "w": 48,
-        "h": 4
-      },
+      "grid": { "x": 0, "y": 0, "w": 48, "h": 4 },
       "config": {
-        "content": "## Lifecycle Platform\n\nSnowflake \u00b7 S3 \u00b7 Elastic as peers. Large payloads stay searchable without a second warehouse.",
-        "settings": {
-          "open_links_in_new_tab": true
-        }
+        "content": "## Lifecycle Platform\n\nSnowflake · S3 · Elastic as peers. Large payloads stay searchable without a second warehouse.",
+        "settings": { "open_links_in_new_tab": true }
+      }
+    },
+    {
+      "id": "kpi-life",
+      "type": "vis",
+      "grid": { "x": 0, "y": 4, "w": 24, "h": 5 },
+      "config": {
+        "title": "",
+        "type": "metric",
+        "data_source": {
+          "type": "esql",
+          "query": "FROM cisco-jina-corpus\n| WHERE source == \"lifecycle\"\n| STATS `Lifecycle docs` = COUNT(*)"
+        },
+        "metrics": [{ "type": "primary", "column": "Lifecycle docs" }]
+      }
+    },
+    {
+      "id": "kpi-bytes",
+      "type": "vis",
+      "grid": { "x": 24, "y": 4, "w": 24, "h": 5 },
+      "config": {
+        "title": "",
+        "type": "metric",
+        "data_source": {
+          "type": "esql",
+          "query": "FROM cisco-jina-corpus\n| WHERE source == \"lifecycle\" AND bytes IS NOT NULL\n| STATS `Payload bytes` = SUM(bytes)"
+        },
+        "metrics": [{ "type": "primary", "column": "Payload bytes" }]
       }
     },
     {
       "id": "life-sys",
       "type": "vis",
-      "grid": {
-        "x": 0,
-        "y": 4,
-        "w": 24,
-        "h": 12
-      },
+      "grid": { "x": 0, "y": 9, "w": 24, "h": 12 },
       "config": {
         "title": "Lifecycle systems",
         "type": "pie",
         "data_source": {
           "type": "esql",
-          "query": "FROM \"cisco-jina-corpus\"\n| WHERE source == \"lifecycle\"\n| STATS docs = COUNT(*) BY system"
+          "query": "FROM cisco-jina-corpus\n| WHERE source == \"lifecycle\"\n| STATS docs = COUNT(*) BY system"
         },
-        "metrics": [
-          {
-            "column": "docs"
-          }
-        ],
-        "group_by": [
-          {
-            "column": "system"
-          }
-        ],
-        "styling": {
-          "donut_hole": "m"
-        }
+        "metrics": [{ "column": "docs" }],
+        "group_by": [{ "column": "system" }],
+        "styling": { "donut_hole": "m" }
       }
     },
     {
       "id": "life-bytes",
       "type": "vis",
-      "grid": {
-        "x": 24,
-        "y": 4,
-        "w": 24,
-        "h": 12
-      },
+      "grid": { "x": 24, "y": 9, "w": 24, "h": 12 },
       "config": {
-        "title": "Lifecycle payload bytes",
-        "type": "xy",
-        "axis": {
-          "x": {
-            "title": {
-              "visible": false
-            }
-          },
-          "y": {
-            "title": {
-              "visible": false
-            }
-          }
+        "title": "Lifecycle payload bytes by system",
+        "type": "data_table",
+        "data_source": {
+          "type": "esql",
+          "query": "FROM cisco-jina-corpus\n| WHERE source == \"lifecycle\" AND bytes IS NOT NULL\n| STATS total_bytes = SUM(bytes) BY system\n| SORT total_bytes DESC"
         },
-        "layers": [
-          {
-            "type": "bar",
-            "data_source": {
-              "type": "esql",
-              "query": "FROM \"cisco-jina-corpus\"\n| WHERE source == \"lifecycle\" AND bytes IS NOT NULL\n| STATS total_bytes = SUM(bytes) BY system\n| SORT total_bytes DESC"
-            },
-            "x": {
-              "column": "system"
-            },
-            "y": [
-              {
-                "column": "total_bytes"
-              }
-            ]
-          }
-        ]
+        "sampling": 1,
+        "ignore_global_filters": false,
+        "rows": [{ "column": "system" }, { "column": "total_bytes" }],
+        "styling": { "paging": 10 }
       }
     }
   ]
