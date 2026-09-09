@@ -98,7 +98,9 @@ FROM "cisco-jina-corpus"
 
 Open **AI Agent** in this Kibana (the chat panel next to Discover — not Agent Builder). Ask in plain language what you just proved in ES|QL:
 
-> In `cisco-jina-corpus`, compare keyword matches for “legal” vs documents about vendor lock-in or switching costs. Why is Umbrella a false friend?
+```text
+In cisco-jina-corpus, compare keyword matches for “legal” vs documents about vendor lock-in or switching costs. Why is Umbrella a false friend?
+```
 
 You should get the same story: keyword hits legal-hold noise; concept / semantic neighborhood finds counsel and lock-in deals. ES|QL is precise and auditable; AI Agent is a faster way to ask the same question.
 

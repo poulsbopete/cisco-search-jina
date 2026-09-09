@@ -79,7 +79,9 @@ FROM "cisco-jina-corpus"
 
 Open **AI Agent** in this Kibana. Ask:
 
-> In `cisco-jina-corpus`, run the same vendor-lock-in / Webex intent separately for `us-gov-east` and `us-gov-west`. Why do we search locally after CCR instead of one global Gov query?
+```text
+In cisco-jina-corpus, run the same vendor-lock-in / Webex intent separately for us-gov-east and us-gov-west. Why do we search locally after CCR instead of one global Gov query?
+```
 
 You should get the East/West slice story that matches your ES|QL — same concepts, local search, no cross-boundary query plane.
 
