@@ -53,7 +53,9 @@ Five Vega-Lite dashboards on `cisco-jina-corpus` (specs in `kibana/vega/`). Each
 | Webex CCR | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/b3e910f8-1f76-4d72-a8be-dd11e313b331 |
 | CIRCUIT ECS | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/ee0ce4a4-4541-4d39-9c54-fac530788b4b |
 
-Workflow (manual run): https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/workflows/cisco-jina-dashboard-tour — YAML in `kibana/workflows/cisco-jina-dashboard-tour.yaml`. Redeploy: `KIBANA_URL=… KIBANA_API_KEY=… python3 scripts/deploy_kibana_vega_dashboards.py`.
+Workflow (manual run): https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/workflows/cisco-jina-dashboard-tour — YAML in `kibana/workflows/cisco-jina-dashboard-tour.yaml`. Redeploy Search-AI: `KIBANA_URL=… KIBANA_API_KEY=… python3 scripts/deploy_kibana_vega_dashboards.py`.
+
+**Instruqt labs** seed the same five dashboards into each learner’s Serverless Kibana at setup (`workshop-assets/dashboards/` + `seed_cisco_jina_dashboards.py`). A new invite is required after track push.
 
 ## Three layers (do not mix them)
 

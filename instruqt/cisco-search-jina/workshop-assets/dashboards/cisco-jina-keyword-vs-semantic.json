@@ -1,0 +1,175 @@
+{
+  "title": "Cisco Jina \u2014 Keyword vs semantic",
+  "description": "MATCH(legal) vs vendor-lock-in concepts on cisco-jina-corpus.",
+  "tags": [
+    "cisco",
+    "jina",
+    "workshop",
+    "cisco-search-jina"
+  ],
+  "time_range": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "options": {
+    "use_margins": true,
+    "sync_colors": true,
+    "sync_cursor": true,
+    "sync_tooltips": false,
+    "hide_panel_titles": false,
+    "auto_apply_filters": true,
+    "hide_panel_borders": false
+  },
+  "query": {
+    "expression": "",
+    "language": "kuery"
+  },
+  "filters": [],
+  "panels": [
+    {
+      "id": "md-hero",
+      "type": "markdown",
+      "grid": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 4
+      },
+      "config": {
+        "content": "## Keyword vs semantic\n\n**Left:** `MATCH(content, \"legal\")` \u2014 OpenSearch-shaped token ceiling (Umbrella legal-hold noise).\n\n**Right / bottom:** concept `vendor-lock-in` and top concepts \u2014 Jina neighborhood (Acme stays).",
+        "settings": {
+          "open_links_in_new_tab": true
+        }
+      }
+    },
+    {
+      "id": "kw-legal",
+      "type": "vis",
+      "grid": {
+        "x": 0,
+        "y": 4,
+        "w": 24,
+        "h": 12
+      },
+      "config": {
+        "title": "Keyword MATCH(legal) by account",
+        "type": "xy",
+        "axis": {
+          "x": {
+            "title": {
+              "visible": false
+            }
+          },
+          "y": {
+            "title": {
+              "visible": false
+            }
+          }
+        },
+        "layers": [
+          {
+            "type": "bar",
+            "data_source": {
+              "type": "esql",
+              "query": "FROM \"cisco-jina-corpus\"\n| WHERE MATCH(content, \"legal\")\n| STATS hits = COUNT(*) BY account\n| SORT hits DESC"
+            },
+            "x": {
+              "column": "account"
+            },
+            "y": [
+              {
+                "column": "hits"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "sem-lockin",
+      "type": "vis",
+      "grid": {
+        "x": 24,
+        "y": 4,
+        "w": 24,
+        "h": 12
+      },
+      "config": {
+        "title": "Concept vendor-lock-in by account",
+        "type": "xy",
+        "axis": {
+          "x": {
+            "title": {
+              "visible": false
+            }
+          },
+          "y": {
+            "title": {
+              "visible": false
+            }
+          }
+        },
+        "layers": [
+          {
+            "type": "bar",
+            "data_source": {
+              "type": "esql",
+              "query": "FROM \"cisco-jina-corpus\"\n| MV_EXPAND concepts\n| WHERE concepts == \"vendor-lock-in\"\n| STATS hits = COUNT(*) BY account\n| SORT hits DESC"
+            },
+            "x": {
+              "column": "account"
+            },
+            "y": [
+              {
+                "column": "hits"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "concepts",
+      "type": "vis",
+      "grid": {
+        "x": 0,
+        "y": 16,
+        "w": 48,
+        "h": 12
+      },
+      "config": {
+        "title": "Top concepts across corpus",
+        "type": "xy",
+        "axis": {
+          "x": {
+            "title": {
+              "visible": false
+            }
+          },
+          "y": {
+            "title": {
+              "visible": false
+            }
+          }
+        },
+        "layers": [
+          {
+            "type": "bar_horizontal",
+            "data_source": {
+              "type": "esql",
+              "query": "FROM \"cisco-jina-corpus\"\n| MV_EXPAND concepts\n| STATS docs = COUNT(*) BY concepts\n| SORT docs DESC\n| LIMIT 12"
+            },
+            "x": {
+              "column": "concepts"
+            },
+            "y": [
+              {
+                "column": "docs"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

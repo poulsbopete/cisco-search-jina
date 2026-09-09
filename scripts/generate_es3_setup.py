@@ -9,8 +9,18 @@ ROOT = Path(__file__).resolve().parent.parent
 TRACK = ROOT / "instruqt" / "cisco-search-jina"
 HEAD = ROOT / "scripts" / "setup-es3-api.head"
 SEED = TRACK / "track_scripts" / "seed_cisco_search.py"
+DASH_SEED = TRACK / "track_scripts" / "seed_cisco_jina_dashboards.py"
 CORPUS = ROOT / "data" / "workshop-corpus.json"
+DASH_DIR = TRACK / "workshop-assets" / "dashboards"
 OUT = TRACK / "track_scripts" / "setup-es3-api"
+
+DASHBOARDS = (
+    "cisco-jina-keyword-vs-semantic.json",
+    "cisco-jina-crm.json",
+    "cisco-jina-lifecycle.json",
+    "cisco-jina-webex-ccr.json",
+    "cisco-jina-circuit.json",
+)
 
 
 def b64(path: Path) -> str:
@@ -20,16 +30,33 @@ def b64(path: Path) -> str:
 def main() -> None:
     if not HEAD.is_file():
         raise SystemExit(f"missing {HEAD}")
+    if not DASH_SEED.is_file():
+        raise SystemExit(f"missing {DASH_SEED}")
+
+    dash_blocks = ["mkdir -p /tmp/dashboards"]
+    for name in DASHBOARDS:
+        path = DASH_DIR / name
+        if not path.is_file():
+            raise SystemExit(f"missing dashboard {path}")
+        tag = "CISCO_JINA_DASH_" + name.replace(".json", "").replace("-", "_").upper()
+        dash_blocks.append(f"base64 -d <<'{tag}' > /tmp/dashboards/{name}\n{b64(path)}\n{tag}")
+
+    dash_embed = "\n".join(dash_blocks)
+
     fragment = f"""# Workshop seed — always index cisco-jina-corpus (do not gate on WORKSHOP_SEED)
 set -euo pipefail
 
 echo "Materializing Cisco + Jina seed assets under /tmp..."
+{dash_embed}
 base64 -d <<'CISCO_JINA_CORPUS' > /tmp/workshop-corpus.json
 {b64(CORPUS)}
 CISCO_JINA_CORPUS
 base64 -d <<'CISCO_JINA_SEED_PY' > /tmp/seed_cisco_search.py
 {b64(SEED)}
 CISCO_JINA_SEED_PY
+base64 -d <<'CISCO_JINA_DASH_PY' > /tmp/seed_cisco_jina_dashboards.py
+{b64(DASH_SEED)}
+CISCO_JINA_DASH_PY
 
 export ES_URL="${{ES_URL:-$(jq -r --arg region "${{REGIONS:-aws-us-east-1}}" '.[$region].endpoints.elasticsearch // empty' /tmp/project_results.json)}}"
 export KIBANA_URL="${{KIBANA_URL:-$(jq -r --arg region "${{REGIONS:-aws-us-east-1}}" '.[$region].endpoints.kibana // empty' /tmp/project_results.json)}}"
@@ -53,6 +80,14 @@ else
   echo "ERROR: workshop seed failed — see /tmp/workshop-seed.log"
   tail -80 /tmp/workshop-seed.log || true
   exit 1
+fi
+
+echo "Installing workshop dashboards into $KIBANA_URL"
+if python3 /tmp/seed_cisco_jina_dashboards.py > /tmp/workshop-dashboards.log 2>&1; then
+  tail -40 /tmp/workshop-dashboards.log || true
+else
+  echo "WARN: dashboard seed failed — corpus is still usable; see /tmp/workshop-dashboards.log"
+  tail -80 /tmp/workshop-dashboards.log || true
 fi
 
 echo "done"

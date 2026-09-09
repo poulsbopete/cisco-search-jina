@@ -109,3 +109,4 @@ You should get the same story: keyword hits legal-hold noise; concept / semantic
 - You queried **`cisco-jina-corpus`** with ES|QL.
 - You can explain why MATCH("legal") and `MV_INTERSECTS(concepts, [...])` disagree.
 - You asked **AI Agent** the same question and can compare the two approaches.
+- Optional: open **Dashboards** → **Cisco Jina — Keyword vs semantic** (seeded at lab start) for the same story as charts.

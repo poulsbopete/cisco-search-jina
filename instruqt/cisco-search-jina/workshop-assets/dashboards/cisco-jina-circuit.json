@@ -1,0 +1,132 @@
+{
+  "title": "Cisco Jina \u2014 CIRCUIT LLM proxy (ECS)",
+  "description": "CIRCUIT ECS concept neighborhood and regions.",
+  "tags": [
+    "cisco",
+    "jina",
+    "workshop",
+    "cisco-search-jina"
+  ],
+  "time_range": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "options": {
+    "use_margins": true,
+    "sync_colors": true,
+    "sync_cursor": true,
+    "sync_tooltips": false,
+    "hide_panel_titles": false,
+    "auto_apply_filters": true,
+    "hide_panel_borders": false
+  },
+  "query": {
+    "expression": "",
+    "language": "kuery"
+  },
+  "filters": [],
+  "panels": [
+    {
+      "id": "md-hero",
+      "type": "markdown",
+      "grid": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 4
+      },
+      "config": {
+        "content": "## CIRCUIT LLM proxy\n\nPolicy deny, token budget, PII leakage. Customers choose Elastic LLM, CIRCUIT, or both \u2014 Elastic searches the ECS stream either way.",
+        "settings": {
+          "open_links_in_new_tab": true
+        }
+      }
+    },
+    {
+      "id": "circuit-concepts",
+      "type": "vis",
+      "grid": {
+        "x": 0,
+        "y": 4,
+        "w": 24,
+        "h": 12
+      },
+      "config": {
+        "title": "CIRCUIT concepts",
+        "type": "xy",
+        "axis": {
+          "x": {
+            "title": {
+              "visible": false
+            }
+          },
+          "y": {
+            "title": {
+              "visible": false
+            }
+          }
+        },
+        "layers": [
+          {
+            "type": "bar_horizontal",
+            "data_source": {
+              "type": "esql",
+              "query": "FROM \"cisco-jina-corpus\"\n| WHERE source == \"circuit\"\n| MV_EXPAND concepts\n| STATS docs = COUNT(*) BY concepts\n| SORT docs DESC"
+            },
+            "x": {
+              "column": "concepts"
+            },
+            "y": [
+              {
+                "column": "docs"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "circuit-region",
+      "type": "vis",
+      "grid": {
+        "x": 24,
+        "y": 4,
+        "w": 24,
+        "h": 12
+      },
+      "config": {
+        "title": "CIRCUIT events by region",
+        "type": "xy",
+        "axis": {
+          "x": {
+            "title": {
+              "visible": false
+            }
+          },
+          "y": {
+            "title": {
+              "visible": false
+            }
+          }
+        },
+        "layers": [
+          {
+            "type": "bar",
+            "data_source": {
+              "type": "esql",
+              "query": "FROM \"cisco-jina-corpus\"\n| WHERE source == \"circuit\"\n| STATS events = COUNT(*) BY region\n| SORT events DESC"
+            },
+            "x": {
+              "column": "region"
+            },
+            "y": [
+              {
+                "column": "events"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
