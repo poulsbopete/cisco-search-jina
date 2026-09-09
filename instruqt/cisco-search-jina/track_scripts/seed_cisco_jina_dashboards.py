@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Install Cisco + Jina workshop dashboards into Kibana (Serverless Search).
 
-Mirrors the proven cisco-serverless-workshop seed plus dashboard-alert-migration
-retries (?apiVersion=1). Validated patterns:
+Mirrors the proven cisco-serverless-workshop seed:
   - Prefer ApiKey, then Basic (password)
   - Ensure a data view for cisco-jina-corpus
-  - PUT/POST /api/dashboards with Elastic-Api-Version 2023-10-31
-  - Fallback: ?apiVersion=1 + Elastic-Api-Version: 1
+  - Seed library markdown SOs (workflow refreshes these every 10m)
+  - PUT/POST /api/dashboards with Elastic-Api-Version header only (no ?apiVersion=)
+  - Markdown panels are by-value content (ref_id is rejected as invalid_union here)
 """
 from __future__ import annotations
 
@@ -199,25 +199,41 @@ def upsert_dashboard(base: str, header: str, dash_id: str, spec: dict) -> None:
         query = dict(query)
         query["language"] = "kql"
         payload["query"] = query
+
+    # Serverless Dashboards API (2023-10-31) rejects markdown config.ref_id (invalid_union).
+    # Always send by-value content; keep library markdown SOs for the scheduled workflow.
+    for panel in payload.get("panels") or []:
+        if not isinstance(panel, dict) or panel.get("type") != "markdown":
+            continue
+        cfg = dict(panel.get("config") or {})
+        ref = cfg.get("ref_id")
+        if ref and not cfg.get("content"):
+            # so id cisco-jina-md-keyword → file cisco-jina-md-keyword.md
+            cfg["content"] = load_markdown(f"{ref}.md")
+            cfg.pop("ref_id", None)
+            cfg.setdefault("settings", {"open_links_in_new_tab": True})
+            panel["config"] = cfg
+        elif "ref_id" in cfg and "content" in cfg:
+            cfg.pop("ref_id", None)
+            panel["config"] = cfg
+
     raw = json.dumps(payload).encode()
 
-    attempts: list[tuple[str, str, str | None]] = [
-        # (method, url, Elastic-Api-Version header)
+    # This Kibana rejects ?apiVersion= — version must be Elastic-Api-Version header only.
+    attempts: list[tuple[str, str, str]] = [
         ("PUT", f"{base}/api/dashboards/{dash_id}", API_VERSION_DATED),
         ("POST", f"{base}/api/dashboards", API_VERSION_DATED),
-        ("PUT", f"{base}/api/dashboards/{dash_id}?apiVersion=1", "1"),
-        ("POST", f"{base}/api/dashboards?apiVersion=1", "1"),
-        ("PUT", f"{base}/api/dashboards/{dash_id}?apiVersion=1", None),
-        ("POST", f"{base}/api/dashboards?apiVersion=1", None),
+        ("PUT", f"{base}/api/dashboards/{dash_id}", "1"),
+        ("POST", f"{base}/api/dashboards", "1"),
     ]
 
     errors: list[str] = []
     for method, url, ver in attempts:
         code, resp = request(method, url, header, raw, api_version=ver)
         if code in (200, 201):
-            print(f"dashboard upserted ({method} ver={ver}): {dash_id}")
+            print(f"dashboard upserted ({method} Elastic-Api-Version={ver}): {dash_id}")
             return
-        errors.append(f"{method} ver={ver} → HTTP {code}: {resp[:220]}")
+        errors.append(f"{method} ver={ver} → HTTP {code}: {resp[:800]}")
 
     raise RuntimeError(f"dashboard {dash_id} failed:\n  " + "\n  ".join(errors))
 

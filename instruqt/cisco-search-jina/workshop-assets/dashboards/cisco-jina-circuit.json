@@ -36,7 +36,10 @@
         "h": 7
       },
       "config": {
-        "ref_id": "cisco-jina-md-circuit"
+        "content": "## CIRCUIT LLM proxy (ECS)\n\n_Refreshed by **Workflows \u2192 Cisco Jina Workshop \u2014 Dashboard notes** (every 10 minutes)._\n\n**What you are looking at**\n- Concept neighborhood: circuit, llm-proxy, prompt-injection, pii, token-budget, \u2026\n- Events by region\n\n**Machine Learning (Serverless)**\n- Left nav \u2192 **Machine Learning** \u2192 **Anomaly detection** \u2192 job `cisco-jina-circuit-tokens`\n- Data: `cisco-jina-circuit-metrics` (hourly CIRCUIT proxy tokens + policy denies, with a planted token-budget spike)\n- Open **Anomaly explorer** \u2014 same story as the CIRCUIT corpus docs, on time-series ML\n\n**Talking point:** customers choose Elastic LLM, CIRCUIT, or both; Elastic searches the ECS stream either way \u2014 and ML flags unusual proxy spend without a second analytics stack.\n",
+        "settings": {
+          "open_links_in_new_tab": true
+        }
       }
     },
     {
@@ -53,12 +56,12 @@
         "type": "metric",
         "data_source": {
           "type": "esql",
-          "query": "FROM cisco-jina-corpus\n| WHERE source == \"circuit\"\n| STATS `CIRCUIT events` = COUNT(*)"
+          "query": "FROM cisco-jina-corpus\n| WHERE source == \"circuit\"\n| STATS circuit_events = COUNT(*)"
         },
         "metrics": [
           {
             "type": "primary",
-            "column": "CIRCUIT events"
+            "column": "circuit_events"
           }
         ]
       }
@@ -77,12 +80,12 @@
         "type": "metric",
         "data_source": {
           "type": "esql",
-          "query": "FROM cisco-jina-corpus\n| WHERE source == \"circuit\"\n| MV_EXPAND concepts\n| STATS `Concept tags` = COUNT(*)"
+          "query": "FROM cisco-jina-corpus\n| WHERE source == \"circuit\"\n| MV_EXPAND concepts\n| STATS concept_tags = COUNT(*)"
         },
         "metrics": [
           {
             "type": "primary",
-            "column": "Concept tags"
+            "column": "concept_tags"
           }
         ]
       }

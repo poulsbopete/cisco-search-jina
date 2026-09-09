@@ -36,7 +36,10 @@
         "h": 7
       },
       "config": {
-        "ref_id": "cisco-jina-md-webex"
+        "content": "## Webex / CCR East & West\n\n_Refreshed by **Workflows \u2192 Cisco Jina Workshop \u2014 Dashboard notes** (every 10 minutes)._\n\n**What you are looking at**\n- Gov East / West \u00d7 source coverage\n- Webex + infra artifact counts by region\n\n**Talking point:** CCR replicates; search locally \u2014 never cross the Gov boundary at query time.\n",
+        "settings": {
+          "open_links_in_new_tab": true
+        }
       }
     },
     {
@@ -53,12 +56,12 @@
         "type": "metric",
         "data_source": {
           "type": "esql",
-          "query": "FROM cisco-jina-corpus\n| WHERE region LIKE \"us-gov-*\"\n| STATS `Gov-region docs` = COUNT(*)"
+          "query": "FROM cisco-jina-corpus\n| WHERE region LIKE \"us-gov-*\"\n| STATS gov_docs = COUNT(*)"
         },
         "metrics": [
           {
             "type": "primary",
-            "column": "Gov-region docs"
+            "column": "gov_docs"
           }
         ]
       }
@@ -77,12 +80,12 @@
         "type": "metric",
         "data_source": {
           "type": "esql",
-          "query": "FROM cisco-jina-corpus\n| WHERE source IN (\"webex\", \"infra\")\n| STATS `Webex + infra` = COUNT(*)"
+          "query": "FROM cisco-jina-corpus\n| WHERE source IN (\"webex\", \"infra\")\n| STATS webex_infra_docs = COUNT(*)"
         },
         "metrics": [
           {
             "type": "primary",
-            "column": "Webex + infra"
+            "column": "webex_infra_docs"
           }
         ]
       }

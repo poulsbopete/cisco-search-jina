@@ -36,7 +36,10 @@
         "h": 7
       },
       "config": {
-        "ref_id": "cisco-jina-md-crm"
+        "content": "## CRM Analytics\n\n_Refreshed by **Workflows \u2192 Cisco Jina Workshop \u2014 Dashboard notes** (every 10 minutes)._\n\n**What you are looking at**\n- Pipeline dollars and deal counts by Salesforce stage\n- Competitor graph for similar-deal narratives\n\n**Talking point:** find deals like Acme\u2019s Webex renewal with a reason for every match.\n",
+        "settings": {
+          "open_links_in_new_tab": true
+        }
       }
     },
     {
@@ -53,12 +56,12 @@
         "type": "metric",
         "data_source": {
           "type": "esql",
-          "query": "FROM cisco-jina-corpus\n| WHERE source == \"crm\"\n| STATS `CRM deals` = COUNT(*)"
+          "query": "FROM cisco-jina-corpus\n| WHERE source == \"crm\"\n| STATS crm_deals = COUNT(*)"
         },
         "metrics": [
           {
             "type": "primary",
-            "column": "CRM deals"
+            "column": "crm_deals"
           }
         ]
       }
@@ -77,12 +80,12 @@
         "type": "metric",
         "data_source": {
           "type": "esql",
-          "query": "FROM cisco-jina-corpus\n| WHERE source == \"crm\"\n| STATS `Pipeline $` = SUM(amount)"
+          "query": "FROM cisco-jina-corpus\n| WHERE source == \"crm\"\n| STATS pipeline_usd = SUM(amount)"
         },
         "metrics": [
           {
             "type": "primary",
-            "column": "Pipeline $"
+            "column": "pipeline_usd"
           }
         ]
       }

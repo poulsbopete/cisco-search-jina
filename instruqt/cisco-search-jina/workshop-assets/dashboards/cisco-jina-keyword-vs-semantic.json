@@ -1,8 +1,16 @@
 {
-  "title": "Cisco Jina — Keyword vs semantic",
+  "title": "Cisco Jina \u2014 Keyword vs semantic",
   "description": "MATCH(legal) vs vendor-lock-in concepts on cisco-jina-corpus.",
-  "tags": ["cisco", "jina", "workshop", "cisco-search-jina"],
-  "time_range": { "from": "now-7d", "to": "now" },
+  "tags": [
+    "cisco",
+    "jina",
+    "workshop",
+    "cisco-search-jina"
+  ],
+  "time_range": {
+    "from": "now-7d",
+    "to": "now"
+  },
   "options": {
     "use_margins": true,
     "sync_colors": true,
@@ -12,63 +20,109 @@
     "auto_apply_filters": true,
     "hide_panel_borders": false
   },
-  "query": { "expression": "", "language": "kql" },
+  "query": {
+    "expression": "",
+    "language": "kql"
+  },
   "filters": [],
   "panels": [
     {
       "id": "md-hero",
       "type": "markdown",
-      "grid": { "x": 0, "y": 0, "w": 48, "h": 8 },
+      "grid": {
+        "x": 0,
+        "y": 0,
+        "w": 48,
+        "h": 8
+      },
       "config": {
-        "ref_id": "cisco-jina-md-keyword"
+        "content": "## Keyword vs semantic\n\n_Refreshed by **Workflows \u2192 Cisco Jina Workshop \u2014 Dashboard notes** (every 10 minutes)._\n\n**What you are looking at**\n- Metrics: corpus size vs `MATCH(content, \"legal\")` vs concept `vendor-lock-in`\n- Left table: keyword / OpenSearch-shaped ceiling \u2014 Umbrella e-discovery *legal hold* noise\n- Right table: semantic neighborhood \u2014 Acme stays; Umbrella drops\n- Bottom: top concepts across `cisco-jina-corpus`\n\n**Talking point:** same business question, two retrieval ceilings.\n",
+        "settings": {
+          "open_links_in_new_tab": true
+        }
       }
     },
     {
       "id": "kpi-docs",
       "type": "vis",
-      "grid": { "x": 0, "y": 8, "w": 16, "h": 5 },
+      "grid": {
+        "x": 0,
+        "y": 8,
+        "w": 16,
+        "h": 5
+      },
       "config": {
         "title": "",
         "type": "metric",
         "data_source": {
           "type": "esql",
-          "query": "FROM cisco-jina-corpus\n| STATS `Corpus docs` = COUNT(*)"
+          "query": "FROM cisco-jina-corpus\n| STATS corpus_docs = COUNT(*)"
         },
-        "metrics": [{ "type": "primary", "column": "Corpus docs" }]
+        "metrics": [
+          {
+            "type": "primary",
+            "column": "corpus_docs"
+          }
+        ]
       }
     },
     {
       "id": "kpi-legal",
       "type": "vis",
-      "grid": { "x": 16, "y": 8, "w": 16, "h": 5 },
+      "grid": {
+        "x": 16,
+        "y": 8,
+        "w": 16,
+        "h": 5
+      },
       "config": {
         "title": "",
         "type": "metric",
         "data_source": {
           "type": "esql",
-          "query": "FROM cisco-jina-corpus\n| WHERE MATCH(content, \"legal\")\n| STATS `MATCH(legal)` = COUNT(*)"
+          "query": "FROM cisco-jina-corpus\n| WHERE MATCH(content, \"legal\")\n| STATS legal_hits = COUNT(*)"
         },
-        "metrics": [{ "type": "primary", "column": "MATCH(legal)" }]
+        "metrics": [
+          {
+            "type": "primary",
+            "column": "legal_hits"
+          }
+        ]
       }
     },
     {
       "id": "kpi-lockin",
       "type": "vis",
-      "grid": { "x": 32, "y": 8, "w": 16, "h": 5 },
+      "grid": {
+        "x": 32,
+        "y": 8,
+        "w": 16,
+        "h": 5
+      },
       "config": {
         "title": "",
         "type": "metric",
         "data_source": {
           "type": "esql",
-          "query": "FROM cisco-jina-corpus\n| MV_EXPAND concepts\n| WHERE concepts == \"vendor-lock-in\"\n| STATS `vendor-lock-in` = COUNT(*)"
+          "query": "FROM cisco-jina-corpus\n| MV_EXPAND concepts\n| WHERE concepts == \"vendor-lock-in\"\n| STATS lockin_hits = COUNT(*)"
         },
-        "metrics": [{ "type": "primary", "column": "vendor-lock-in" }]
+        "metrics": [
+          {
+            "type": "primary",
+            "column": "lockin_hits"
+          }
+        ]
       }
     },
     {
       "id": "kw-legal-table",
       "type": "vis",
-      "grid": { "x": 0, "y": 13, "w": 24, "h": 12 },
+      "grid": {
+        "x": 0,
+        "y": 13,
+        "w": 24,
+        "h": 12
+      },
       "config": {
         "title": "Keyword MATCH(legal) by account",
         "type": "data_table",
@@ -78,14 +132,28 @@
         },
         "sampling": 1,
         "ignore_global_filters": false,
-        "rows": [{ "column": "account" }, { "column": "hits" }],
-        "styling": { "paging": 10 }
+        "rows": [
+          {
+            "column": "account"
+          },
+          {
+            "column": "hits"
+          }
+        ],
+        "styling": {
+          "paging": 10
+        }
       }
     },
     {
       "id": "sem-lockin-table",
       "type": "vis",
-      "grid": { "x": 24, "y": 13, "w": 24, "h": 12 },
+      "grid": {
+        "x": 24,
+        "y": 13,
+        "w": 24,
+        "h": 12
+      },
       "config": {
         "title": "Concept vendor-lock-in by account",
         "type": "data_table",
@@ -95,20 +163,42 @@
         },
         "sampling": 1,
         "ignore_global_filters": false,
-        "rows": [{ "column": "account" }, { "column": "hits" }],
-        "styling": { "paging": 10 }
+        "rows": [
+          {
+            "column": "account"
+          },
+          {
+            "column": "hits"
+          }
+        ],
+        "styling": {
+          "paging": 10
+        }
       }
     },
     {
       "id": "concepts-bar",
       "type": "vis",
-      "grid": { "x": 0, "y": 25, "w": 48, "h": 12 },
+      "grid": {
+        "x": 0,
+        "y": 25,
+        "w": 48,
+        "h": 12
+      },
       "config": {
         "title": "Top concepts across corpus",
         "type": "xy",
         "axis": {
-          "x": { "title": { "visible": false } },
-          "y": { "title": { "visible": false } }
+          "x": {
+            "title": {
+              "visible": false
+            }
+          },
+          "y": {
+            "title": {
+              "visible": false
+            }
+          }
         },
         "layers": [
           {
@@ -117,8 +207,14 @@
               "type": "esql",
               "query": "FROM cisco-jina-corpus\n| MV_EXPAND concepts\n| STATS docs = COUNT(*) BY concepts\n| SORT docs DESC\n| LIMIT 12"
             },
-            "x": { "column": "concepts" },
-            "y": [{ "column": "docs" }]
+            "x": {
+              "column": "concepts"
+            },
+            "y": [
+              {
+                "column": "docs"
+              }
+            ]
           }
         ]
       }
