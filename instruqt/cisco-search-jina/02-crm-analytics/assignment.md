@@ -9,10 +9,15 @@ notes:
   contents: |
     ## While you wait…
 
-    <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=crm"
-      width="100%" height="560" frameborder="0"
-      style="border-radius:8px;display:block;width:100%;height:560px;border:0">
+    Skim the storyboard (Search · Jina · deploy options). Use **Prev / Next** inside the frame.
+
+    <p><a href="https://cisco-search-jina.vercel.app/slides?section=crm&v=3" target="_blank" rel="noopener noreferrer">Open full slides in a new tab</a></p>
+
+    <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=crm&v=3"
+      width="100%" height="360" frameborder="0"
+      style="border-radius:8px;display:block;width:100%;height:360px;max-height:40vh;border:0;background:#09090b">
     </iframe>
+
 tabs:
 - id: rlkxkwgckcyc
   title: Elastic Serverless Search

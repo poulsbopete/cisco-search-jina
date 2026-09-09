@@ -223,9 +223,11 @@ export function SlideDeck({ embed, section, start }: Props) {
         embed ? "flex h-[100dvh] min-h-0 flex-col" : "min-h-[calc(100dvh-3rem)]",
       )}
     >
-      <div className="pointer-events-none absolute inset-0 opacity-80">
-        <FallingPattern className="h-full" density={1.1} />
-      </div>
+      {embed ? null : (
+        <div className="pointer-events-none absolute inset-0 opacity-80">
+          <FallingPattern className="h-full" density={1.1} />
+        </div>
+      )}
       <div
         className={cn(
           "relative z-10 flex flex-col",
@@ -235,7 +237,7 @@ export function SlideDeck({ embed, section, start }: Props) {
         <header
           className={cn(
             "flex shrink-0 items-center justify-between gap-4 border-b border-white/10 bg-black/30 backdrop-blur-md",
-            embed ? "px-4 py-2" : "px-5 py-3",
+            embed ? "px-3 py-1.5" : "px-5 py-3",
           )}
         >
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cyan-300">
@@ -248,10 +250,10 @@ export function SlideDeck({ embed, section, start }: Props) {
 
         <main
           className={cn(
-            "flex min-h-0 flex-1 flex-col justify-center",
+            "flex min-h-0 flex-1 flex-col",
             embed
-              ? "overflow-y-auto px-4 py-4 sm:px-6"
-              : "px-6 py-10 sm:px-12",
+              ? "justify-start overflow-y-auto px-3 py-3 sm:px-4"
+              : "justify-center px-6 py-10 sm:px-12",
           )}
         >
           <div className="mx-auto w-full max-w-5xl text-center">
@@ -264,7 +266,7 @@ export function SlideDeck({ embed, section, start }: Props) {
               className={cn(
                 "text-balance font-semibold tracking-tight text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.8)]",
                 embed
-                  ? "text-2xl sm:text-3xl"
+                  ? "text-xl sm:text-2xl"
                   : "mt-4 text-4xl sm:text-5xl md:text-6xl",
               )}
             >
@@ -274,7 +276,7 @@ export function SlideDeck({ embed, section, start }: Props) {
               <p
                 className={cn(
                   "mx-auto max-w-3xl text-pretty text-zinc-300",
-                  embed ? "mt-2 text-sm sm:text-base" : "mt-5 text-lg sm:text-xl",
+                  embed ? "mt-1.5 text-xs sm:text-sm" : "mt-5 text-lg sm:text-xl",
                 )}
               >
                 {slide.subtitle}
@@ -284,34 +286,39 @@ export function SlideDeck({ embed, section, start }: Props) {
             {slide.statCards?.length ? (
               <div
                 className={cn(
-                  "grid gap-3 sm:grid-cols-2 lg:grid-cols-3",
-                  embed ? "mt-4" : "mt-10",
+                  "grid gap-2 sm:grid-cols-2 lg:grid-cols-3",
+                  embed ? "mt-3" : "mt-10 gap-3",
                 )}
               >
                 {slide.statCards.map((s) => (
                   <div
                     key={s.title}
                     className={cn(
-                      "rounded-2xl border border-white/10 bg-black/40 text-left backdrop-blur-md",
-                      embed ? "p-3" : "p-5",
+                      "rounded-xl border border-white/10 bg-black/40 text-left backdrop-blur-md",
+                      embed ? "p-2.5" : "rounded-2xl p-5",
                     )}
                   >
                     <p
                       className={cn(
                         "font-mono font-extrabold tracking-tight text-cyan-300",
-                        embed ? "text-2xl" : "text-4xl",
+                        embed ? "text-lg" : "text-4xl",
                       )}
                     >
                       {s.figure}
                     </p>
-                    <p className="mt-2 font-mono text-sm font-semibold uppercase tracking-wide text-zinc-200">
+                    <p
+                      className={cn(
+                        "font-mono font-semibold uppercase tracking-wide text-zinc-200",
+                        embed ? "mt-1 text-[11px]" : "mt-2 text-sm",
+                      )}
+                    >
                       {s.title}
                     </p>
                     {s.caption ? (
                       <p
                         className={cn(
-                          "mt-1 leading-snug text-zinc-400",
-                          embed ? "text-xs" : "text-sm",
+                          "leading-snug text-zinc-400",
+                          embed ? "mt-1 text-[11px]" : "mt-1 text-sm",
                         )}
                       >
                         {s.caption}
@@ -325,24 +332,25 @@ export function SlideDeck({ embed, section, start }: Props) {
             {slide.bullets?.length ? (
               <ul
                 className={cn(
-                  "mx-auto max-w-3xl space-y-2 text-left text-zinc-100",
-                  embed ? "mt-4 text-sm" : "mt-10 space-y-3 text-base sm:text-lg",
+                  "mx-auto max-w-3xl text-left text-zinc-100",
+                  embed
+                    ? "mt-3 space-y-1.5 text-xs sm:text-sm"
+                    : "mt-10 space-y-3 text-base sm:text-lg",
                 )}
               >
                 {slide.bullets.map((b) => (
-                  <li key={b} className="flex gap-3 leading-snug">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300" />
+                  <li key={b} className="flex gap-2 leading-snug">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300" />
                     <span>{b}</span>
                   </li>
                 ))}
               </ul>
             ) : null}
 
-            {slide.demoHref ? (
-              <div className={embed ? "mt-4" : "mt-8"}>
+            {slide.demoHref && !embed ? (
+              <div className="mt-8">
                 <a
                   href={slide.demoHref}
-                  target={embed ? "_blank" : undefined}
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-5 py-3 font-mono text-sm font-semibold text-zinc-950 hover:brightness-110"
                 >
@@ -352,13 +360,8 @@ export function SlideDeck({ embed, section, start }: Props) {
               </div>
             ) : null}
 
-            {slide.sourceUrl ? (
-              <p
-                className={cn(
-                  "mx-auto max-w-3xl font-mono text-xs text-zinc-500",
-                  embed ? "mt-4" : "mt-8",
-                )}
-              >
+            {slide.sourceUrl && !embed ? (
+              <p className="mx-auto mt-8 max-w-3xl font-mono text-xs text-zinc-500">
                 Source:{" "}
                 <a
                   className="text-cyan-300 underline underline-offset-2"
@@ -373,7 +376,12 @@ export function SlideDeck({ embed, section, start }: Props) {
           </div>
         </main>
 
-        <footer className="shrink-0 border-t border-white/10 bg-black/30 px-4 py-3 backdrop-blur-md">
+        <footer
+          className={cn(
+            "shrink-0 border-t border-white/10 bg-black/40 backdrop-blur-md",
+            embed ? "px-3 py-2" : "px-4 py-3",
+          )}
+        >
           <div className="mx-auto flex max-w-5xl items-center justify-between gap-3">
             <button
               type="button"
