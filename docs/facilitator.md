@@ -4,18 +4,21 @@
 
 ## Live talk (not Instruqt)
 
-Name Cisco groups, not people: **CRM Analytics**, **Lifecycle Platform**, **Webex / Infrastructure**, **CIRCUIT**.
+Name Cisco groups, not people: **CRM Analytics**, **Lifecycle Platform**, **Webex / Infrastructure**, **CIRCUIT** — and name the wider footprint when relevant: **Talos**, **ThousandEyes**, **SD-WAN / Viptela**, **Hypershield**, **ASIG**.
 
-Short deck: what Elastic provides → Cisco groups (incl. CIRCUIT) → AI-first + Jina → CIRCUIT ECS slide → deploy options → lab.
+Short deck: offer → workshop teams → **live Cisco pipeline** (active + white space) → AI-first + Jina → CIRCUIT LLM choice → deploy → lab.
 
 - Opening / offer — `/slides?section=opening`
-- Cisco groups — `/slides?section=cisco`
-- CIRCUIT (ECS LLM proxy / security) — `/slides?section=circuit` and `/circuit`
+- Workshop teams — `/slides?section=cisco`
+- Live pipeline (Talos, TE, …) — `/slides?section=footprint`
+- CIRCUIT (LLM proxy · Elastic LLM and/or CIRCUIT) — `/slides?section=circuit` and `/circuit`
 - Search + Jina — `/slides?section=tech` and `/demo`, `/bundle`
-- Deploy (self-hosted / Hosted / Serverless) — `/slides?section=deploy` and `/ech`, `/fips`
+- Deploy — `/slides?section=deploy` and `/ech`, `/fips`
 - Lab CTA — `/slides?section=lab`
 
 **CIRCUIT attendees:** CIRCUIT is an **LLM proxy**. Customers choose **Elastic LLM**, **CIRCUIT**, or **both**. Elastic searches/alerts the ECS proxy stream either way; Jina for similar prompts/incidents. Production scale → Hosted or self-hosted; lab stays Serverless.
+
+**DCOS footprint note:** Workshop slide = internal product teams. Do not imply that is the whole Cisco account — call out **Talos** (biggest security) and **ThousandEyes** (already on Elastic) first.
 
 Deck: https://cisco-search-jina.vercel.app/slides
 

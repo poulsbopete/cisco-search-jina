@@ -6,6 +6,7 @@ export type InfographicKind =
   | "cisco-hub"
   | "offer-pipeline"
   | "groups-fan"
+  | "cisco-footprint"
   | "keyword-vs-semantic"
   | "elastic-jina"
   | "ecs-stream"
@@ -85,9 +86,14 @@ export function SlideInfographic({
             <Node key={g} label={g} compact={compact} />
           ))}
         </div>
-        <div className="my-2 flex justify-center">
-          <span className="font-mono text-[#049FD9]">{compact ? "↓" : "↓ ↓ ↓ ↓"}</span>
-        </div>
+        <p
+          className={cn(
+            "my-2 font-mono text-[#8FB8D0]",
+            compact ? "text-[9px]" : "text-[11px]",
+          )}
+        >
+          Today&apos;s workshop · plus Talos · ThousandEyes · SD-WAN · more across Cisco
+        </p>
         <div className="mx-auto max-w-md">
           <Node
             label="Elastic + Jina"
@@ -117,11 +123,15 @@ export function SlideInfographic({
   if (kind === "groups-fan") {
     return (
       <div className={shell}>
-        <div className="mx-auto mb-2 max-w-xs">
-          <Node label="One platform" sub="Same APIs · same relevance" accent compact={compact} />
-        </div>
-        <div className="flex justify-center font-mono text-[#049FD9]">↓</div>
-        <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+        <p
+          className={cn(
+            "mb-2 font-mono uppercase tracking-wide text-[#00BCEB]",
+            compact ? "text-[9px]" : "text-[10px]",
+          )}
+        >
+          Workshop teams · Elastic + Jina for their products
+        </p>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           {[
             { l: "CRM", s: "Similar deals · explainable" },
             { l: "Lifecycle", s: "Warehouses · objects · logs" },
@@ -129,6 +139,68 @@ export function SlideInfographic({
             { l: "CIRCUIT", s: "LLM proxy · your choice" },
           ].map((g) => (
             <Node key={g.l} label={g.l} sub={g.s} compact={compact} />
+          ))}
+        </div>
+        <div className="mx-auto mt-3 max-w-md">
+          <Node
+            label="Same platform story"
+            sub="Search · embeddings · deploy how you need"
+            accent
+            compact={compact}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (kind === "cisco-footprint") {
+    return (
+      <div className={shell}>
+        <p
+          className={cn(
+            "mb-2 text-left font-mono uppercase tracking-wide text-[#00BCEB]",
+            compact ? "text-[9px]" : "text-[10px]",
+          )}
+        >
+          Active Elastic relationships
+        </p>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+          {[
+            { l: "Talos", s: "Threat intel · log scale" },
+            { l: "ThousandEyes", s: "On Elastic · net o11y" },
+            { l: "SD-WAN", s: "Viptela OEM · prod" },
+            { l: "Hypershield", s: "AI search POC" },
+            { l: "ASIG", s: "Agentic security" },
+          ].map((g) => (
+            <Node key={g.l} label={g.l} sub={g.s} accent={g.l === "Talos"} compact={compact} />
+          ))}
+        </div>
+        <p
+          className={cn(
+            "mb-2 mt-4 text-left font-mono uppercase tracking-wide text-[#8FB8D0]",
+            compact ? "text-[9px]" : "text-[10px]",
+          )}
+        >
+          White space · live pipeline
+        </p>
+        <div className="flex flex-wrap justify-center gap-1.5">
+          {[
+            "Meraki",
+            "Duo",
+            "Umbrella",
+            "AppDynamics",
+            "XDR",
+            "Catalyst Center",
+          ].map((name) => (
+            <span
+              key={name}
+              className={cn(
+                "rounded-full border border-[#049FD9]/25 bg-[#061525]/80 font-mono text-[#B8D4E6]",
+                compact ? "px-2 py-0.5 text-[9px]" : "px-2.5 py-1 text-[11px]",
+              )}
+            >
+              {name}
+            </span>
           ))}
         </div>
       </div>

@@ -39,11 +39,11 @@ export const SLIDES: Slide[] = [
     speaker: "Overview",
     title: "Search for Cisco",
     subtitle:
-      "CRM Analytics, Lifecycle, Webex / Infra, and CIRCUIT — Elastic for search, Jina for embeddings, AI where it helps.",
+      "Workshop teams plus a live Cisco pipeline — Elastic for search, Jina for embeddings, AI where it helps.",
     bullets: [
-      "Find meaning across deals, transactions, logs, notes — and LLM proxy / security events.",
-      "Connect your systems with Elastic integrations; keep audit and explainability.",
-      "Run it how you need: self-hosted, Cloud Hosted, or Serverless SaaS.",
+      "Today’s lab: CRM, Lifecycle, Webex / Infra, and CIRCUIT (LLM proxy).",
+      "Already live elsewhere: Talos, ThousandEyes, SD-WAN / Viptela, Hypershield, ASIG.",
+      "One Elastic story across search, security telemetry, and network observability.",
     ],
     infographic: "cisco-hub",
   },
@@ -89,9 +89,24 @@ export const SLIDES: Slide[] = [
   {
     section: "cisco",
     speaker: "Cisco groups",
-    title: "How we help Cisco groups",
-    subtitle: "Same Elastic + Jina story. Different jobs — including CIRCUIT at ECS scale.",
+    title: "Workshop teams",
+    subtitle:
+      "Internal platform teams using Elastic + Jina on their own products — today’s hands-on story.",
     infographic: "groups-fan",
+  },
+  {
+    section: "cisco",
+    speaker: "Cisco footprint",
+    title: "Cisco footprint — live pipeline",
+    subtitle:
+      "Not only workshop teams. Active Elastic relationships and white space from the DCOS pipeline.",
+    bullets: [
+      "Talos — largest security relationship; threat intel at massive log scale.",
+      "ThousandEyes — already on Elastic for network observability (GovCloud expansion real).",
+      "SD-WAN / Viptela OEM in production · Hypershield AI search POC · ASIG agentic security.",
+      "White space: Meraki, Duo, Umbrella, AppDynamics, XDR, Catalyst Center.",
+    ],
+    infographic: "cisco-footprint",
   },
   {
     section: "tech",
@@ -176,16 +191,17 @@ export const SLIDES: Slide[] = [
 export const SECTION_START: Record<string, number> = {
   opening: 0,
   cisco: 2,
-  tech: 3,
+  footprint: 3,
+  tech: 4,
   crm: 2,
   lifecycle: 2,
   webex: 2,
-  circuit: 5,
-  fips: 6,
-  ech: 6,
-  deploy: 6,
-  bundle: 4,
-  lab: 8,
+  circuit: 6,
+  fips: 7,
+  ech: 7,
+  deploy: 7,
+  bundle: 5,
+  lab: 9,
 };
 
 type Props = {
