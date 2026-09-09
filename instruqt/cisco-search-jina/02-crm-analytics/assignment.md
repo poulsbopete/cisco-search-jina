@@ -17,7 +17,6 @@ notes:
       width="100%" height="360" frameborder="0"
       style="border-radius:8px;display:block;width:100%;height:360px;max-height:40vh;border:0;background:#09090b">
     </iframe>
-
 tabs:
 - id: rlkxkwgckcyc
   title: Elastic Serverless Search
