@@ -41,12 +41,26 @@ Ungated invite (anyone can start): https://play.instruqt.com/elastic/invite/rjz8
 - Skipping Umbrella “legal hold” (false-positive teaching moment)
 - “We’ll follow up” with no Cisco group (CRM Analytics / Lifecycle / Webex Infra / CIRCUIT)
 
+## Vega dashboards (Search-AI)
+
+Five Vega-Lite dashboards on `cisco-jina-corpus` (specs in `kibana/vega/`). Each has a markdown panel describing the chart. Facilitator tour workflow uses `waitForInput` markdown blocks with the same talking points:
+
+| Track | Dashboard |
+| --- | --- |
+| Keyword vs semantic | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/d879af5a-78fd-4c30-a859-7f2157feb331 |
+| CRM Analytics | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/d7568cc7-e3ea-411d-9635-745354c7e465 |
+| Lifecycle | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/cf1c9121-0108-4374-b9ab-562a5d08fd47 |
+| Webex CCR | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/b3e910f8-1f76-4d72-a8be-dd11e313b331 |
+| CIRCUIT ECS | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/ee0ce4a4-4541-4d39-9c54-fac530788b4b |
+
+Workflow (manual run): https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/workflows/cisco-jina-dashboard-tour — YAML in `kibana/workflows/cisco-jina-dashboard-tour.yaml`. Redeploy: `KIBANA_URL=… KIBANA_API_KEY=… python3 scripts/deploy_kibana_vega_dashboards.py`.
+
 ## Three layers (do not mix them)
 
 | Layer | URL | Job in the room |
 | --- | --- | --- |
 | Vercel storyboard | https://cisco-search-jina.vercel.app | Slides + visual aha. Does **not** query Elastic. |
-| Shared Kibana | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/agent_builder | Product proof. Paste the prompt from each Vercel pane. |
+| Shared Kibana | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/agent_builder | Product proof. Paste the prompt from each Vercel pane. Dashboards + workflow tour above. |
 | Instruqt | https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq | Their own Serverless project. Leaves the shared cluster alone. |
 
 On each demo page: **Open Agent Builder** → pick **Cisco Jina Search**. Index: `cisco-jina-corpus` (14 docs on Vercel corpus; re-seed shared cluster if needed). Do not use **Cisco NextGen** — that tool searches Cisco/Webex product docs. Instruqt labs use the per-learner **AI Agent** in Discover for the final step.

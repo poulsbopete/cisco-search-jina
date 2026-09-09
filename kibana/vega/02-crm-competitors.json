@@ -1,0 +1,27 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": "CRM competitors on open deals",
+  "description": "Account–deal–competitor graph edges for similar-deal narratives.",
+  "autosize": { "type": "fit", "contains": "padding" },
+  "config": {
+    "axis": { "domainColor": "#444", "tickColor": "#444", "labelColor": "#333" },
+    "view": { "stroke": null }
+  },
+  "data": {
+    "url": {
+      "%type%": "esql",
+      "query": "FROM \"cisco-jina-corpus\" | WHERE source == \"crm\" | MV_EXPAND competitors | STATS deals = COUNT(*) BY competitors, account | SORT deals DESC"
+    }
+  },
+  "mark": { "type": "bar", "color": "#0D274D" },
+  "encoding": {
+    "y": { "field": "competitors", "type": "nominal", "title": "Competitor", "sort": "-x" },
+    "x": { "field": "deals", "type": "quantitative", "title": "Deal mentions" },
+    "color": { "field": "account", "type": "nominal", "title": "Account" },
+    "tooltip": [
+      { "field": "competitors", "type": "nominal" },
+      { "field": "account", "type": "nominal" },
+      { "field": "deals", "type": "quantitative" }
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": "CIRCUIT ECS concept neighborhood",
+  "description": "LLM proxy denials, token spikes, and PII hits share one semantic space.",
+  "autosize": { "type": "fit", "contains": "padding" },
+  "config": {
+    "axis": { "domainColor": "#444", "tickColor": "#444", "labelColor": "#333" },
+    "view": { "stroke": null }
+  },
+  "data": {
+    "url": {
+      "%type%": "esql",
+      "query": "FROM \"cisco-jina-corpus\" | WHERE source == \"circuit\" | MV_EXPAND concepts | STATS docs = COUNT(*) BY concepts | SORT docs DESC"
+    }
+  },
+  "mark": { "type": "bar", "color": "#0D274D" },
+  "encoding": {
+    "y": { "field": "concepts", "type": "nominal", "title": "Concept", "sort": "-x" },
+    "x": { "field": "docs", "type": "quantitative", "title": "Mentions" },
+    "tooltip": [
+      { "field": "concepts", "type": "nominal" },
+      { "field": "docs", "type": "quantitative" }
+    ]
+  }
+}

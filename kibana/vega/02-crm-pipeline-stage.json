@@ -1,0 +1,26 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": "CRM pipeline $ by stage",
+  "description": "Salesforce-shaped deals in the workshop corpus — stage × amount.",
+  "autosize": { "type": "fit", "contains": "padding" },
+  "config": {
+    "axis": { "domainColor": "#444", "tickColor": "#444", "labelColor": "#333" },
+    "view": { "stroke": null }
+  },
+  "data": {
+    "url": {
+      "%type%": "esql",
+      "query": "FROM \"cisco-jina-corpus\" | WHERE source == \"crm\" | STATS deals = COUNT(*), pipeline = SUM(amount) BY stage | SORT pipeline DESC"
+    }
+  },
+  "mark": { "type": "bar", "color": "#049FD9" },
+  "encoding": {
+    "x": { "field": "stage", "type": "nominal", "title": "Stage", "sort": "-y" },
+    "y": { "field": "pipeline", "type": "quantitative", "title": "Pipeline ($)" },
+    "tooltip": [
+      { "field": "stage", "type": "nominal" },
+      { "field": "deals", "type": "quantitative" },
+      { "field": "pipeline", "type": "quantitative" }
+    ]
+  }
+}

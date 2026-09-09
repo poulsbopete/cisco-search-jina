@@ -19,6 +19,16 @@ export function OpenInElastic({ beat }: { beat: DemoBeat }) {
         >
           Open Agent Builder
         </a>
+        {beat.dashboardHref ? (
+          <a
+            href={beat.dashboardHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg border border-cyan-400/40 px-3 py-2 font-mono text-xs text-cyan-100"
+          >
+            Vega dashboard
+          </a>
+        ) : null}
         <a
           href={INSTRUQT_INVITE}
           target="_blank"

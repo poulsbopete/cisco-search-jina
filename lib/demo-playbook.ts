@@ -1,4 +1,10 @@
-import { AGENT_BUILDER_URL, INSTRUQT_INVITE, KIBANA_URL } from "@/lib/config";
+import {
+  AGENT_BUILDER_URL,
+  INSTRUQT_INVITE,
+  KIBANA_URL,
+  WORKSHOP_DASHBOARD_TOUR,
+  WORKSHOP_DASHBOARDS,
+} from "@/lib/config";
 
 const kb = (path: string) => `${KIBANA_URL.replace(/\/$/, "")}${path}`;
 
@@ -13,6 +19,7 @@ export const ELASTIC = {
     "/app/discover#/?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-24h,to:now))",
   ),
   esql: kb("/app/dev_tools#/console"),
+  dashboardTour: WORKSHOP_DASHBOARD_TOUR,
 } as const;
 
 export type DemoBeat = {
@@ -20,6 +27,7 @@ export type DemoBeat = {
   href: string;
   title: string;
   summary: string;
+  dashboardHref?: string;
 };
 
 export const DEMO_BEATS: DemoBeat[] = [
@@ -29,6 +37,7 @@ export const DEMO_BEATS: DemoBeat[] = [
     title: "Keyword vs semantic",
     summary:
       "The same question, two retrieval styles. AWS OpenSearch stops at keyword — Cisco teams told us it does not offer embeddings. Elastic + Jina rank meaning, so “legal concerns” and “vendor lock-in fears” can surface the same deals.",
+    dashboardHref: WORKSHOP_DASHBOARDS.keywordVsSemantic,
   },
   {
     id: "crm",
@@ -36,6 +45,7 @@ export const DEMO_BEATS: DemoBeat[] = [
     title: "CRM Analytics",
     summary:
       "Find deals like this one, with a reason for every match. Account, deal, and competitor stay connected so forecast narratives are grounded — not guessed.",
+    dashboardHref: WORKSHOP_DASHBOARDS.crm,
   },
   {
     id: "lifecycle",
@@ -43,6 +53,7 @@ export const DEMO_BEATS: DemoBeat[] = [
     title: "Lifecycle Platform",
     summary:
       "One question across Snowflake facts, S3 payloads, and Elastic logs. Large transaction documents become searchable without standing up another warehouse.",
+    dashboardHref: WORKSHOP_DASHBOARDS.lifecycle,
   },
   {
     id: "webex",
@@ -50,6 +61,7 @@ export const DEMO_BEATS: DemoBeat[] = [
     title: "Webex / Infrastructure",
     summary:
       "Consistent relevance in US Gov East and West. Replicate with CCR, search locally, and keep ranking aligned so queries never cross the Gov boundary.",
+    dashboardHref: WORKSHOP_DASHBOARDS.webex,
   },
   {
     id: "circuit",
@@ -57,6 +69,7 @@ export const DEMO_BEATS: DemoBeat[] = [
     title: "ECS at scale for the CIRCUIT LLM proxy",
     summary:
       "CIRCUIT is Cisco’s LLM proxy. Customers choose Elastic LLM, CIRCUIT, or both. Elastic searches and explains the ECS proxy stream; Jina adds semantic neighborhood on prompts and policies.",
+    dashboardHref: WORKSHOP_DASHBOARDS.circuit,
   },
 ];
 

@@ -7,6 +7,18 @@ export const AGENT_BUILDER_URL =
   process.env.NEXT_PUBLIC_AGENT_BUILDER_URL ??
   `${KIBANA_URL.replace(/\/$/, "")}/app/agent_builder`;
 
+/** Vega workshop dashboards on Search-AI (see kibana/manifest.json). */
+export const WORKSHOP_DASHBOARDS = {
+  keywordVsSemantic: `${KIBANA_URL.replace(/\/$/, "")}/app/dashboards#/view/d879af5a-78fd-4c30-a859-7f2157feb331`,
+  crm: `${KIBANA_URL.replace(/\/$/, "")}/app/dashboards#/view/d7568cc7-e3ea-411d-9635-745354c7e465`,
+  lifecycle: `${KIBANA_URL.replace(/\/$/, "")}/app/dashboards#/view/cf1c9121-0108-4374-b9ab-562a5d08fd47`,
+  webex: `${KIBANA_URL.replace(/\/$/, "")}/app/dashboards#/view/b3e910f8-1f76-4d72-a8be-dd11e313b331`,
+  circuit: `${KIBANA_URL.replace(/\/$/, "")}/app/dashboards#/view/ee0ce4a4-4541-4d39-9c54-fac530788b4b`,
+} as const;
+
+export const WORKSHOP_DASHBOARD_TOUR =
+  `${KIBANA_URL.replace(/\/$/, "")}/app/workflows/cisco-jina-dashboard-tour`;
+
 export const APP_URL =
   process.env.NEXT_PUBLIC_APP_URL ?? "https://cisco-search-jina.vercel.app";
 

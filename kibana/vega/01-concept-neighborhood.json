@@ -1,0 +1,25 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": "Top concepts across the corpus",
+  "description": "Jina-shaped neighborhood — legal-review and vendor-lock-in dominate the Acme story.",
+  "autosize": { "type": "fit", "contains": "padding" },
+  "config": {
+    "axis": { "domainColor": "#444", "tickColor": "#444", "labelColor": "#333" },
+    "view": { "stroke": null }
+  },
+  "data": {
+    "url": {
+      "%type%": "esql",
+      "query": "FROM \"cisco-jina-corpus\" | MV_EXPAND concepts | STATS docs = COUNT(*) BY concepts | SORT docs DESC | LIMIT 12"
+    }
+  },
+  "mark": { "type": "bar", "color": "#1BA0D7" },
+  "encoding": {
+    "y": { "field": "concepts", "type": "nominal", "title": "Concept", "sort": "-x" },
+    "x": { "field": "docs", "type": "quantitative", "title": "Document mentions" },
+    "tooltip": [
+      { "field": "concepts", "type": "nominal" },
+      { "field": "docs", "type": "quantitative" }
+    ]
+  }
+}

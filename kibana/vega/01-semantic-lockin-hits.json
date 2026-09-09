@@ -1,0 +1,25 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": "Concept neighborhood: vendor-lock-in",
+  "description": "Semantic / concept ranking — Acme counsel story without the Umbrella false friend.",
+  "autosize": { "type": "fit", "contains": "padding" },
+  "config": {
+    "axis": { "domainColor": "#444", "tickColor": "#444", "labelColor": "#333" },
+    "view": { "stroke": null }
+  },
+  "data": {
+    "url": {
+      "%type%": "esql",
+      "query": "FROM \"cisco-jina-corpus\" | MV_EXPAND concepts | WHERE concepts == \"vendor-lock-in\" | STATS hits = COUNT(*) BY account | SORT hits DESC"
+    }
+  },
+  "mark": { "type": "bar", "color": "#049FD9" },
+  "encoding": {
+    "x": { "field": "account", "type": "nominal", "title": "Account", "sort": "-y" },
+    "y": { "field": "hits", "type": "quantitative", "title": "Docs tagged vendor-lock-in" },
+    "tooltip": [
+      { "field": "account", "type": "nominal" },
+      { "field": "hits", "type": "quantitative" }
+    ]
+  }
+}

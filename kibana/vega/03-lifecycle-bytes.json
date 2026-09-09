@@ -1,0 +1,27 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": "Large payload bytes (lifecycle)",
+  "description": "S3 invoice pack dwarfs Snowflake rollup — still searchable without a second warehouse.",
+  "autosize": { "type": "fit", "contains": "padding" },
+  "config": {
+    "axis": { "domainColor": "#444", "tickColor": "#444", "labelColor": "#333" },
+    "view": { "stroke": null }
+  },
+  "data": {
+    "url": {
+      "%type%": "esql",
+      "query": "FROM \"cisco-jina-corpus\" | WHERE source == \"lifecycle\" AND bytes IS NOT NULL | KEEP title, system, bytes | SORT bytes DESC"
+    }
+  },
+  "mark": { "type": "bar", "color": "#049FD9" },
+  "encoding": {
+    "y": { "field": "title", "type": "nominal", "title": "Document", "sort": "-x" },
+    "x": { "field": "bytes", "type": "quantitative", "title": "Bytes" },
+    "color": { "field": "system", "type": "nominal", "title": "System" },
+    "tooltip": [
+      { "field": "title", "type": "nominal" },
+      { "field": "system", "type": "nominal" },
+      { "field": "bytes", "type": "quantitative" }
+    ]
+  }
+}

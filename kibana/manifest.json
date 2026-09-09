@@ -1,0 +1,86 @@
+{
+  "visualizations": {
+    "01-keyword-legal-hits.json": {
+      "id": "419f4234-eccf-4984-8c94-2db09dd96395",
+      "title": "Keyword MATCH(legal) by account"
+    },
+    "01-semantic-lockin-hits.json": {
+      "id": "4e9334bf-1753-44e3-abbc-b1222991c6a2",
+      "title": "Concept vendor-lock-in by account"
+    },
+    "01-concept-neighborhood.json": {
+      "id": "4fe79bf0-bdde-4cc3-97d1-077eae62cd00",
+      "title": "Top concepts across corpus"
+    },
+    "02-crm-pipeline-stage.json": {
+      "id": "080a4c02-5f30-4906-b5ad-d5fee7226028",
+      "title": "CRM pipeline $ by stage"
+    },
+    "02-crm-competitors.json": {
+      "id": "d778a1a0-6b11-4cb7-86c4-d22fb1b6c08d",
+      "title": "CRM competitors on open deals"
+    },
+    "03-lifecycle-systems.json": {
+      "id": "ba34d6e6-72b0-43d6-a295-9c39136fb863",
+      "title": "Lifecycle systems donut"
+    },
+    "03-lifecycle-bytes.json": {
+      "id": "feb0f84e-a44f-4098-9217-334714bd84a2",
+      "title": "Lifecycle payload bytes"
+    },
+    "04-webex-region-source.json": {
+      "id": "b63ab6f6-b0db-4f04-a400-d29083d71031",
+      "title": "Gov region \u00d7 source heatmap"
+    },
+    "04-webex-multimodal.json": {
+      "id": "7ec69546-9772-4182-ba05-813830dce333",
+      "title": "Webex + infra by region"
+    },
+    "05-circuit-concepts.json": {
+      "id": "bf8f54ef-71fc-441a-b85f-b90a9e7c79b3",
+      "title": "CIRCUIT concept neighborhood"
+    },
+    "05-circuit-regions.json": {
+      "id": "3926a132-bac5-4ce0-a71c-6c2ca9cba85f",
+      "title": "CIRCUIT events by region"
+    }
+  },
+  "dashboards": {
+    "keyword-vs-semantic": {
+      "id": "d879af5a-78fd-4c30-a859-7f2157feb331",
+      "title": "Cisco Jina \u2014 Keyword vs semantic",
+      "beat": "demo",
+      "url": "https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/d879af5a-78fd-4c30-a859-7f2157feb331"
+    },
+    "crm-analytics": {
+      "id": "d7568cc7-e3ea-411d-9635-745354c7e465",
+      "title": "Cisco Jina \u2014 CRM Analytics",
+      "beat": "crm",
+      "url": "https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/d7568cc7-e3ea-411d-9635-745354c7e465"
+    },
+    "lifecycle-federated": {
+      "id": "cf1c9121-0108-4374-b9ab-562a5d08fd47",
+      "title": "Cisco Jina \u2014 Lifecycle federated search",
+      "beat": "lifecycle",
+      "url": "https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/cf1c9121-0108-4374-b9ab-562a5d08fd47"
+    },
+    "webex-ccr": {
+      "id": "b3e910f8-1f76-4d72-a8be-dd11e313b331",
+      "title": "Cisco Jina \u2014 Webex CCR East / West",
+      "beat": "webex",
+      "url": "https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/b3e910f8-1f76-4d72-a8be-dd11e313b331"
+    },
+    "circuit-ecs": {
+      "id": "ee0ce4a4-4541-4d39-9c54-fac530788b4b",
+      "title": "Cisco Jina \u2014 CIRCUIT LLM proxy (ECS)",
+      "beat": "circuit",
+      "url": "https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/ee0ce4a4-4541-4d39-9c54-fac530788b4b"
+    }
+  },
+  "workflow_id": "cisco-jina-dashboard-tour",
+  "workflow": {
+    "id": "cisco-jina-dashboard-tour",
+    "name": "Cisco Jina Workshop \u2014 Dashboard tour",
+    "enabled": true
+  }
+}

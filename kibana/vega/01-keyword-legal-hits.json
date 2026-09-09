@@ -1,0 +1,25 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": "Keyword MATCH(\"legal\") by account",
+  "description": "Token ceiling — Umbrella legal-hold noise appears alongside true counsel language.",
+  "autosize": { "type": "fit", "contains": "padding" },
+  "config": {
+    "axis": { "domainColor": "#444", "tickColor": "#444", "labelColor": "#333" },
+    "view": { "stroke": null }
+  },
+  "data": {
+    "url": {
+      "%type%": "esql",
+      "query": "FROM \"cisco-jina-corpus\" | WHERE MATCH(content, \"legal\") | STATS hits = COUNT(*) BY account | SORT hits DESC"
+    }
+  },
+  "mark": { "type": "bar", "color": "#6B7280" },
+  "encoding": {
+    "x": { "field": "account", "type": "nominal", "title": "Account", "sort": "-y" },
+    "y": { "field": "hits", "type": "quantitative", "title": "Docs with token “legal”" },
+    "tooltip": [
+      { "field": "account", "type": "nominal" },
+      { "field": "hits", "type": "quantitative" }
+    ]
+  }
+}

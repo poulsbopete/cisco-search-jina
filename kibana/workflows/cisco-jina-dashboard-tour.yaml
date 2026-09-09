@@ -1,0 +1,148 @@
+version: "1"
+name: Cisco Jina Workshop — Dashboard tour
+description: >
+  Facilitator walkthrough of the five Vega dashboards for the Cisco + Jina
+  workshop tracks (keyword vs semantic, CRM, lifecycle, Webex CCR, CIRCUIT).
+  Each waitForInput step shows a markdown block describing what the dashboard
+  displays; click Continue after you have opened the linked dashboard.
+enabled: true
+tags:
+  - cisco
+  - jina
+  - workshop
+  - dashboards
+triggers:
+  - type: manual
+settings:
+  timeout: 4h
+steps:
+  - name: intro
+    type: waitForInput
+    with:
+      message: |
+        ## Cisco Jina workshop — dashboard tour
+
+        Five Vega-Lite dashboards on `cisco-jina-corpus` (14 docs). Use this
+        workflow as a facilitator script: open each linked dashboard, then
+        mark **Continue** when you are ready for the next talking point.
+
+        Index: `cisco-jina-corpus` · Kibana: Search-AI shared project
+      schema:
+        type: object
+        properties:
+          continue:
+            type: boolean
+            title: Continue to Keyword vs semantic
+        required: ["continue"]
+
+  - name: keyword_vs_semantic
+    type: waitForInput
+    with:
+      message: |
+        ## 1 — Keyword vs semantic
+
+        **Dashboard:** [Cisco Jina — Keyword vs semantic](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/d879af5a-78fd-4c30-a859-7f2157feb331)
+
+        **What you are looking at**
+        - Gray bars: `MATCH(content, "legal")` — token / OpenSearch-shaped ceiling.
+          Umbrella’s e-discovery *legal hold* appears next to Acme counsel language.
+        - Cyan bars: concept `vendor-lock-in` — Jina neighborhood. Acme stays; Umbrella drops.
+        - Bottom chart: top concepts across the corpus (`legal-review`, `webex`, `vendor-lock-in`, …).
+
+        **Talking point:** same business question, two retrieval ceilings.
+      schema:
+        type: object
+        properties:
+          continue:
+            type: boolean
+            title: Continue to CRM Analytics
+        required: ["continue"]
+
+  - name: crm_analytics
+    type: waitForInput
+    with:
+      message: |
+        ## 2 — CRM Analytics
+
+        **Dashboard:** [Cisco Jina — CRM Analytics](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/d7568cc7-e3ea-411d-9635-745354c7e465)
+
+        **What you are looking at**
+        - Pipeline dollars by Salesforce stage (`Negotiate`, `Propose`, …).
+        - Competitor mentions stacked by account — the account / deal / competitor graph.
+
+        **Talking point:** find deals like Acme’s Webex renewal with a reason for every match.
+      schema:
+        type: object
+        properties:
+          continue:
+            type: boolean
+            title: Continue to Lifecycle
+        required: ["continue"]
+
+  - name: lifecycle_federated
+    type: waitForInput
+    with:
+      message: |
+        ## 3 — Lifecycle federated search
+
+        **Dashboard:** [Cisco Jina — Lifecycle federated search](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/cf1c9121-0108-4374-b9ab-562a5d08fd47)
+
+        **What you are looking at**
+        - Donut: Snowflake · S3 · Elastic as equal peers in one index.
+        - Bars: payload `bytes` — the S3 invoice pack dwarfs the Snowflake rollup but stays searchable.
+
+        **Talking point:** counsel language inside a large payload without a second warehouse.
+      schema:
+        type: object
+        properties:
+          continue:
+            type: boolean
+            title: Continue to Webex CCR
+        required: ["continue"]
+
+  - name: webex_ccr
+    type: waitForInput
+    with:
+      message: |
+        ## 4 — Webex / CCR East & West
+
+        **Dashboard:** [Cisco Jina — Webex CCR East / West](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/b3e910f8-1f76-4d72-a8be-dd11e313b331)
+
+        **What you are looking at**
+        - Heatmap: `us-gov-east` / `us-gov-west` × source (crm, webex, lifecycle, …).
+        - Grouped bars: Webex recordings/decks and the CCR runbook per region.
+
+        **Talking point:** replicate with CCR, search locally — never cross the Gov boundary at query time.
+      schema:
+        type: object
+        properties:
+          continue:
+            type: boolean
+            title: Continue to CIRCUIT
+        required: ["continue"]
+
+  - name: circuit_ecs
+    type: waitForInput
+    with:
+      message: |
+        ## 5 — CIRCUIT LLM proxy (ECS)
+
+        **Dashboard:** [Cisco Jina — CIRCUIT LLM proxy (ECS)](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/ee0ce4a4-4541-4d39-9c54-fac530788b4b)
+
+        **What you are looking at**
+        - Concept neighborhood: `circuit`, `llm-proxy`, `prompt-injection`, `pii`, `token-budget`, …
+        - Events by region / system (proxy vs AI security).
+
+        **Talking point:** customers choose Elastic LLM, CIRCUIT, or both; Elastic searches the ECS stream either way.
+      schema:
+        type: object
+        properties:
+          done:
+            type: boolean
+            title: Tour complete
+        required: ["done"]
+
+  - name: done
+    type: console
+    with:
+      message: "Cisco Jina dashboard tour complete."

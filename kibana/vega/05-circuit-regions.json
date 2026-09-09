@@ -1,0 +1,27 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": "CIRCUIT proxy events by region",
+  "description": "ECS stream searchable whether customers route through Elastic LLM, CIRCUIT, or both.",
+  "autosize": { "type": "fit", "contains": "padding" },
+  "config": {
+    "axis": { "domainColor": "#444", "tickColor": "#444", "labelColor": "#333" },
+    "view": { "stroke": null }
+  },
+  "data": {
+    "url": {
+      "%type%": "esql",
+      "query": "FROM \"cisco-jina-corpus\" | WHERE source == \"circuit\" | STATS events = COUNT(*) BY region, system"
+    }
+  },
+  "mark": { "type": "bar", "color": "#049FD9" },
+  "encoding": {
+    "x": { "field": "region", "type": "nominal", "title": "Region" },
+    "y": { "field": "events", "type": "quantitative", "title": "Events" },
+    "color": { "field": "system", "type": "nominal", "title": "System" },
+    "tooltip": [
+      { "field": "region", "type": "nominal" },
+      { "field": "system", "type": "nominal" },
+      { "field": "events", "type": "quantitative" }
+    ]
+  }
+}
