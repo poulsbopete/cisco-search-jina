@@ -15,6 +15,7 @@ tags:
 - embeddings
 - serverless
 - elasticsearch
+- cisco-search-jina
 - jina
 owner: elastic
 developers:
@@ -34,5 +35,5 @@ lab_config:
   hideStopButton: false
   default_layout: AssignmentRight
   default_layout_sidebar_size: 40
-checksum: "4218506958803167550"
+checksum: "6099493461315667358"
 enhanced_loading: false
