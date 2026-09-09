@@ -10,8 +10,10 @@ TRACK = ROOT / "instruqt" / "cisco-search-jina"
 HEAD = ROOT / "scripts" / "setup-es3-api.head"
 SEED = TRACK / "track_scripts" / "seed_cisco_search.py"
 DASH_SEED = TRACK / "track_scripts" / "seed_cisco_jina_dashboards.py"
+WF_SEED = TRACK / "track_scripts" / "seed_cisco_jina_workflow.py"
 CORPUS = ROOT / "data" / "workshop-corpus.json"
 DASH_DIR = TRACK / "workshop-assets" / "dashboards"
+WF_DIR = TRACK / "workshop-assets" / "workflows"
 OUT = TRACK / "track_scripts" / "setup-es3-api"
 
 DASHBOARDS = (
@@ -21,6 +23,7 @@ DASHBOARDS = (
     "cisco-jina-webex-ccr.json",
     "cisco-jina-circuit.json",
 )
+WORKFLOWS = ("cisco-jina-dashboard-tour.yaml",)
 
 
 def b64(path: Path) -> str:
@@ -30,24 +33,31 @@ def b64(path: Path) -> str:
 def main() -> None:
     if not HEAD.is_file():
         raise SystemExit(f"missing {HEAD}")
-    if not DASH_SEED.is_file():
-        raise SystemExit(f"missing {DASH_SEED}")
+    for path in (DASH_SEED, WF_SEED, SEED, CORPUS):
+        if not path.is_file():
+            raise SystemExit(f"missing {path}")
 
-    dash_blocks = ["mkdir -p /tmp/dashboards"]
+    blocks = ["mkdir -p /tmp/dashboards /tmp/workflows"]
     for name in DASHBOARDS:
         path = DASH_DIR / name
         if not path.is_file():
             raise SystemExit(f"missing dashboard {path}")
         tag = "CISCO_JINA_DASH_" + name.replace(".json", "").replace("-", "_").upper()
-        dash_blocks.append(f"base64 -d <<'{tag}' > /tmp/dashboards/{name}\n{b64(path)}\n{tag}")
+        blocks.append(f"base64 -d <<'{tag}' > /tmp/dashboards/{name}\n{b64(path)}\n{tag}")
+    for name in WORKFLOWS:
+        path = WF_DIR / name
+        if not path.is_file():
+            raise SystemExit(f"missing workflow {path}")
+        tag = "CISCO_JINA_WF_" + name.replace(".yaml", "").replace("-", "_").upper()
+        blocks.append(f"base64 -d <<'{tag}' > /tmp/workflows/{name}\n{b64(path)}\n{tag}")
 
-    dash_embed = "\n".join(dash_blocks)
+    embed = "\n".join(blocks)
 
-    fragment = f"""# Workshop seed — always index cisco-jina-corpus (do not gate on WORKSHOP_SEED)
+    fragment = f"""# Workshop seed — corpus + dashboards + workflow (Instruqt only)
 set -euo pipefail
 
 echo "Materializing Cisco + Jina seed assets under /tmp..."
-{dash_embed}
+{embed}
 base64 -d <<'CISCO_JINA_CORPUS' > /tmp/workshop-corpus.json
 {b64(CORPUS)}
 CISCO_JINA_CORPUS
@@ -57,6 +67,9 @@ CISCO_JINA_SEED_PY
 base64 -d <<'CISCO_JINA_DASH_PY' > /tmp/seed_cisco_jina_dashboards.py
 {b64(DASH_SEED)}
 CISCO_JINA_DASH_PY
+base64 -d <<'CISCO_JINA_WF_PY' > /tmp/seed_cisco_jina_workflow.py
+{b64(WF_SEED)}
+CISCO_JINA_WF_PY
 
 export ES_URL="${{ES_URL:-$(jq -r --arg region "${{REGIONS:-aws-us-east-1}}" '.[$region].endpoints.elasticsearch // empty' /tmp/project_results.json)}}"
 export KIBANA_URL="${{KIBANA_URL:-$(jq -r --arg region "${{REGIONS:-aws-us-east-1}}" '.[$region].endpoints.kibana // empty' /tmp/project_results.json)}}"
@@ -88,6 +101,14 @@ if python3 /tmp/seed_cisco_jina_dashboards.py > /tmp/workshop-dashboards.log 2>&
 else
   echo "WARN: dashboard seed failed — corpus is still usable; see /tmp/workshop-dashboards.log"
   tail -80 /tmp/workshop-dashboards.log || true
+fi
+
+echo "Installing dashboard-tour workflow into $KIBANA_URL"
+if python3 /tmp/seed_cisco_jina_workflow.py > /tmp/workshop-workflow.log 2>&1; then
+  tail -20 /tmp/workshop-workflow.log || true
+else
+  echo "WARN: workflow seed failed — dashboards may still be usable; see /tmp/workshop-workflow.log"
+  tail -60 /tmp/workshop-workflow.log || true
 fi
 
 echo "done"

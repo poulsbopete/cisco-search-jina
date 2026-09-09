@@ -1,39 +1,26 @@
-import { ELASTIC, INSTRUQT_INVITE, type DemoBeat } from "@/lib/demo-playbook";
+import { INSTRUQT_INVITE, type DemoBeat } from "@/lib/demo-playbook";
 
 export function OpenInElastic({ beat }: { beat: DemoBeat }) {
   return (
     <aside className="rounded-2xl border border-cyan-400/30 bg-cyan-400/5 p-5">
       <p className="text-sm leading-relaxed text-zinc-200">{beat.summary}</p>
       <p className="mt-3 text-sm text-zinc-400">
-        On the shared Search-AI project, ask{" "}
-        <span className="text-zinc-200">Cisco Jina Search</span> — it only reads{" "}
-        <code className="text-cyan-200">cisco-jina-corpus</code>. Hands-on ES|QL stays in
-        Instruqt Discover (that lab Kibana is a different cluster).
+        Hands-on lives in the{" "}
+        <span className="text-zinc-200">Instruqt Serverless Search</span> lab only — seeded index{" "}
+        <code className="text-cyan-200">cisco-jina-corpus</code>
+        {beat.dashboardTitle ? (
+          <>
+            , dashboard <span className="text-zinc-200">{beat.dashboardTitle}</span>
+          </>
+        ) : null}
+        , ES|QL in Discover, then AI Agent.
       </p>
       <div className="mt-4 flex flex-wrap gap-2">
-        <a
-          href={ELASTIC.agentBuilder}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-lg bg-cyan-400 px-3 py-2 font-mono text-xs font-semibold text-zinc-950"
-        >
-          Open Agent Builder
-        </a>
-        {beat.dashboardHref ? (
-          <a
-            href={beat.dashboardHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-lg border border-cyan-400/40 px-3 py-2 font-mono text-xs text-cyan-100"
-          >
-            Vega dashboard
-          </a>
-        ) : null}
         <a
           href={INSTRUQT_INVITE}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-lg border border-white/20 px-3 py-2 font-mono text-xs"
+          className="rounded-lg bg-cyan-400 px-3 py-2 font-mono text-xs font-semibold text-zinc-950"
         >
           Open the Serverless lab
         </a>

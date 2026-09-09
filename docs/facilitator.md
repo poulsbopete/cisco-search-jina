@@ -1,8 +1,8 @@
 # Facilitator notes
 
-**Instruqt is self-paced labs only.** Do not put talking points in challenges. Use the Vercel deck for the live hour; send learners to Instruqt afterward (or in parallel).
+**Instruqt is the only Elastic surface for this workshop.** Use the Vercel deck for the live hour; send learners to Instruqt for hands-on. Do not use a shared Search-AI / Agent Builder project.
 
-## Live talk (not Instruqt)
+## Live talk (deck)
 
 Name Cisco groups, not people: **CRM Analytics**, **Lifecycle Platform**, **Webex / Infrastructure**, **CIRCUIT** — and name the wider footprint when relevant: **Talos**, **ThousandEyes**, **SD-WAN / Viptela**, **Hypershield**, **ASIG**.
 
@@ -24,50 +24,46 @@ Deck: https://cisco-search-jina.vercel.app/slides
 
 ## Labs (Instruqt)
 
-ES|QL first in the Kibana tab, then an **AI Agent** step that asks the same question in plain language. No KQL. First query:
+Each invite creates a **per-learner Serverless Search** project. Setup seeds:
+
+1. Index `cisco-jina-corpus` (14 docs)
+2. Five dashboards under **Dashboards**
+3. Workflow **Cisco Jina Workshop — Dashboard tour** (`cisco-jina-dashboard-tour`)
+
+ES|QL first in the Kibana tab, then an **AI Agent** step (Discover chat — not Agent Builder). No KQL. First query:
 
 `FROM "cisco-jina-corpus" | KEEP title, source, account, region, concepts, content | LIMIT 20`
 
-Expect **14** docs after seed (includes CIRCUIT proxy samples). If Discover shows `FROM *,-.*` and 0 docs, replace the query with the one above. If status is **0 documents processed**, set time to **Last 24 hours**. An empty index from an old lab start cannot be repaired — Stop and start a new lab.
+If Discover shows `FROM *,-.*` and 0 docs, replace the query with the one above. If status is **0 documents processed**, set time to **Last 24 hours**. An empty index from an old lab start cannot be repaired — Stop and start a new lab.
 
-Use Discover’s **AI Agent** panel (not Agent Builder / Cisco NextGen on the shared cluster).
+| Dashboard (seeded) | Id |
+| --- | --- |
+| Cisco Jina — Keyword vs semantic | `cisco-jina-keyword-vs-semantic` |
+| Cisco Jina — CRM Analytics | `cisco-jina-crm` |
+| Cisco Jina — Lifecycle federated search | `cisco-jina-lifecycle` |
+| Cisco Jina — Webex CCR East / West | `cisco-jina-webex-ccr` |
+| Cisco Jina — CIRCUIT LLM proxy (ECS) | `cisco-jina-circuit` |
+
+Assets: `instruqt/cisco-search-jina/workshop-assets/`. After edits: `python3 scripts/generate_es3_setup.py` then `instruqt track push --force`.
 
 Track (manage): https://play.instruqt.com/manage/elastic/tracks/cisco-search-jina  
-Ungated invite (anyone can start): https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq
+Ungated invite: https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq
 
 ## Anti-patterns
 
 - Challenges that name people instead of Cisco groups
 - Skipping Umbrella “legal hold” (false-positive teaching moment)
 - “We’ll follow up” with no Cisco group (CRM Analytics / Lifecycle / Webex Infra / CIRCUIT)
+- Pointing at a shared Kibana / Agent Builder instead of Instruqt
 
-## Vega dashboards (Search-AI)
-
-Five Vega-Lite dashboards on `cisco-jina-corpus` (specs in `kibana/vega/`). Each has a markdown panel describing the chart. Facilitator tour workflow uses `waitForInput` markdown blocks with the same talking points:
-
-| Track | Dashboard |
-| --- | --- |
-| Keyword vs semantic | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/d879af5a-78fd-4c30-a859-7f2157feb331 |
-| CRM Analytics | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/d7568cc7-e3ea-411d-9635-745354c7e465 |
-| Lifecycle | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/cf1c9121-0108-4374-b9ab-562a5d08fd47 |
-| Webex CCR | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/b3e910f8-1f76-4d72-a8be-dd11e313b331 |
-| CIRCUIT ECS | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/ee0ce4a4-4541-4d39-9c54-fac530788b4b |
-
-Workflow (manual run): https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/workflows/cisco-jina-dashboard-tour — YAML in `kibana/workflows/cisco-jina-dashboard-tour.yaml`. Redeploy Search-AI: `KIBANA_URL=… KIBANA_API_KEY=… python3 scripts/deploy_kibana_vega_dashboards.py`.
-
-**Instruqt labs** seed the same five dashboards into each learner’s Serverless Kibana at setup (`workshop-assets/dashboards/` + `seed_cisco_jina_dashboards.py`). A new invite is required after track push.
-
-## Three layers (do not mix them)
+## Two layers
 
 | Layer | URL | Job in the room |
 | --- | --- | --- |
 | Vercel storyboard | https://cisco-search-jina.vercel.app | Slides + visual aha. Does **not** query Elastic. |
-| Shared Kibana | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/agent_builder | Product proof. Paste the prompt from each Vercel pane. Dashboards + workflow tour above. |
-| Instruqt | https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq | Their own Serverless project. Leaves the shared cluster alone. |
+| Instruqt | https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq | Per-learner Serverless Search — corpus, dashboards, ES|QL, AI Agent. |
 
-On each demo page: **Open Agent Builder** → pick **Cisco Jina Search**. Index: `cisco-jina-corpus` (14 docs on Vercel corpus; re-seed shared cluster if needed). Do not use **Cisco NextGen** — that tool searches Cisco/Webex product docs. Instruqt labs use the per-learner **AI Agent** in Discover for the final step.
-
-The Webex East/West toggle is an **architecture visual**. The shared Kibana is a single us-east-1 project — say that out loud.
+The Webex East/West toggle on Vercel is an **architecture visual**. In the lab, region filters on `cisco-jina-corpus` prove the same idea.
 
 ## ECH / Gov (sales guardrails)
 
