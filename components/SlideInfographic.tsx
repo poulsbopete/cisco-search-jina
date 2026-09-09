@@ -92,7 +92,7 @@ export function SlideInfographic({
             compact ? "text-[9px]" : "text-[11px]",
           )}
         >
-          Today&apos;s workshop · plus Talos · ThousandEyes · SD-WAN · more across Cisco
+          Today&apos;s lab · same story for Talos · ThousandEyes · SD-WAN · observability
         </p>
         <div className="mx-auto max-w-md">
           <Node
@@ -162,14 +162,14 @@ export function SlideInfographic({
             compact ? "text-[9px]" : "text-[10px]",
           )}
         >
-          Active Elastic relationships
+          Teams already using Elastic
         </p>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
           {[
             { l: "Talos", s: "Threat intel · log scale" },
-            { l: "ThousandEyes", s: "On Elastic · net o11y" },
-            { l: "SD-WAN", s: "Viptela OEM · prod" },
-            { l: "Hypershield", s: "AI search POC" },
+            { l: "ThousandEyes", s: "Network observability" },
+            { l: "SD-WAN", s: "Viptela · production" },
+            { l: "Hypershield", s: "AI search & ranking" },
             { l: "ASIG", s: "Agentic security" },
           ].map((g) => (
             <Node key={g.l} label={g.l} sub={g.s} accent={g.l === "Talos"} compact={compact} />
@@ -181,16 +181,24 @@ export function SlideInfographic({
             compact ? "text-[9px]" : "text-[10px]",
           )}
         >
-          White space · live pipeline
+          Open-source Elasticsearch today
         </p>
         <div className="mb-2">
           <Node
-            label="Splunk O11Y"
-            sub="OSS Elasticsearch today · upgrade to supported Elastic"
+            label="Splunk Observability"
+            sub="OSS Elasticsearch · upgrade to supported Elastic"
             accent
             compact={compact}
           />
         </div>
+        <p
+          className={cn(
+            "mb-2 mt-3 text-left font-mono uppercase tracking-wide text-[#8FB8D0]",
+            compact ? "text-[9px]" : "text-[10px]",
+          )}
+        >
+          Same pattern for
+        </p>
         <div className="flex flex-wrap justify-center gap-1.5">
           {[
             "Meraki",

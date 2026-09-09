@@ -6,11 +6,11 @@
 
 Name Cisco groups, not people: **CRM Analytics**, **Lifecycle Platform**, **Webex / Infrastructure**, **CIRCUIT** — and name the wider footprint when relevant: **Talos**, **ThousandEyes**, **SD-WAN / Viptela**, **Hypershield**, **ASIG**.
 
-Short deck: offer → workshop teams → **live Cisco pipeline** (active + white space) → AI-first + Jina → CIRCUIT LLM choice → deploy → lab.
+Short deck: offer → workshop teams → **across Cisco** (Talos, TE, Splunk O11Y, …) → AI-first + Jina → CIRCUIT LLM choice → deploy → lab.
 
 - Opening / offer — `/slides?section=opening`
 - Workshop teams — `/slides?section=cisco`
-- Live pipeline (Talos, TE, …) — `/slides?section=footprint`
+- Across Cisco — `/slides?section=footprint`
 - CIRCUIT (LLM proxy · Elastic LLM and/or CIRCUIT) — `/slides?section=circuit` and `/circuit`
 - Search + Jina — `/slides?section=tech` and `/demo`, `/bundle`
 - Deploy — `/slides?section=deploy` and `/ech`, `/fips`
@@ -18,7 +18,7 @@ Short deck: offer → workshop teams → **live Cisco pipeline** (active + white
 
 **CIRCUIT attendees:** CIRCUIT is an **LLM proxy**. Customers choose **Elastic LLM**, **CIRCUIT**, or **both**. Elastic searches/alerts the ECS proxy stream either way; Jina for similar prompts/incidents. Production scale → Hosted or self-hosted; lab stays Serverless.
 
-**DCOS footprint note:** Workshop slide = internal product teams. Do not imply that is the whole Cisco account — call out **Talos** (biggest security) and **ThousandEyes** (already on Elastic) first. **Splunk O11Y** runs **open-source Elasticsearch** — frame the upgrade to supported Enterprise / Cloud Hosted (not a net-new search stack).
+**Facilitator only (not on slides):** DCOS pipeline context — Talos is the largest security relationship; ThousandEyes GovCloud expansion is real but sensitive; Hypershield/ASIG are early. Customer-facing deck must not say “pipeline,” “white space,” “OEM,” or “POC.” **Splunk Observability** runs **OSS Elasticsearch** — frame as upgrade to supported Enterprise / Hosted.
 
 Deck: https://cisco-search-jina.vercel.app/slides
 
