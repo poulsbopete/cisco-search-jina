@@ -11,6 +11,7 @@ HEAD = ROOT / "scripts" / "setup-es3-api.head"
 SEED = TRACK / "track_scripts" / "seed_cisco_search.py"
 DASH_SEED = TRACK / "track_scripts" / "seed_cisco_jina_dashboards.py"
 WF_SEED = TRACK / "track_scripts" / "seed_cisco_jina_workflow.py"
+ML_SEED = TRACK / "track_scripts" / "seed_cisco_jina_ml.py"
 CORPUS = ROOT / "data" / "workshop-corpus.json"
 DASH_DIR = TRACK / "workshop-assets" / "dashboards"
 MD_DIR = TRACK / "workshop-assets" / "markdown"
@@ -41,7 +42,7 @@ def b64(path: Path) -> str:
 def main() -> None:
     if not HEAD.is_file():
         raise SystemExit(f"missing {HEAD}")
-    for path in (DASH_SEED, WF_SEED, SEED, CORPUS):
+    for path in (DASH_SEED, WF_SEED, ML_SEED, SEED, CORPUS):
         if not path.is_file():
             raise SystemExit(f"missing {path}")
 
@@ -84,6 +85,9 @@ CISCO_JINA_DASH_PY
 base64 -d <<'CISCO_JINA_WF_PY' > /tmp/seed_cisco_jina_workflow.py
 {b64(WF_SEED)}
 CISCO_JINA_WF_PY
+base64 -d <<'CISCO_JINA_ML_PY' > /tmp/seed_cisco_jina_ml.py
+{b64(ML_SEED)}
+CISCO_JINA_ML_PY
 
 export ES_URL="${{ES_URL:-$(jq -r --arg region "${{REGIONS:-aws-us-east-1}}" '.[$region].endpoints.elasticsearch // empty' /tmp/project_results.json)}}"
 export KIBANA_URL="${{KIBANA_URL:-$(jq -r --arg region "${{REGIONS:-aws-us-east-1}}" '.[$region].endpoints.kibana // empty' /tmp/project_results.json)}}"
@@ -125,6 +129,14 @@ if python3 /tmp/seed_cisco_jina_workflow.py > /tmp/workshop-workflow.log 2>&1; t
 else
   echo "WARN: workflow seed failed — dashboards may still be usable; see /tmp/workshop-workflow.log"
   tail -60 /tmp/workshop-workflow.log || true
+fi
+
+echo "Seeding CIRCUIT metrics + ML anomaly job into $ES_URL"
+if python3 /tmp/seed_cisco_jina_ml.py > /tmp/workshop-ml.log 2>&1; then
+  tail -30 /tmp/workshop-ml.log || true
+else
+  echo "WARN: ML seed failed — corpus/dashboards still usable; see /tmp/workshop-ml.log"
+  tail -80 /tmp/workshop-ml.log || true
 fi
 
 echo "done"

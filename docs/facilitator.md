@@ -29,6 +29,7 @@ Each invite creates a **per-learner Serverless Search** project. Setup seeds:
 1. Index `cisco-jina-corpus` (14 docs)
 2. Five dashboards under **Dashboards**
 3. Workflow **Cisco Jina Workshop — Dashboard notes** (`cisco-jina-dashboard-notes`) — scheduled every **10 minutes** (no pauses); refreshes markdown talking-point strips on each dashboard
+4. ML anomaly job **`cisco-jina-circuit-tokens`** on index `cisco-jina-circuit-metrics` (CIRCUIT proxy token / policy-deny time series) — open **Machine Learning → Anomaly detection**
 
 ES|QL first in the Kibana tab, then an **AI Agent** step (Discover chat — not Agent Builder). No KQL. First query:
 

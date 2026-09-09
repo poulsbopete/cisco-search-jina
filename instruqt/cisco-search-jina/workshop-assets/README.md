@@ -8,7 +8,9 @@ Everything Elastic for this workshop is seeded into the **per-learner Serverless
 | `markdown/*.md` | Talking-point markdown saved objects (`cisco-jina-md-*`) |
 | `workflows/cisco-jina-dashboard-notes.yaml` | Scheduled every **10m** (+ manual); refreshes those markdown panels — **no pauses** |
 
-Installers: `track_scripts/seed_cisco_jina_dashboards.py`, `seed_cisco_jina_workflow.py` (embedded into `setup-es3-api` by `scripts/generate_es3_setup.py`).
+Installers: `track_scripts/seed_cisco_jina_dashboards.py`, `seed_cisco_jina_workflow.py`, `seed_cisco_jina_ml.py` (embedded into `setup-es3-api` by `scripts/generate_es3_setup.py`).
+
+ML: setup also seeds index `cisco-jina-circuit-metrics` and anomaly job `cisco-jina-circuit-tokens` (Machine Learning → Anomaly detection).
 
 ```bash
 python3 scripts/generate_es3_setup.py

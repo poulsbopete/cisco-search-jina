@@ -15,7 +15,7 @@ Deep links: `/#semantic` `/#crm` `/#lifecycle` `/#webex` `/#circuit` `/#fips` `/
 3. Lifecycle — federated Snowflake + S3 + Elastic logs
 4. Webex / Infra — US Gov East + West, CCR + local search
 
-Each invite seeds `cisco-jina-corpus`, five dashboards (with markdown talking-point strips), and the **Dashboard notes** workflow (every 10 minutes) into that learner’s Serverless Kibana. Edit assets under `instruqt/cisco-search-jina/workshop-assets/`, then regenerate setup and push.
+Each invite seeds `cisco-jina-corpus`, five dashboards (with markdown talking-point strips), the **Dashboard notes** workflow (every 10 minutes), and ML job **`cisco-jina-circuit-tokens`** into that learner’s Serverless Kibana. Edit assets under `instruqt/cisco-search-jina/workshop-assets/`, then regenerate setup and push.
 ## App
 
 ```bash

@@ -85,8 +85,17 @@ In cisco-jina-corpus, run the same vendor-lock-in / Webex intent separately for 
 
 You should get the East/West slice story that matches your ES|QL — same concepts, local search, no cross-boundary query plane.
 
+## 6 — Machine Learning on Serverless (CIRCUIT)
+
+Left nav → **Machine Learning** → **Anomaly detection**. Open job **`cisco-jina-circuit-tokens`**.
+
+Setup seeded hourly CIRCUIT proxy metrics (`cisco-jina-circuit-metrics`) with a planted **token-budget spike**. Open **Anomaly explorer** (set time to **Last 2 days** if needed).
+
+Same CIRCUIT story as the corpus — unusual LLM-proxy spend — on Elastic ML inside this Serverless Search project.
+
 ## Success
 
 - You ran the same ES|QL sliced by `region`.
 - You can explain CCR + local search without a global Gov query plane.
 - You used **AI Agent** to explain the same multi-region pattern.
+- You opened the seeded ML anomaly job (`cisco-jina-circuit-tokens`).
