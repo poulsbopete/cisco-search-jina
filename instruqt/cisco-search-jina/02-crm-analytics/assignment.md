@@ -11,7 +11,6 @@ notes:
 
     Skim the storyboard (Search · Jina · deploy options). Use **Prev / Next** inside the frame.
 
-    <p><a href="https://cisco-search-jina.vercel.app/slides?section=crm&v=3" target="_blank" rel="noopener noreferrer">Open full slides in a new tab</a></p>
 
     <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=crm&v=3"
       width="100%" height="360" frameborder="0"
