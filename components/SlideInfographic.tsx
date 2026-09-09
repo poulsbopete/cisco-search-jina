@@ -183,6 +183,14 @@ export function SlideInfographic({
         >
           White space · live pipeline
         </p>
+        <div className="mb-2">
+          <Node
+            label="Splunk O11Y"
+            sub="OSS Elasticsearch today · upgrade to supported Elastic"
+            accent
+            compact={compact}
+          />
+        </div>
         <div className="flex flex-wrap justify-center gap-1.5">
           {[
             "Meraki",

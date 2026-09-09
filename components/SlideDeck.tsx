@@ -104,6 +104,7 @@ export const SLIDES: Slide[] = [
       "Talos — largest security relationship; threat intel at massive log scale.",
       "ThousandEyes — already on Elastic for network observability (GovCloud expansion real).",
       "SD-WAN / Viptela OEM in production · Hypershield AI search POC · ASIG agentic security.",
+      "Splunk O11Y — runs open-source Elasticsearch today; natural path to supported Elastic Search / Hosted.",
       "White space: Meraki, Duo, Umbrella, AppDynamics, XDR, Catalyst Center.",
     ],
     infographic: "cisco-footprint",

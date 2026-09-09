@@ -18,7 +18,7 @@ Short deck: offer → workshop teams → **live Cisco pipeline** (active + white
 
 **CIRCUIT attendees:** CIRCUIT is an **LLM proxy**. Customers choose **Elastic LLM**, **CIRCUIT**, or **both**. Elastic searches/alerts the ECS proxy stream either way; Jina for similar prompts/incidents. Production scale → Hosted or self-hosted; lab stays Serverless.
 
-**DCOS footprint note:** Workshop slide = internal product teams. Do not imply that is the whole Cisco account — call out **Talos** (biggest security) and **ThousandEyes** (already on Elastic) first.
+**DCOS footprint note:** Workshop slide = internal product teams. Do not imply that is the whole Cisco account — call out **Talos** (biggest security) and **ThousandEyes** (already on Elastic) first. **Splunk O11Y** runs **open-source Elasticsearch** — frame the upgrade to supported Enterprise / Cloud Hosted (not a net-new search stack).
 
 Deck: https://cisco-search-jina.vercel.app/slides
 
