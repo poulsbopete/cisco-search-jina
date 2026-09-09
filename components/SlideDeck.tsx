@@ -41,9 +41,9 @@ export const SLIDES: Slide[] = [
     subtitle:
       "Product and platform teams across Cisco — Elastic for search, Jina for embeddings, AI where it helps.",
     bullets: [
-      "Today’s lab: CRM, Lifecycle, Webex / Infra, and CIRCUIT (LLM proxy).",
+      "Today’s lab: Keyword vs semantic, CRM, Lifecycle, Webex/CCR — plus CIRCUIT docs and ML.",
       "The same pattern shows up in security, networking, and observability teams across Cisco.",
-      "One Elastic story: search, explainability, and how you choose to run it.",
+      "One Elastic story: ES|QL search, explainability, and how you choose to run it.",
     ],
     infographic: "cisco-hub",
   },
@@ -179,13 +179,13 @@ export const SLIDES: Slide[] = [
     title: "Try it hands-on",
     subtitle: "Your own Elastic Serverless Search project — same Cisco-shaped corpus.",
     bullets: [
-      "Keyword vs semantic on deals, transactions, notes — and CIRCUIT LLM-proxy events.",
-      "Bring your LLM path: Elastic LLM and/or Cisco CIRCUIT — customer choice.",
-      "Walk out knowing what Elastic + Jina give you — and how you’d run it.",
+      "Four challenges: Keyword vs semantic → CRM → Lifecycle → Webex/CCR (+ CIRCUIT ML).",
+      "Seeded cisco-jina-corpus (14), five dashboards, 10-minute notes workflow, ML job cisco-jina-circuit-tokens.",
+      "ES|QL only (no KQL), then AI Agent with the same questions — walk out knowing Elastic + Jina.",
     ],
     infographic: "lab-steps",
     demoHref: INSTRUQT_INVITE,
-    demoLabel: "Start the hands-on lab",
+    demoLabel: "Start the Instruqt lab",
   },
 ];
 

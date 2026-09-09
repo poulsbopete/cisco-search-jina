@@ -1,15 +1,35 @@
 @import "tailwindcss";
 
+/*
+  Align with Instruqt modern-dark + slide embed chrome (#061525).
+  Cisco / Elastic blues from the facilitator deck.
+*/
 :root {
-  --background: #09090b;
-  --foreground: #fafafa;
-  --primary: #67e8f9;
+  --background: #061525;
+  --background-elevated: #0a1f33;
+  --foreground: #e8f4fa;
+  --muted: #7eb6d4;
+  --muted-foreground: #b8d4e6;
+  --primary: #049fd9;
+  --primary-bright: #00bceb;
+  --primary-foreground: #061525;
+  --border: rgba(4, 159, 217, 0.28);
+  --surface: rgba(255, 255, 255, 0.04);
+  --ring: #00bceb;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-elevated: var(--background-elevated);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
   --color-primary: var(--primary);
+  --color-primary-bright: var(--primary-bright);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-border: var(--border);
+  --color-surface: var(--surface);
+  --color-ring: var(--ring);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -22,4 +42,17 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Soft atmosphere — matches Instruqt dark lab chrome */
+body::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(4, 159, 217, 0.18), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(0, 188, 235, 0.08), transparent 45%),
+    var(--background);
 }

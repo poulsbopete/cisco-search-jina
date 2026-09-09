@@ -11,14 +11,14 @@ export function SiteNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/90 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-primary/25 bg-background/90 backdrop-blur-xl">
       <div className="mx-auto flex h-12 max-w-6xl items-center justify-between gap-3 px-4">
         <button
           type="button"
           onClick={() => setActive("semantic")}
-          className="shrink-0 font-mono text-xs uppercase tracking-[0.2em] text-cyan-300"
+          className="shrink-0 font-mono text-xs uppercase tracking-[0.2em] text-primary-bright"
         >
-          Cisco search
+          Cisco · Elastic + Jina
         </button>
 
         <nav className="hidden items-center gap-0.5 md:flex" aria-label="Concepts">
@@ -30,8 +30,8 @@ export function SiteNav() {
               className={cn(
                 "rounded-full px-3 py-1 font-mono text-[11px] tracking-wide",
                 active === mod.id
-                  ? "bg-white/10 text-white"
-                  : "text-zinc-400 hover:text-white",
+                  ? "bg-primary/20 text-foreground ring-1 ring-primary/40"
+                  : "text-muted-foreground hover:text-foreground",
               )}
             >
               {mod.label}
@@ -41,7 +41,7 @@ export function SiteNav() {
 
         <button
           type="button"
-          className="p-2 text-zinc-200 md:hidden"
+          className="p-2 text-foreground md:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label="Menu"
         >
@@ -50,7 +50,7 @@ export function SiteNav() {
       </div>
 
       {open ? (
-        <nav className="space-y-1 border-t border-white/10 px-4 py-3 md:hidden">
+        <nav className="space-y-1 border-t border-primary/25 px-4 py-3 md:hidden">
           {MODULES.map((mod) => (
             <button
               key={mod.id}
@@ -61,7 +61,7 @@ export function SiteNav() {
               }}
               className={cn(
                 "block w-full py-2 text-left font-mono text-sm",
-                active === mod.id ? "text-white" : "text-zinc-400",
+                active === mod.id ? "text-foreground" : "text-muted-foreground",
               )}
             >
               {mod.label}

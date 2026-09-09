@@ -95,7 +95,7 @@ export function EchStory() {
 
   return (
     <div>
-      <p className="rounded-2xl border border-cyan-400/30 bg-cyan-400/5 p-5 text-sm leading-relaxed text-zinc-200">
+      <p className="rounded-2xl border border-primary/40 bg-primary/10 p-5 text-sm leading-relaxed text-zinc-200">
         Cisco groups already run <span className="text-white">Open Source Elasticsearch</span>{" "}
         self-hosted — or get pushed to <span className="text-white">AWS OpenSearch</span> for EDP.
         Elastic Cloud Hosted is on <span className="text-white">AWS Marketplace</span> (same commit,
@@ -115,7 +115,7 @@ export function EchStory() {
             onClick={() => setRegion(key)}
             className={`rounded-full border px-4 py-2 font-mono text-xs ${
               region === key
-                ? "border-cyan-400 bg-cyan-400/15 text-cyan-200"
+                ? "border-primary bg-primary/15 text-primary-bright"
                 : "border-white/15 text-zinc-400"
             }`}
           >
@@ -125,7 +125,7 @@ export function EchStory() {
       </div>
 
       <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-5">
-        <p className="font-mono text-xs uppercase tracking-wide text-cyan-300">
+        <p className="font-mono text-xs uppercase tracking-wide text-primary-bright">
           {config.headline}
         </p>
         <p className="mt-2 text-sm leading-relaxed text-zinc-300">{config.detail}</p>
@@ -186,7 +186,7 @@ export function EchStory() {
         Deploy Hosted with the <span className="text-zinc-400">Elasticsearch</span> solution
         only. References:{" "}
         <a
-          className="text-cyan-300 underline"
+          className="text-primary-bright underline"
           href="https://www.elastic.co/docs/deploy-manage/deploy/elastic-cloud/create-an-elastic-cloud-hosted-deployment"
           target="_blank"
           rel="noopener noreferrer"
@@ -195,7 +195,7 @@ export function EchStory() {
         </a>
         {" · "}
         <a
-          className="text-cyan-300 underline"
+          className="text-primary-bright underline"
           href="https://www.elastic.co/docs/deploy-manage/deploy/elastic-cloud/fedramp"
           target="_blank"
           rel="noopener noreferrer"
@@ -204,7 +204,7 @@ export function EchStory() {
         </a>
         {" · "}
         <a
-          className="text-cyan-300 underline"
+          className="text-primary-bright underline"
           href="https://www.elastic.co/docs/deploy-manage/cloud-organization/billing/cloud-hosted-deployment-billing-dimensions"
           target="_blank"
           rel="noopener noreferrer"

@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Cisco search · Elastic + Jina",
+  title: "Cisco — Semantic search with Elastic + Jina",
   description:
-    "Semantic search over deals, transactions, logs, notes, and CIRCUIT LLM proxy events. Elastic Serverless Search with Jina relevance — for CRM Analytics, Lifecycle, Webex / Infrastructure, and CIRCUIT.",
+    "Facilitator deck and demos for the Instruqt lab: ES|QL keyword vs semantic on cisco-jina-corpus, CRM, Lifecycle, Webex CCR, CIRCUIT + ML — Elastic Serverless Search with Jina relevance.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -25,7 +25,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full dark antialiased`}
     >
-      <body className="min-h-full bg-zinc-950 font-sans text-zinc-50">
+      <body className="min-h-full bg-background font-sans text-foreground">
         <AppChrome>{children}</AppChrome>
       </body>
     </html>

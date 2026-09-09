@@ -41,7 +41,7 @@ export function LifecycleDemo() {
       <input
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="mt-4 w-full rounded-xl border border-white/15 bg-black/50 px-4 py-3 text-white outline-none focus:border-cyan-400"
+        className="mt-4 w-full rounded-xl border border-white/15 bg-black/50 px-4 py-3 text-white outline-none focus:border-primary"
       />
       <div className="mt-4 flex flex-wrap gap-2">
         {SOURCES.map((s) => (
@@ -51,7 +51,7 @@ export function LifecycleDemo() {
             onClick={() => setEnabled((e) => ({ ...e, [s]: !e[s] }))}
             className={`rounded-full border px-3 py-1 font-mono text-xs ${
               enabled[s]
-                ? "border-cyan-400 bg-cyan-400/15 text-cyan-200"
+                ? "border-primary bg-primary/15 text-primary-bright"
                 : "border-white/15 text-zinc-500"
             }`}
           >
@@ -64,7 +64,7 @@ export function LifecycleDemo() {
           <li key={h.doc.id} className="rounded-2xl border border-white/10 bg-white/5 p-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="font-medium">{h.doc.title}</p>
-              <span className="font-mono text-[11px] text-cyan-300">
+              <span className="font-mono text-[11px] text-primary-bright">
                 {h.doc.system}
                 {"bytes" in h.doc && h.doc.bytes
                   ? ` · ${(Number(h.doc.bytes) / 1048576).toFixed(1)} MB`

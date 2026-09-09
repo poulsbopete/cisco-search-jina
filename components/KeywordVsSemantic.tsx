@@ -27,7 +27,7 @@ function HitList({
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="font-medium text-white">{h.doc.title}</p>
-                <p className="mt-1 font-mono text-[11px] text-cyan-300">
+                <p className="mt-1 font-mono text-[11px] text-primary-bright">
                   {h.doc.system} · {h.doc.source}
                 </p>
               </div>
@@ -61,7 +61,7 @@ export function KeywordVsSemantic() {
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="mt-2 w-full rounded-xl border border-white/15 bg-black/50 px-4 py-3 text-base text-white outline-none focus:border-cyan-400"
+          className="mt-2 w-full rounded-xl border border-white/15 bg-black/50 px-4 py-3 text-base text-white outline-none focus:border-primary"
         />
       </label>
       <div className="mt-3 flex flex-wrap gap-2">
@@ -75,24 +75,26 @@ export function KeywordVsSemantic() {
             key={q}
             type="button"
             onClick={() => setQuery(q)}
-            className="rounded-full border border-white/15 px-3 py-1 font-mono text-[11px] text-zinc-300 hover:border-cyan-400"
+            className="rounded-full border border-white/15 px-3 py-1 font-mono text-[11px] text-zinc-300 hover:border-primary"
           >
             {q}
           </button>
         ))}
       </div>
-      <p className="mt-4 text-sm text-zinc-400">
-        Left is the OpenSearch ceiling: keyword only, no embeddings. Right is Elastic + Jina:
-        meaning as numbers, so different wording can still surface the same deals.
+      <p className="mt-4 text-sm text-muted-foreground">
+        Left mirrors Lab 1 lexical search: <code className="text-primary-bright">MATCH(content, &quot;legal&quot;)</code>{" "}
+        — token ceiling (Umbrella legal-hold noise). Right mirrors concept neighborhood:{" "}
+        <code className="text-primary-bright">MV_INTERSECTS(concepts, …)</code> — Elastic + Jina meaning,
+        so counsel / lock-in wording still ranks without those exact tokens.
       </p>
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <HitList
-          title="Keyword — OpenSearch ceiling"
+          title="Keyword — MATCH tokens"
           hits={keyword}
-          empty="No exact tokens. This is the gap reps feel."
+          empty="No exact tokens. This is the OpenSearch-shaped gap."
         />
         <HitList
-          title="Semantic — Elastic + Jina"
+          title="Semantic — concept neighborhood"
           hits={semantic}
           empty="No neighborhood overlap."
         />

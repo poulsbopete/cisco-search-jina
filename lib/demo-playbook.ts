@@ -13,6 +13,8 @@ export const LAB_DASHBOARDS = {
   circuit: "Cisco Jina — CIRCUIT LLM proxy (ECS)",
 } as const;
 
+export const LAB_ML_JOB = "cisco-jina-circuit-tokens";
+
 export type DemoBeat = {
   id: string;
   href: string;
@@ -27,7 +29,7 @@ export const DEMO_BEATS: DemoBeat[] = [
     href: "/demo",
     title: "Keyword vs semantic",
     summary:
-      "The same question, two retrieval styles. AWS OpenSearch stops at keyword — Cisco teams told us it does not offer embeddings. Elastic + Jina rank meaning, so “legal concerns” and “vendor lock-in fears” can surface the same deals.",
+      "Same corpus, two ES|QL shapes. MATCH(content, \"legal\") is the OpenSearch-style token ceiling (Umbrella legal-hold noise). MV_INTERSECTS(concepts, …) is the Elastic + Jina neighborhood — Acme counsel stays; Umbrella drops.",
     dashboardTitle: LAB_DASHBOARDS.keywordVsSemantic,
   },
   {
@@ -35,7 +37,7 @@ export const DEMO_BEATS: DemoBeat[] = [
     href: "/crm",
     title: "CRM Analytics",
     summary:
-      "Find deals like this one, with a reason for every match. Account, deal, and competitor stay connected so forecast narratives are grounded — not guessed.",
+      "Find deals like Acme’s Webex renewal with a reason for every match. Pipeline stage and competitors stay grounded in account / deal / competitor — same story as the lab dashboard.",
     dashboardTitle: LAB_DASHBOARDS.crm,
   },
   {
@@ -43,7 +45,7 @@ export const DEMO_BEATS: DemoBeat[] = [
     href: "/lifecycle",
     title: "Lifecycle Platform",
     summary:
-      "One question across Snowflake facts, S3 payloads, and Elastic logs. Large transaction documents become searchable without standing up another warehouse.",
+      "Snowflake · S3 · Elastic as peers in one ES|QL. Counsel language inside large payloads without a second warehouse — matching the Lifecycle federated-search lab.",
     dashboardTitle: LAB_DASHBOARDS.lifecycle,
   },
   {
@@ -51,15 +53,15 @@ export const DEMO_BEATS: DemoBeat[] = [
     href: "/webex",
     title: "Webex / Infrastructure",
     summary:
-      "Consistent relevance in US Gov East and West. Replicate with CCR, search locally, and keep ranking aligned so queries never cross the Gov boundary.",
+      "CCR replicates; search locally in US Gov East and West. Same concepts, no cross-boundary query plane — exactly Lab 4’s East/West ES|QL slices.",
     dashboardTitle: LAB_DASHBOARDS.webex,
   },
   {
     id: "circuit",
     href: "/circuit",
-    title: "ECS at scale for the CIRCUIT LLM proxy",
+    title: "CIRCUIT LLM proxy (ECS)",
     summary:
-      "CIRCUIT is Cisco’s LLM proxy. Customers choose Elastic LLM, CIRCUIT, or both. Elastic searches and explains the ECS proxy stream; Jina adds semantic neighborhood on prompts and policies.",
+      "CIRCUIT is Cisco’s LLM proxy. Customers choose Elastic LLM, CIRCUIT, or both. The lab seeds CIRCUIT docs on cisco-jina-corpus plus ML job cisco-jina-circuit-tokens on proxy metrics (token spike / policy denies).",
     dashboardTitle: LAB_DASHBOARDS.circuit,
   },
 ];

@@ -67,7 +67,7 @@ export function FipsStory() {
 
   return (
     <div>
-      <p className="rounded-2xl border border-cyan-400/30 bg-cyan-400/5 p-5 text-sm leading-relaxed text-zinc-200">
+      <p className="rounded-2xl border border-primary/40 bg-primary/10 p-5 text-sm leading-relaxed text-zinc-200">
         On-prem Open Source Elasticsearch has no FIPS switch. Elastic{" "}
         <span className="text-white">Enterprise</span> does: prepare a FIPS JVM, flip one
         setting, password-protect the keystore, then rolling-restart. That is the path for an
@@ -93,7 +93,7 @@ export function FipsStory() {
           onClick={() => setOn((v) => !v)}
           className={`relative h-8 w-16 rounded-full border font-mono text-[10px] ${
             on
-              ? "border-cyan-400 bg-cyan-400/20 text-cyan-100"
+              ? "border-primary bg-primary/20 text-primary-bright"
               : "border-white/20 bg-black/40 text-zinc-400"
           }`}
         >
@@ -109,7 +109,7 @@ export function FipsStory() {
       <pre
         className={`mt-3 overflow-x-auto rounded-2xl border p-4 font-mono text-xs leading-relaxed ${
           on
-            ? "border-cyan-400/40 bg-black/50 text-cyan-100"
+            ? "border-primary/40 bg-black/50 text-primary-bright"
             : "border-white/10 bg-black/30 text-zinc-600"
         }`}
       >
@@ -143,7 +143,7 @@ export function FipsStory() {
             key={step.title}
             className="rounded-2xl border border-white/10 bg-white/5 p-5"
           >
-            <p className="font-mono text-xs text-cyan-300">
+            <p className="font-mono text-xs text-primary-bright">
               {String(i + 1).padStart(2, "0")} · {step.title}
             </p>
             <p className="mt-2 text-sm leading-relaxed text-zinc-300">{step.detail}</p>
@@ -155,7 +155,7 @@ export function FipsStory() {
         Confirm the Elasticsearch version and Java line you run on-prem actually support this FIPS
         model before a production rolling restart. Public reference:{" "}
         <a
-          className="text-cyan-300 underline"
+          className="text-primary-bright underline"
           href="https://www.elastic.co/docs/deploy-manage/security/fips-es"
           target="_blank"
           rel="noopener noreferrer"

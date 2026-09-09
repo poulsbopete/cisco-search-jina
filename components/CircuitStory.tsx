@@ -44,15 +44,16 @@ export function CircuitStory() {
     <div>
       <OpenInElastic beat={DEMO_BEATS.find((b) => b.id === "circuit") ?? DEMO_BEATS[0]} />
 
-      <p className="mt-6 rounded-2xl border border-cyan-400/30 bg-cyan-400/5 p-5 text-sm leading-relaxed text-zinc-200">
+      <p className="mt-6 rounded-2xl border border-primary/40 bg-primary/10 p-5 text-sm leading-relaxed text-foreground">
         <span className="text-white">CIRCUIT</span> is Cisco&apos;s{" "}
-        <span className="text-white">LLM proxy</span> (and AI security controls) — one of the
-        fastest-growing internal solutions. Customers choose{" "}
+        <span className="text-white">LLM proxy</span> (and AI security controls). Customers choose{" "}
         <span className="text-white">Elastic LLM</span>,{" "}
         <span className="text-white">CIRCUIT</span>, or{" "}
-        <span className="text-white">both</span>. Elastic searches the ECS proxy stream either way;
-        <span className="text-white"> Jina</span> adds semantic neighborhood on prompts and
-        incidents.
+        <span className="text-white">both</span>. The Instruqt lab seeds CIRCUIT docs on{" "}
+        <code className="text-primary-bright">cisco-jina-corpus</code> and ML job{" "}
+        <code className="text-primary-bright">cisco-jina-circuit-tokens</code> (token-budget spike).
+        Elastic searches the ECS stream either way; <span className="text-white">Jina</span> adds
+        semantic neighborhood on prompts and incidents.
       </p>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -117,7 +118,7 @@ export function CircuitStory() {
             onClick={() => setLens(l.id)}
             className={`rounded-full border px-4 py-2 font-mono text-xs ${
               lens === l.id
-                ? "border-cyan-400 bg-cyan-400/15 text-cyan-200"
+                ? "border-primary bg-primary/15 text-primary-bright"
                 : "border-white/15 text-zinc-400"
             }`}
           >
@@ -138,7 +139,7 @@ export function CircuitStory() {
                 key={row.field}
                 className="flex flex-col gap-0.5 border-b border-white/5 pb-2 sm:flex-row sm:justify-between sm:gap-4"
               >
-                <span className="text-cyan-300">{row.field}</span>
+                <span className="text-primary-bright">{row.field}</span>
                 <span className="text-zinc-500">{row.example}</span>
               </li>
             ))}

@@ -36,14 +36,14 @@ export function BundleStory() {
 
   return (
     <div>
-      <p className="rounded-2xl border border-cyan-400/30 bg-cyan-400/5 p-5 text-sm leading-relaxed text-zinc-200">
+      <p className="rounded-2xl border border-primary/40 bg-primary/10 p-5 text-sm leading-relaxed text-zinc-200">
         Cisco teams told us <span className="text-white">AWS OpenSearch does not offer embeddings</span>.
         That is a keyword ceiling: the words you typed, nothing else. Elastic runs embeddings in
         Hosted or self-managed Enterprise. Jina makes them multimodal. Prove it in{" "}
-        <a className="text-cyan-200 underline" href={INSTRUQT_INVITE} target="_blank" rel="noopener noreferrer">
+        <a className="text-primary-bright underline" href={INSTRUQT_INVITE} target="_blank" rel="noopener noreferrer">
           the Serverless lab
         </a>{" "}
-        — ES|QL on <code className="text-cyan-200">cisco-jina-corpus</code>, then AI Agent.
+        — ES|QL on <code className="text-primary-bright">cisco-jina-corpus</code>, then AI Agent.
       </p>
       <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
         <table className="min-w-full text-left text-sm">
@@ -61,7 +61,7 @@ export function BundleStory() {
                 <td className="px-4 py-3 text-zinc-200">{r.need}</td>
                 <td className="px-4 py-3 text-zinc-500">{r.opensearch}</td>
                 <td className="px-4 py-3 text-emerald-300/90">{r.elastic}</td>
-                <td className="px-4 py-3 text-cyan-200">{r.jina}</td>
+                <td className="px-4 py-3 text-primary-bright">{r.jina}</td>
               </tr>
             ))}
           </tbody>

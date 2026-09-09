@@ -26,8 +26,10 @@ export function ConceptApp() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
-      <p className="font-mono text-xs uppercase tracking-[0.25em] text-cyan-400">{meta.kicker}</p>
-      <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">{meta.title}</h1>
+      <p className="font-mono text-xs uppercase tracking-[0.25em] text-primary-bright">{meta.kicker}</p>
+      <h1 className="mt-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+        {meta.title}
+      </h1>
       <div className="mt-8">
         {active === "semantic" ? <KeywordVsSemantic /> : null}
         {active === "crm" ? <CrmDemo /> : null}
@@ -38,11 +40,11 @@ export function ConceptApp() {
         {active === "ech" ? <EchStory /> : null}
         {active === "bundle" ? <BundleStory /> : null}
       </div>
-      <footer className="mt-16 border-t border-white/10 py-6 text-xs leading-relaxed text-zinc-500">
-        <p>Cisco search × Elastic Serverless × Jina</p>
+      <footer className="mt-16 border-t border-primary/25 py-6 text-xs leading-relaxed text-muted">
+        <p>Cisco search × Elastic Serverless × Jina — same story as the Instruqt lab</p>
         <p className="mt-1">
-          One app for retrieval, CRM Analytics, Lifecycle, Webex / Infra, CIRCUIT (ECS LLM
-          proxy), FIPS on-prem, Elastic Cloud Hosted, and the Elastic + Jina bundle.
+          Deck for the live hour; lab for hands-on ES|QL, seeded dashboards, workflow notes, and ML.
+          Index <code className="text-primary-bright">cisco-jina-corpus</code> · ES|QL only · AI Agent.
         </p>
       </footer>
     </div>

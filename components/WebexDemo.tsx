@@ -30,7 +30,7 @@ export function WebexDemo() {
             onClick={() => setRegion(r)}
             className={`rounded-full border px-4 py-2 font-mono text-xs ${
               region === r
-                ? "border-cyan-400 bg-cyan-400/15 text-cyan-200"
+                ? "border-primary bg-primary/15 text-primary-bright"
                 : "border-white/15 text-zinc-400"
             }`}
           >

@@ -30,7 +30,7 @@ export function CrmDemo() {
         </h2>
         <p className="mt-3 text-lg font-medium">{seed.title}</p>
         <p className="mt-2 text-sm text-zinc-400">{seed.content}</p>
-        <p className="mt-4 font-mono text-xs text-cyan-300">
+        <p className="mt-4 font-mono text-xs text-primary-bright">
           CRM Analytics · find deals like this one
         </p>
       </section>
@@ -62,7 +62,7 @@ export function CrmDemo() {
           {similar.slice(0, 4).map((h) => (
             <li key={h.doc.id} className="rounded-xl border border-white/10 bg-black/40 p-4">
               <p className="font-medium">{h.doc.title}</p>
-              <p className="mt-1 font-mono text-[11px] text-cyan-300">{h.doc.system}</p>
+              <p className="mt-1 font-mono text-[11px] text-primary-bright">{h.doc.system}</p>
               <ul className="mt-2 space-y-1 text-xs text-emerald-300/90">
                 {h.why.slice(0, 3).map((w) => (
                   <li key={w}>{w}</li>

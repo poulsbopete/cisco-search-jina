@@ -12,21 +12,21 @@ export const CISCO_TEAMS = [
     name: "CRM Analytics",
     owner: "Deal intelligence",
     href: "/#crm",
-    promise: "Find deals like this one — with explainability, not a black box.",
+    promise: "Find deals like Acme’s Webex renewal — with explainability, not a black box.",
   },
   {
     slug: "lifecycle",
     name: "Lifecycle Platform",
     owner: "Federated sources",
     href: "/#lifecycle",
-    promise: "One query across Snowflake, S3, and Elastic logs.",
+    promise: "Snowflake · S3 · Elastic peers — counsel language inside large payloads.",
   },
   {
     slug: "webex",
     name: "Webex / Infrastructure",
     owner: "Multi-region ops",
     href: "/#webex",
-    promise: "Same relevance in US Gov East and West. Search locally after CCR.",
+    promise: "CCR replicates; search locally in US Gov East and West.",
   },
   {
     slug: "circuit",
@@ -34,6 +34,6 @@ export const CISCO_TEAMS = [
     owner: "LLM proxy · Enterprise AI",
     href: "/#circuit",
     promise:
-      "LLM proxy at ECS scale — use Elastic LLM and/or CIRCUIT; Elastic searches the stream either way.",
+      "Elastic LLM and/or CIRCUIT; lab seeds ECS docs plus ML job cisco-jina-circuit-tokens.",
   },
 ] as const;

@@ -71,7 +71,7 @@ function SavingsBar({
             ? "bg-orange-500"
             : tone === "overlay"
               ? "bg-red-400"
-              : "bg-cyan-400";
+              : "bg-primary";
 
   return (
     <div>
@@ -266,8 +266,8 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-cyan-400/40 bg-cyan-400/10 p-5 ring-1 ring-cyan-400/20">
-          <p className="font-mono text-xs uppercase tracking-wide text-cyan-300">
+        <div className="rounded-2xl border border-primary/40 bg-primary/10 p-5 ring-1 ring-primary/20">
+          <p className="font-mono text-xs uppercase tracking-wide text-primary-bright">
             Elastic Cloud Hosted
           </p>
           <p className="mt-2 text-3xl font-semibold text-white">
@@ -279,7 +279,7 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
               −{formatUsd(est.savings.vsOpenSearch)}/mo vs OpenSearch + overlay
             </p>
           ) : null}
-          <p className="mt-2 text-xs text-cyan-200/80">AWS Marketplace · semantic-ready</p>
+          <p className="mt-2 text-xs text-primary-bright/80">AWS Marketplace · semantic-ready</p>
           <ul className="mt-4 space-y-2 text-sm text-zinc-300">
             <li>RAM hours: {formatUsd(est.ech.capacity)}</li>
             <li>Snapshots: {formatUsd(est.ech.snapshots)}</li>
@@ -326,7 +326,7 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
         {formatUsd(ENTERPRISE_LICENSE_MONTHLY)}/mo illustrative (self-hosted, search-tier). OpenSearch
         overlay: {formatUsd(OPENSEARCH_SEMANTIC_OVERLAY_MONTHLY)}/mo. Size real quotes in{" "}
         <a
-          className="text-cyan-300 underline"
+          className="text-primary-bright underline"
           href="https://cloud.elastic.co/pricing"
           target="_blank"
           rel="noopener noreferrer"
@@ -335,7 +335,7 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
         </a>{" "}
         and{" "}
         <a
-          className="text-cyan-300 underline"
+          className="text-primary-bright underline"
           href="https://aws.amazon.com/opensearch-service/pricing/"
           target="_blank"
           rel="noopener noreferrer"
