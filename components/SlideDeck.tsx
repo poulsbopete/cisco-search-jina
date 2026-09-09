@@ -4,6 +4,10 @@ import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "r
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { FallingPattern } from "@/components/ui/falling-pattern";
+import {
+  SlideInfographic,
+  type InfographicKind,
+} from "@/components/SlideInfographic";
 import { cn } from "@/lib/utils";
 import { APP_URL, INSTRUQT_INVITE } from "@/lib/config";
 
@@ -22,6 +26,7 @@ export type Slide = {
   statCards?: StatCard[];
   /** Full-width value strip under cards (infographic). */
   valueStrip?: { label: string; detail: string }[];
+  infographic?: InfographicKind;
   demoHref?: string;
   demoLabel?: string;
   sourceLabel?: string;
@@ -40,6 +45,7 @@ export const SLIDES: Slide[] = [
       "Connect your systems with Elastic integrations; keep audit and explainability.",
       "Run it how you need: self-hosted, Cloud Hosted, or Serverless SaaS.",
     ],
+    infographic: "cisco-hub",
   },
   {
     section: "opening",
@@ -78,34 +84,14 @@ export const SLIDES: Slide[] = [
         detail: "Competitive self-hosted licensing · AWS Marketplace / EDP · right-sized Serverless.",
       },
     ],
+    infographic: "offer-pipeline",
   },
   {
     section: "cisco",
     speaker: "Cisco groups",
     title: "How we help Cisco groups",
     subtitle: "Same Elastic + Jina story. Different jobs — including CIRCUIT at ECS scale.",
-    statCards: [
-      {
-        figure: "CRM",
-        title: "CRM Analytics",
-        caption: "Find deals like this one — with a reason for every match.",
-      },
-      {
-        figure: "Life",
-        title: "Lifecycle",
-        caption: "One question across warehouses, object stores, and logs.",
-      },
-      {
-        figure: "WX",
-        title: "Webex / Infra",
-        caption: "Same relevance across regions — including gov East / West.",
-      },
-      {
-        figure: "AI",
-        title: "CIRCUIT",
-        caption: "Fastest-growing internal AI path — ECS LLM proxy + security search.",
-      },
-    ],
+    infographic: "groups-fan",
   },
   {
     section: "tech",
@@ -117,6 +103,7 @@ export const SLIDES: Slide[] = [
       "Elastic stores, indexes, and explains. Agents sit on top of that — not a black box.",
       "Integrations and plugins pull from Salesforce, warehouses, object stores, logs, and more.",
     ],
+    infographic: "keyword-vs-semantic",
     demoHref: `${APP_URL}/demo`,
     demoLabel: "Open keyword vs semantic",
   },
@@ -130,6 +117,7 @@ export const SLIDES: Slide[] = [
       "Elasticsearch holds the vectors, versions them, and makes ranking auditable.",
       "Better relevance than keyword-only platforms — without replacing your systems of record.",
     ],
+    infographic: "elastic-jina",
     demoHref: `${APP_URL}/bundle`,
     demoLabel: "Open Elastic + Jina story",
   },
@@ -143,6 +131,7 @@ export const SLIDES: Slide[] = [
       "Elastic searches and alerts on that stream; Jina finds similar prompts and incidents by meaning.",
       "Same deploy choice as everyone else: self-hosted, Cloud Hosted, or Serverless SaaS.",
     ],
+    infographic: "ecs-stream",
     demoHref: `${APP_URL}/circuit`,
     demoLabel: "Open CIRCUIT story",
   },
@@ -151,23 +140,7 @@ export const SLIDES: Slide[] = [
     speaker: "How you run it",
     title: "Deploy how Cisco needs",
     subtitle: "Same Elasticsearch APIs. Three operating models.",
-    statCards: [
-      {
-        figure: "SH",
-        title: "Self-hosted",
-        caption: "Enterprise on your infra or VPC — competitive licensing, FIPS option, you operate.",
-      },
-      {
-        figure: "ECH",
-        title: "Cloud Hosted",
-        caption: "Elastic-operated. Commercial cloud or FedRAMP GovCloud. AWS Marketplace / EDP.",
-      },
-      {
-        figure: "SaaS",
-        title: "Serverless",
-        caption: "Managed Search SaaS — fastest path for commercial; powers today’s hands-on lab.",
-      },
-    ],
+    infographic: "deploy-three",
   },
   {
     section: "deploy",
@@ -179,6 +152,7 @@ export const SLIDES: Slide[] = [
       "Need managed Search quickly in commercial regions → Serverless SaaS (this workshop).",
       "GovCloud note: Serverless is not there today; Hosted is the managed gov path.",
     ],
+    infographic: "path-chooser",
     demoHref: `${APP_URL}/ech`,
     demoLabel: "Open Hosted / TCO story",
   },
@@ -192,6 +166,7 @@ export const SLIDES: Slide[] = [
       "CRM, Lifecycle, Webex, and CIRCUIT-shaped questions on one Cisco corpus.",
       "Walk out knowing what Elastic + Jina give you — and how you’d run it.",
     ],
+    infographic: "lab-steps",
     demoHref: INSTRUQT_INVITE,
     demoLabel: "Start the hands-on lab",
   },
@@ -444,6 +419,10 @@ export function SlideDeck({ embed, section, start }: Props) {
                   </li>
                 ))}
               </ul>
+            ) : null}
+
+            {slide.infographic ? (
+              <SlideInfographic kind={slide.infographic} compact={embed} />
             ) : null}
 
             {slide.demoHref && !embed ? (
