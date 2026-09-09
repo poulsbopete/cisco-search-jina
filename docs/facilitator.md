@@ -4,15 +4,18 @@
 
 ## Live talk (not Instruqt)
 
-Name Cisco groups, not people: **CRM Analytics**, **Lifecycle Platform**, **Webex / Infrastructure**.
+Name Cisco groups, not people: **CRM Analytics**, **Lifecycle Platform**, **Webex / Infrastructure**, **CIRCUIT**.
 
-Short deck (~8 slides): what Elastic provides → Cisco groups → AI-first + Jina → deploy options → lab.
+Short deck: what Elastic provides → Cisco groups (incl. CIRCUIT) → AI-first + Jina → CIRCUIT ECS slide → deploy options → lab.
 
 - Opening / offer — `/slides?section=opening`
 - Cisco groups — `/slides?section=cisco`
+- CIRCUIT (ECS LLM proxy / security) — `/slides?section=circuit` and `/circuit`
 - Search + Jina — `/slides?section=tech` and `/demo`, `/bundle`
 - Deploy (self-hosted / Hosted / Serverless) — `/slides?section=deploy` and `/ech`, `/fips`
 - Lab CTA — `/slides?section=lab`
+
+**CIRCUIT attendees:** lead with ECS they already emit for LLM proxy + AI security; Elastic searches/alerts that stream; Jina for similar prompts/incidents. Production scale → Hosted or self-hosted; lab stays Serverless.
 
 Deck: https://cisco-search-jina.vercel.app/slides
 
@@ -31,7 +34,7 @@ Ungated invite (anyone can start): https://play.instruqt.com/elastic/invite/rjz8
 
 - Challenges that name people instead of Cisco groups
 - Skipping Umbrella “legal hold” (false-positive teaching moment)
-- “We’ll follow up” with no Cisco group (CRM Analytics / Lifecycle / Webex Infra)
+- “We’ll follow up” with no Cisco group (CRM Analytics / Lifecycle / Webex Infra / CIRCUIT)
 
 ## Three layers (do not mix them)
 

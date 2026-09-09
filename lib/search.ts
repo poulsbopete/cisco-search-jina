@@ -9,6 +9,7 @@ const SYNONYM_GROUPS: string[][] = [
   ["fedramp", "gov", "government", "residency"],
   ["invoice", "payload", "transaction", "snowflake", "s3"],
   ["meraki", "branch", "ap"],
+  ["circuit", "llm-proxy", "llm", "proxy", "prompt-injection", "jailbreak", "token-budget", "pii", "exfiltration", "data-leakage", "ecs"],
 ];
 
 function tokenize(text: string): string[] {

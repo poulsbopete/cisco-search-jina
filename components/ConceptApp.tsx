@@ -4,6 +4,7 @@ import { KeywordVsSemantic } from "@/components/KeywordVsSemantic";
 import { CrmDemo } from "@/components/CrmDemo";
 import { LifecycleDemo } from "@/components/LifecycleDemo";
 import { WebexDemo } from "@/components/WebexDemo";
+import { CircuitStory } from "@/components/CircuitStory";
 import { BundleStory } from "@/components/BundleStory";
 import { FipsStory } from "@/components/FipsStory";
 import { EchStory } from "@/components/EchStory";
@@ -32,6 +33,7 @@ export function ConceptApp() {
         {active === "crm" ? <CrmDemo /> : null}
         {active === "lifecycle" ? <LifecycleDemo /> : null}
         {active === "webex" ? <WebexDemo /> : null}
+        {active === "circuit" ? <CircuitStory /> : null}
         {active === "fips" ? <FipsStory /> : null}
         {active === "ech" ? <EchStory /> : null}
         {active === "bundle" ? <BundleStory /> : null}
@@ -39,9 +41,8 @@ export function ConceptApp() {
       <footer className="mt-16 border-t border-white/10 py-6 text-xs leading-relaxed text-zinc-500">
         <p>Cisco search × Elastic Serverless × Jina</p>
         <p className="mt-1">
-          One app for retrieval, CRM Analytics, Lifecycle, Webex / Infra, FIPS on-prem, Elastic
-          Cloud Hosted, and the Elastic + Jina bundle. Interactive ranking on a Cisco-shaped
-          corpus.
+          One app for retrieval, CRM Analytics, Lifecycle, Webex / Infra, CIRCUIT (ECS LLM
+          proxy), FIPS on-prem, Elastic Cloud Hosted, and the Elastic + Jina bundle.
         </p>
       </footer>
     </div>

@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Cisco search · Elastic + Jina",
   description:
-    "Semantic search over deals, transactions, logs, and notes. Elastic Serverless Search with Jina relevance — for CRM Analytics, Lifecycle Platform, and Webex / Infrastructure.",
+    "Semantic search over deals, transactions, logs, notes, and CIRCUIT LLM proxy events. Elastic Serverless Search with Jina relevance — for CRM Analytics, Lifecycle, Webex / Infrastructure, and CIRCUIT.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

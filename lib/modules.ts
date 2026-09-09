@@ -3,6 +3,7 @@ export const MODULE_IDS = [
   "crm",
   "lifecycle",
   "webex",
+  "circuit",
   "fips",
   "ech",
   "bundle",
@@ -42,6 +43,12 @@ export const MODULES: {
     label: "Webex",
     kicker: "Webex / Infrastructure",
     title: "US Gov East + West · CCR + local search",
+  },
+  {
+    id: "circuit",
+    label: "Circuit",
+    kicker: "CIRCUIT · Enterprise AI",
+    title: "ECS at scale for LLM proxy and AI security",
   },
   {
     id: "fips",
@@ -87,6 +94,7 @@ export function moduleFromPath(pathname: string, hash: string): ModuleId {
   if (pathname.startsWith("/crm")) return "crm";
   if (pathname.startsWith("/lifecycle")) return "lifecycle";
   if (pathname.startsWith("/webex")) return "webex";
+  if (pathname.startsWith("/circuit")) return "circuit";
   if (pathname.startsWith("/fips")) return "fips";
   if (pathname.startsWith("/ech")) return "ech";
   if (pathname.startsWith("/bundle")) return "bundle";

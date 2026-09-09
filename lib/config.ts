@@ -37,4 +37,11 @@ export const CISCO_TEAMS = [
     href: "/#webex",
     promise: "Same relevance in US Gov East and West. Search locally after CCR.",
   },
+  {
+    slug: "circuit",
+    name: "CIRCUIT",
+    owner: "Enterprise AI · LLM proxy",
+    href: "/#circuit",
+    promise: "ECS at scale for LLM proxy and AI security — search and detect on the path you already emit.",
+  },
 ] as const;

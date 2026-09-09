@@ -51,6 +51,13 @@ export const DEMO_BEATS: DemoBeat[] = [
     summary:
       "Consistent relevance in US Gov East and West. Replicate with CCR, search locally, and keep ranking aligned so queries never cross the Gov boundary.",
   },
+  {
+    id: "circuit",
+    href: "/circuit",
+    title: "CIRCUIT",
+    summary:
+      "Cisco’s fastest-growing internal AI platform. ECS at scale for the LLM proxy and AI security path — Elastic searches and explains those events; Jina adds semantic neighborhood on prompts and policies.",
+  },
 ];
 
 export { INSTRUQT_INVITE };

@@ -8,6 +8,7 @@ const STEPS = [
   "CRM Analytics — find deals like this one",
   "Lifecycle — Snowflake, S3, and Elastic logs in one ES|QL",
   "Webex / Infra — same query in East and West after CCR",
+  "CIRCUIT — ECS LLM proxy and AI security search (storyboard)",
 ];
 
 export function WorkshopHub() {

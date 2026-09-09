@@ -31,9 +31,9 @@ export const SLIDES: Slide[] = [
     speaker: "Overview",
     title: "Search for Cisco",
     subtitle:
-      "One platform for CRM Analytics, Lifecycle, and Webex / Infra — Elastic for search, Jina for embeddings, AI where it helps.",
+      "CRM Analytics, Lifecycle, Webex / Infra, and CIRCUIT — Elastic for search, Jina for embeddings, AI where it helps.",
     bullets: [
-      "Find meaning across deals, transactions, logs, and notes — not just keywords.",
+      "Find meaning across deals, transactions, logs, notes — and LLM proxy / security events.",
       "Connect your systems with Elastic integrations; keep audit and explainability.",
       "Run it how you need: self-hosted, Cloud Hosted, or Serverless SaaS.",
     ],
@@ -69,7 +69,7 @@ export const SLIDES: Slide[] = [
     section: "cisco",
     speaker: "Cisco groups",
     title: "How we help Cisco groups",
-    subtitle: "Same search story. Different jobs.",
+    subtitle: "Same Elastic + Jina story. Different jobs — including CIRCUIT at ECS scale.",
     statCards: [
       {
         figure: "CRM",
@@ -85,6 +85,11 @@ export const SLIDES: Slide[] = [
         figure: "WX",
         title: "Webex / Infra",
         caption: "Same relevance across regions — including gov East / West.",
+      },
+      {
+        figure: "AI",
+        title: "CIRCUIT",
+        caption: "Fastest-growing internal AI path — ECS LLM proxy + security search.",
       },
     ],
   },
@@ -113,6 +118,19 @@ export const SLIDES: Slide[] = [
     ],
     demoHref: `${APP_URL}/bundle`,
     demoLabel: "Open Elastic + Jina story",
+  },
+  {
+    section: "circuit",
+    speaker: "Cisco groups",
+    title: "CIRCUIT — ECS at scale",
+    subtitle: "Enterprise AI LLM proxy and security. You already speak Elastic Common Schema.",
+    bullets: [
+      "CIRCUIT emits ECS for proxy decisions, tokens, models, and security outcomes.",
+      "Elastic searches and alerts on that stream; Jina finds similar prompts and incidents by meaning.",
+      "Same deploy choice as everyone else: self-hosted, Cloud Hosted, or Serverless SaaS.",
+    ],
+    demoHref: `${APP_URL}/circuit`,
+    demoLabel: "Open CIRCUIT story",
   },
   {
     section: "deploy",
@@ -156,8 +174,8 @@ export const SLIDES: Slide[] = [
     title: "Try it hands-on",
     subtitle: "Your own Elastic Serverless Search project — same Cisco-shaped corpus.",
     bullets: [
-      "Keyword vs semantic on deals, transactions, and notes.",
-      "CRM, Lifecycle, and Webex-shaped ES|QL — one story, three group lenses.",
+      "Keyword vs semantic on deals, transactions, notes — and CIRCUIT-shaped proxy events.",
+      "CRM, Lifecycle, Webex, and CIRCUIT-shaped questions on one Cisco corpus.",
       "Walk out knowing what Elastic + Jina give you — and how you’d run it.",
     ],
     demoHref: INSTRUQT_INVITE,
@@ -172,11 +190,12 @@ export const SECTION_START: Record<string, number> = {
   crm: 2,
   lifecycle: 2,
   webex: 2,
-  fips: 5,
-  ech: 5,
-  deploy: 5,
+  circuit: 5,
+  fips: 6,
+  ech: 6,
+  deploy: 6,
   bundle: 4,
-  lab: 7,
+  lab: 8,
 };
 
 type Props = {

@@ -134,6 +134,39 @@
       "content": "Cross-cluster replication keeps Webex and CRM indices in both gov regions. Search locally with the same synonyms and ranking. Do not send queries across the US-Gov boundary at query time.",
       "concepts": ["ccr", "multi-region", "gov", "relevance"],
       "graph": { "account": "Cisco internal", "deal": "Search platform" }
+    },
+    {
+      "id": "circuit-proxy-deny-injection",
+      "source": "circuit",
+      "system": "CIRCUIT LLM proxy (ECS)",
+      "title": "Policy deny — prompt injection on chat.completion",
+      "account": "Cisco CIRCUIT",
+      "region": "us-east-1",
+      "content": "ECS event.dataset=circuit.llm_proxy event.action=policy_deny. gen_ai.request.model=gpt-4o. Prompt attempted to override system instructions and exfiltrate prior conversation context. event.outcome=blocked. Similar denials cluster around jailbreak phrasing even when tokens differ.",
+      "concepts": ["circuit", "llm-proxy", "prompt-injection", "policy-deny", "ecs", "security"],
+      "graph": { "account": "Cisco CIRCUIT", "deal": "LLM proxy" }
+    },
+    {
+      "id": "circuit-proxy-token-spike",
+      "source": "circuit",
+      "system": "CIRCUIT LLM proxy (ECS)",
+      "title": "Token budget spike — agent tool loop",
+      "account": "Cisco CIRCUIT",
+      "region": "us-east-1",
+      "content": "ECS llm proxy: sudden token budget burn on a multi-step agent. Same user.id, escalating tool calls, model route flipped to a larger private LLM. Ops wants similar incidents without grepping raw request IDs.",
+      "concepts": ["circuit", "llm-proxy", "token-budget", "agent", "ecs", "anomaly"],
+      "graph": { "account": "Cisco CIRCUIT", "deal": "LLM proxy" }
+    },
+    {
+      "id": "circuit-security-pii-leak",
+      "source": "circuit",
+      "system": "CIRCUIT AI security (ECS)",
+      "title": "Sensitive data hit — PII in outbound prompt",
+      "account": "Cisco CIRCUIT",
+      "region": "us-west-2",
+      "content": "Security control on the CIRCUIT path flagged possible PII exfiltration in an outbound prompt. threat.tactic.name roughly maps to exfiltration. event.outcome=failure. Need semantic neighbors: other leakage attempts, not every string that contains 'email'.",
+      "concepts": ["circuit", "security", "pii", "exfiltration", "ecs", "data-leakage"],
+      "graph": { "account": "Cisco CIRCUIT", "deal": "AI security" }
     }
   ]
 }
