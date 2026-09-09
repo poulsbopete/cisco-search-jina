@@ -7,10 +7,10 @@ teaser: Similar CRM deals with explainable concepts. Acme vs Umbrella in ES|QL.
 notes:
 - type: text
   contents: |
-    <div style="width:100%;max-width:100%;margin:0;padding:0">
-    <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=crm&v=5"
-      width="100%" height="640" frameborder="0" scrolling="no"
-      style="border-radius:8px;display:block;width:100%;min-width:100%;height:640px;border:0;background:#061525">
+    <div style="width:min(1120px,92vw);max-width:92vw;margin-left:50%;transform:translateX(-50%);box-sizing:border-box">
+    <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=crm&v=6"
+      width="1120" height="620" frameborder="0" scrolling="no"
+      style="border-radius:8px;display:block;width:100%;min-width:100%;height:620px;border:0;background:#061525">
     </iframe>
     </div>
 tabs:
