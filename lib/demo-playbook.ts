@@ -54,9 +54,9 @@ export const DEMO_BEATS: DemoBeat[] = [
   {
     id: "circuit",
     href: "/circuit",
-    title: "CIRCUIT",
+    title: "ECS at scale for the CIRCUIT LLM proxy",
     summary:
-      "Cisco’s fastest-growing internal AI platform. ECS at scale for the LLM proxy and AI security path — Elastic searches and explains those events; Jina adds semantic neighborhood on prompts and policies.",
+      "CIRCUIT is Cisco’s LLM proxy. Customers choose Elastic LLM, CIRCUIT, or both. Elastic searches and explains the ECS proxy stream; Jina adds semantic neighborhood on prompts and policies.",
   },
 ];
 

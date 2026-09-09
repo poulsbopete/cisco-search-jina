@@ -45,12 +45,40 @@ export function CircuitStory() {
       <OpenInElastic beat={DEMO_BEATS.find((b) => b.id === "circuit") ?? DEMO_BEATS[0]} />
 
       <p className="mt-6 rounded-2xl border border-cyan-400/30 bg-cyan-400/5 p-5 text-sm leading-relaxed text-zinc-200">
-        <span className="text-white">CIRCUIT</span> is one of Cisco&apos;s fastest-growing internal
-        solutions — the enterprise AI platform behind LLM proxy and AI security controls. You
-        already run <span className="text-white">ECS at scale</span> for that traffic. Elastic is
-        the search and security engine that speaks ECS natively: store proxy and security events,
-        retrieve by meaning with{" "}
-        <span className="text-white">Jina</span>, and keep auditability for every hit.
+        <span className="text-white">CIRCUIT</span> is Cisco&apos;s{" "}
+        <span className="text-white">LLM proxy</span> (and AI security controls) — one of the
+        fastest-growing internal solutions. Customers choose{" "}
+        <span className="text-white">Elastic LLM</span>,{" "}
+        <span className="text-white">CIRCUIT</span>, or{" "}
+        <span className="text-white">both</span>. Elastic searches the ECS proxy stream either way;
+        <span className="text-white"> Jina</span> adds semantic neighborhood on prompts and
+        incidents.
+      </p>
+
+      <div className="mt-6 grid gap-3 sm:grid-cols-2">
+        <section className="rounded-2xl border border-[#049FD9]/35 bg-[#049FD9]/10 p-5">
+          <p className="font-mono text-[10px] uppercase tracking-wide text-[#00BCEB]">
+            Option A
+          </p>
+          <h2 className="mt-1 font-mono text-sm text-white">Elastic LLM</h2>
+          <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+            Use Elastic inference / LLM endpoints for generation and enrichment — native to the
+            search platform.
+          </p>
+        </section>
+        <section className="rounded-2xl border border-[#049FD9]/35 bg-[#049FD9]/10 p-5">
+          <p className="font-mono text-[10px] uppercase tracking-wide text-[#00BCEB]">
+            Option B
+          </p>
+          <h2 className="mt-1 font-mono text-sm text-white">Cisco CIRCUIT</h2>
+          <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+            Route models through CIRCUIT&apos;s LLM proxy for Cisco policy, security, and ECS
+            telemetry at scale — Elastic still indexes and searches that stream.
+          </p>
+        </section>
+      </div>
+      <p className="mt-3 text-center font-mono text-xs text-[#8FB8D0]">
+        Customer choice — Elastic LLM and/or CIRCUIT. Not either-or for the account.
       </p>
 
       <div className="mt-6 grid gap-4 md:grid-cols-3">
@@ -58,17 +86,17 @@ export function CircuitStory() {
           {
             title: "ECS you already own",
             detail:
-              "LLM proxy and security events land as Elastic Common Schema. No parallel log dialect — Discover, ES|QL, and alerts work on day one.",
+              "CIRCUIT proxy and security events land as Elastic Common Schema. Discover, ES|QL, and alerts work on day one.",
           },
           {
             title: "Search the proxy",
             detail:
-              "Find similar blocked prompts, token spikes, or model-route regressions — semantic neighborhood, not just string match on request IDs.",
+              "Find similar blocked prompts, token spikes, or model-route regressions — meaning, not request-ID grep.",
           },
           {
             title: "Secure the AI path",
             detail:
-              "Policy denials, PII leakage signals, and anomalous agent tool calls stay queryable and explainable alongside the rest of Cisco search.",
+              "Policy denials, PII hits, and anomalous agent tool calls stay queryable next to the rest of Cisco search.",
           },
         ].map((card) => (
           <section

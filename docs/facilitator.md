@@ -15,7 +15,7 @@ Short deck: what Elastic provides → Cisco groups (incl. CIRCUIT) → AI-first 
 - Deploy (self-hosted / Hosted / Serverless) — `/slides?section=deploy` and `/ech`, `/fips`
 - Lab CTA — `/slides?section=lab`
 
-**CIRCUIT attendees:** lead with ECS they already emit for LLM proxy + AI security; Elastic searches/alerts that stream; Jina for similar prompts/incidents. Production scale → Hosted or self-hosted; lab stays Serverless.
+**CIRCUIT attendees:** CIRCUIT is an **LLM proxy**. Customers choose **Elastic LLM**, **CIRCUIT**, or **both**. Elastic searches/alerts the ECS proxy stream either way; Jina for similar prompts/incidents. Production scale → Hosted or self-hosted; lab stays Serverless.
 
 Deck: https://cisco-search-jina.vercel.app/slides
 

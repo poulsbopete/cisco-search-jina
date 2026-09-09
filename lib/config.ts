@@ -40,8 +40,9 @@ export const CISCO_TEAMS = [
   {
     slug: "circuit",
     name: "CIRCUIT",
-    owner: "Enterprise AI · LLM proxy",
+    owner: "LLM proxy · Enterprise AI",
     href: "/#circuit",
-    promise: "ECS at scale for LLM proxy and AI security — search and detect on the path you already emit.",
+    promise:
+      "LLM proxy at ECS scale — use Elastic LLM and/or CIRCUIT; Elastic searches the stream either way.",
   },
 ] as const;

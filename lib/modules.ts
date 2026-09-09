@@ -47,8 +47,8 @@ export const MODULES: {
   {
     id: "circuit",
     label: "Circuit",
-    kicker: "CIRCUIT · Enterprise AI",
-    title: "ECS at scale for LLM proxy and AI security",
+    kicker: "CIRCUIT · LLM proxy",
+    title: "Elastic LLM and/or CIRCUIT — your choice; Elastic searches the ECS stream",
   },
   {
     id: "fips",

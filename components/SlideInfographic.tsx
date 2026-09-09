@@ -126,7 +126,7 @@ export function SlideInfographic({
             { l: "CRM", s: "Similar deals · explainable" },
             { l: "Lifecycle", s: "Warehouses · objects · logs" },
             { l: "Webex", s: "Gov East / West · CCR" },
-            { l: "CIRCUIT", s: "ECS LLM proxy · security" },
+            { l: "CIRCUIT", s: "LLM proxy · your choice" },
           ].map((g) => (
             <Node key={g.l} label={g.l} sub={g.s} compact={compact} />
           ))}
@@ -179,12 +179,26 @@ export function SlideInfographic({
 
   if (kind === "ecs-stream") {
     return (
-      <div className={cn(shell, "flex flex-wrap items-center justify-center gap-2")}>
-        <Node label="CIRCUIT" sub="LLM proxy · security" compact={compact} />
-        <Arrow compact={compact} />
-        <Node label="ECS events" sub="Model · tokens · outcome" compact={compact} />
-        <Arrow compact={compact} />
-        <Node label="Elastic" sub="Search · alert · explain" accent compact={compact} />
+      <div className={shell}>
+        <div className={cn("mb-2 flex flex-wrap items-center justify-center gap-2")}>
+          <Node label="Elastic LLM" sub="Inference · your models" compact={compact} />
+        <span className="font-mono text-[10px] uppercase text-[#00BCEB]">and / or</span>
+          <Node label="CIRCUIT" sub="Cisco LLM proxy" compact={compact} />
+        </div>
+        <div className="flex justify-center font-mono text-[#049FD9]">↓</div>
+        <div className={cn("mt-2 flex flex-wrap items-center justify-center gap-2")}>
+          <Node label="ECS events" sub="Model · tokens · outcome" compact={compact} />
+          <Arrow compact={compact} />
+          <Node label="Elastic Search" sub="Find · alert · explain" accent compact={compact} />
+        </div>
+        <p
+          className={cn(
+            "mt-2 font-mono text-[#8FB8D0]",
+            compact ? "text-[10px]" : "text-xs",
+          )}
+        >
+          Customer choice of LLM path · Elastic for search on the proxy stream
+        </p>
       </div>
     );
   }

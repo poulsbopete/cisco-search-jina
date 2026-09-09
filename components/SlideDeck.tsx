@@ -124,12 +124,13 @@ export const SLIDES: Slide[] = [
   {
     section: "circuit",
     speaker: "Cisco groups",
-    title: "CIRCUIT — ECS at scale",
-    subtitle: "Enterprise AI LLM proxy and security. You already speak Elastic Common Schema.",
+    title: "CIRCUIT — LLM proxy at ECS scale",
+    subtitle:
+      "CIRCUIT is Cisco’s LLM proxy and AI security path. Customers choose Elastic LLM, CIRCUIT, or both.",
     bullets: [
-      "CIRCUIT emits ECS for proxy decisions, tokens, models, and security outcomes.",
-      "Elastic searches and alerts on that stream; Jina finds similar prompts and incidents by meaning.",
-      "Same deploy choice as everyone else: self-hosted, Cloud Hosted, or Serverless SaaS.",
+      "CIRCUIT proxies LLM traffic and emits ECS — decisions, tokens, models, security outcomes.",
+      "Your choice: call Elastic LLM endpoints, route through CIRCUIT, or use both in the same estate.",
+      "Either way, Elastic searches and explains the proxy stream; Jina finds similar prompts and incidents.",
     ],
     infographic: "ecs-stream",
     demoHref: `${APP_URL}/circuit`,
@@ -162,8 +163,8 @@ export const SLIDES: Slide[] = [
     title: "Try it hands-on",
     subtitle: "Your own Elastic Serverless Search project — same Cisco-shaped corpus.",
     bullets: [
-      "Keyword vs semantic on deals, transactions, notes — and CIRCUIT-shaped proxy events.",
-      "CRM, Lifecycle, Webex, and CIRCUIT-shaped questions on one Cisco corpus.",
+      "Keyword vs semantic on deals, transactions, notes — and CIRCUIT LLM-proxy events.",
+      "Bring your LLM path: Elastic LLM and/or Cisco CIRCUIT — customer choice.",
       "Walk out knowing what Elastic + Jina give you — and how you’d run it.",
     ],
     infographic: "lab-steps",
