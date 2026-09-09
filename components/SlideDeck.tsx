@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { FallingPattern } from "@/components/ui/falling-pattern";
 import { cn } from "@/lib/utils";
@@ -238,13 +238,28 @@ export function SlideDeck({ embed, section, start }: Props) {
   return (
     <div
       className={cn(
-        "relative overflow-hidden bg-zinc-950 text-zinc-50",
+        "relative overflow-hidden text-white",
         embed ? "flex h-[100dvh] min-h-0 flex-col" : "min-h-[calc(100dvh-3rem)]",
       )}
+      style={
+        {
+          "--cisco-blue": "#049FD9",
+          "--cisco-sky": "#00BCEB",
+          "--cisco-navy": "#0B1F33",
+          "--cisco-deep": "#061525",
+          background:
+            "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(4,159,217,0.28), transparent 55%), linear-gradient(165deg, #061525 0%, #0B1F33 48%, #0A1628 100%)",
+        } as CSSProperties
+      }
     >
       {embed ? null : (
-        <div className="pointer-events-none absolute inset-0 opacity-80">
-          <FallingPattern className="h-full" density={1.1} />
+        <div className="pointer-events-none absolute inset-0 opacity-70">
+          <FallingPattern
+            className="h-full"
+            density={1.1}
+            color="rgba(4, 159, 217, 0.55)"
+            backgroundColor="transparent"
+          />
         </div>
       )}
       <div
@@ -255,14 +270,14 @@ export function SlideDeck({ embed, section, start }: Props) {
       >
         <header
           className={cn(
-            "flex shrink-0 items-center justify-between gap-4 border-b border-white/10 bg-black/30 backdrop-blur-md",
+            "flex shrink-0 items-center justify-between gap-4 border-b border-[#049FD9]/25 bg-[#061525]/80 backdrop-blur-md",
             embed ? "px-3 py-1.5" : "px-5 py-3",
           )}
         >
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cyan-300">
+          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#00BCEB]">
             {slide.section}
           </p>
-          <p className="font-mono text-[11px] text-zinc-500">
+          <p className="font-mono text-[11px] text-[#7EB6D4]/70">
             {i + 1} / {SLIDES.length}
           </p>
         </header>
@@ -277,13 +292,13 @@ export function SlideDeck({ embed, section, start }: Props) {
         >
           <div className="mx-auto w-full max-w-5xl text-center">
             {!embed ? (
-              <p className="font-mono text-xs uppercase tracking-[0.25em] text-cyan-400/90">
+              <p className="font-mono text-xs uppercase tracking-[0.25em] text-[#049FD9]">
                 {slide.section}
               </p>
             ) : null}
             <h1
               className={cn(
-                "text-balance font-semibold tracking-tight text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.8)]",
+                "text-balance font-semibold tracking-tight text-white [text-shadow:0_2px_28px_rgba(4,159,217,0.35)]",
                 embed
                   ? "text-xl sm:text-2xl"
                   : "mt-4 text-4xl sm:text-5xl md:text-6xl",
@@ -294,7 +309,7 @@ export function SlideDeck({ embed, section, start }: Props) {
             {slide.subtitle ? (
               <p
                 className={cn(
-                  "mx-auto max-w-3xl text-pretty text-zinc-300",
+                  "mx-auto max-w-3xl text-pretty text-[#B8D4E6]",
                   embed ? "mt-1.5 text-xs sm:text-sm" : "mt-5 text-lg sm:text-xl",
                 )}
               >
@@ -313,13 +328,13 @@ export function SlideDeck({ embed, section, start }: Props) {
                   <div
                     key={s.title}
                     className={cn(
-                      "rounded-xl border border-white/10 bg-black/40 text-left backdrop-blur-md",
+                      "rounded-xl border border-[#049FD9]/30 bg-[#061525]/65 text-left shadow-[0_0_0_1px_rgba(4,159,217,0.08)] backdrop-blur-md",
                       embed ? "p-2.5" : "rounded-2xl p-5",
                     )}
                   >
                     <p
                       className={cn(
-                        "font-mono font-extrabold tracking-tight text-cyan-300",
+                        "font-mono font-extrabold tracking-tight text-[#00BCEB]",
                         embed ? "text-lg" : "text-4xl",
                       )}
                     >
@@ -327,7 +342,7 @@ export function SlideDeck({ embed, section, start }: Props) {
                     </p>
                     <p
                       className={cn(
-                        "font-mono font-semibold uppercase tracking-wide text-zinc-200",
+                        "font-mono font-semibold uppercase tracking-wide text-[#E8F4FA]",
                         embed ? "mt-1 text-[11px]" : "mt-2 text-sm",
                       )}
                     >
@@ -336,7 +351,7 @@ export function SlideDeck({ embed, section, start }: Props) {
                     {s.caption ? (
                       <p
                         className={cn(
-                          "leading-snug text-zinc-400",
+                          "leading-snug text-[#8FB8D0]",
                           embed ? "mt-1 text-[11px]" : "mt-1 text-sm",
                         )}
                       >
@@ -351,7 +366,7 @@ export function SlideDeck({ embed, section, start }: Props) {
             {slide.bullets?.length ? (
               <ul
                 className={cn(
-                  "mx-auto max-w-3xl text-left text-zinc-100",
+                  "mx-auto max-w-3xl text-left text-[#E8F4FA]",
                   embed
                     ? "mt-3 space-y-1.5 text-xs sm:text-sm"
                     : "mt-10 space-y-3 text-base sm:text-lg",
@@ -359,7 +374,7 @@ export function SlideDeck({ embed, section, start }: Props) {
               >
                 {slide.bullets.map((b) => (
                   <li key={b} className="flex gap-2 leading-snug">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300" />
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#049FD9]" />
                     <span>{b}</span>
                   </li>
                 ))}
@@ -371,7 +386,7 @@ export function SlideDeck({ embed, section, start }: Props) {
                 <a
                   href={slide.demoHref}
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl bg-cyan-400 px-5 py-3 font-mono text-sm font-semibold text-zinc-950 hover:brightness-110"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#049FD9] px-5 py-3 font-mono text-sm font-semibold text-white hover:bg-[#00BCEB]"
                 >
                   <ExternalLink className="size-4" />
                   {slide.demoLabel ?? "Open demo"}
@@ -380,10 +395,10 @@ export function SlideDeck({ embed, section, start }: Props) {
             ) : null}
 
             {slide.sourceUrl && !embed ? (
-              <p className="mx-auto mt-8 max-w-3xl font-mono text-xs text-zinc-500">
+              <p className="mx-auto mt-8 max-w-3xl font-mono text-xs text-[#7EB6D4]/80">
                 Source:{" "}
                 <a
-                  className="text-cyan-300 underline underline-offset-2"
+                  className="text-[#00BCEB] underline underline-offset-2"
                   href={slide.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -397,7 +412,7 @@ export function SlideDeck({ embed, section, start }: Props) {
 
         <footer
           className={cn(
-            "shrink-0 border-t border-white/10 bg-black/40 backdrop-blur-md",
+            "shrink-0 border-t border-[#049FD9]/25 bg-[#061525]/90 backdrop-blur-md",
             embed ? "px-3 py-2" : "px-4 py-3",
           )}
         >
@@ -405,7 +420,7 @@ export function SlideDeck({ embed, section, start }: Props) {
             <button
               type="button"
               onClick={prev}
-              className="inline-flex items-center gap-1 rounded-lg border border-white/20 px-4 py-2 text-sm hover:bg-white/10"
+              className="inline-flex items-center gap-1 rounded-lg border border-[#049FD9]/40 px-4 py-2 text-sm text-[#E8F4FA] hover:bg-[#049FD9]/15"
             >
               <ChevronLeft className="size-4" /> Prev
             </button>
@@ -417,7 +432,9 @@ export function SlideDeck({ embed, section, start }: Props) {
                   onClick={() => setI(idx)}
                   className={cn(
                     "h-2 w-2 rounded-full",
-                    idx === i ? "bg-cyan-300" : "bg-white/30 hover:bg-white/50",
+                    idx === i
+                      ? "bg-[#049FD9]"
+                      : "bg-[#049FD9]/30 hover:bg-[#00BCEB]/70",
                   )}
                   aria-label={`Go to slide ${idx + 1}`}
                 />
@@ -426,7 +443,7 @@ export function SlideDeck({ embed, section, start }: Props) {
             <button
               type="button"
               onClick={next}
-              className="inline-flex items-center gap-1 rounded-lg border border-white/20 px-4 py-2 text-sm hover:bg-white/10"
+              className="inline-flex items-center gap-1 rounded-lg border border-[#049FD9]/40 px-4 py-2 text-sm text-[#E8F4FA] hover:bg-[#049FD9]/15"
             >
               Next <ChevronRight className="size-4" />
             </button>
