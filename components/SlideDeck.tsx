@@ -74,7 +74,7 @@ export const SLIDES: Slide[] = [
     bullets: [
       "Today: keyword search + manual correlation.",
       "Tomorrow: semantic search + AI-powered insights — with audit and explainability.",
-      "You already have MuleSoft, Snowflake, and S3.",
+      "Elastic integrations and plugins connect to your systems of record — e.g. Salesforce, warehouses, object stores, and logs.",
       "The gap is search and understanding on top of that infrastructure — not another warehouse.",
     ],
   },
@@ -348,17 +348,28 @@ export function SlideDeck({ embed, section, start }: Props) {
 
   const slide = SLIDES[i];
 
-  const shellHeight = embed
-    ? "h-full min-h-[520px]"
-    : "min-h-[calc(100dvh-3rem)]";
-
   return (
-    <div className={cn("relative overflow-hidden bg-zinc-950 text-zinc-50", shellHeight)}>
+    <div
+      className={cn(
+        "relative overflow-hidden bg-zinc-950 text-zinc-50",
+        embed ? "flex h-[100dvh] min-h-0 flex-col" : "min-h-[calc(100dvh-3rem)]",
+      )}
+    >
       <div className="pointer-events-none absolute inset-0 opacity-80">
         <FallingPattern className="h-full" density={1.1} />
       </div>
-      <div className={cn("relative z-10 flex flex-col", shellHeight)}>
-        <header className="flex items-center justify-between gap-4 border-b border-white/10 bg-black/30 px-5 py-3 backdrop-blur-md">
+      <div
+        className={cn(
+          "relative z-10 flex flex-col",
+          embed ? "h-full min-h-0" : "min-h-[calc(100dvh-3rem)]",
+        )}
+      >
+        <header
+          className={cn(
+            "flex shrink-0 items-center justify-between gap-4 border-b border-white/10 bg-black/30 backdrop-blur-md",
+            embed ? "px-4 py-2" : "px-5 py-3",
+          )}
+        >
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-cyan-300">
             {slide.section}
           </p>
@@ -367,35 +378,76 @@ export function SlideDeck({ embed, section, start }: Props) {
           </p>
         </header>
 
-        <main className="flex flex-1 flex-col justify-center px-6 py-10 sm:px-12">
+        <main
+          className={cn(
+            "flex min-h-0 flex-1 flex-col justify-center",
+            embed
+              ? "overflow-y-auto px-4 py-4 sm:px-6"
+              : "px-6 py-10 sm:px-12",
+          )}
+        >
           <div className="mx-auto w-full max-w-5xl text-center">
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-cyan-400/90">
-              {slide.section}
-            </p>
-            <h1 className="mt-4 text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl md:text-6xl [text-shadow:0_2px_24px_rgba(0,0,0,0.8)]">
+            {!embed ? (
+              <p className="font-mono text-xs uppercase tracking-[0.25em] text-cyan-400/90">
+                {slide.section}
+              </p>
+            ) : null}
+            <h1
+              className={cn(
+                "text-balance font-semibold tracking-tight text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.8)]",
+                embed
+                  ? "text-2xl sm:text-3xl"
+                  : "mt-4 text-4xl sm:text-5xl md:text-6xl",
+              )}
+            >
               {slide.title}
             </h1>
             {slide.subtitle ? (
-              <p className="mx-auto mt-5 max-w-3xl text-pretty text-lg text-zinc-300 sm:text-xl">
+              <p
+                className={cn(
+                  "mx-auto max-w-3xl text-pretty text-zinc-300",
+                  embed ? "mt-2 text-sm sm:text-base" : "mt-5 text-lg sm:text-xl",
+                )}
+              >
                 {slide.subtitle}
               </p>
             ) : null}
 
             {slide.statCards?.length ? (
-              <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <div
+                className={cn(
+                  "grid gap-3 sm:grid-cols-2 lg:grid-cols-3",
+                  embed ? "mt-4" : "mt-10",
+                )}
+              >
                 {slide.statCards.map((s) => (
                   <div
                     key={s.title}
-                    className="rounded-2xl border border-white/10 bg-black/40 p-5 text-left backdrop-blur-md"
+                    className={cn(
+                      "rounded-2xl border border-white/10 bg-black/40 text-left backdrop-blur-md",
+                      embed ? "p-3" : "p-5",
+                    )}
                   >
-                    <p className="font-mono text-4xl font-extrabold tracking-tight text-cyan-300">
+                    <p
+                      className={cn(
+                        "font-mono font-extrabold tracking-tight text-cyan-300",
+                        embed ? "text-2xl" : "text-4xl",
+                      )}
+                    >
                       {s.figure}
                     </p>
-                    <p className="mt-3 font-mono text-sm font-semibold uppercase tracking-wide text-zinc-200">
+                    <p className="mt-2 font-mono text-sm font-semibold uppercase tracking-wide text-zinc-200">
                       {s.title}
                     </p>
                     {s.caption ? (
-                      <p className="mt-2 text-sm leading-snug text-zinc-400">{s.caption}</p>
+                      <p
+                        className={cn(
+                          "mt-1 leading-snug text-zinc-400",
+                          embed ? "text-xs" : "text-sm",
+                        )}
+                      >
+                        {s.caption}
+                      </p>
                     ) : null}
                   </div>
                 ))}
@@ -403,7 +455,12 @@ export function SlideDeck({ embed, section, start }: Props) {
             ) : null}
 
             {slide.bullets?.length ? (
-              <ul className="mx-auto mt-10 max-w-3xl space-y-3 text-left text-base text-zinc-100 sm:text-lg">
+              <ul
+                className={cn(
+                  "mx-auto max-w-3xl space-y-2 text-left text-zinc-100",
+                  embed ? "mt-4 text-sm" : "mt-10 space-y-3 text-base sm:text-lg",
+                )}
+              >
                 {slide.bullets.map((b) => (
                   <li key={b} className="flex gap-3 leading-snug">
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-300" />
@@ -414,7 +471,7 @@ export function SlideDeck({ embed, section, start }: Props) {
             ) : null}
 
             {slide.demoHref ? (
-              <div className="mt-8">
+              <div className={embed ? "mt-4" : "mt-8"}>
                 <a
                   href={slide.demoHref}
                   target={embed ? "_blank" : undefined}
@@ -428,7 +485,12 @@ export function SlideDeck({ embed, section, start }: Props) {
             ) : null}
 
             {slide.sourceUrl ? (
-              <p className="mx-auto mt-8 max-w-3xl font-mono text-xs text-zinc-500">
+              <p
+                className={cn(
+                  "mx-auto max-w-3xl font-mono text-xs text-zinc-500",
+                  embed ? "mt-4" : "mt-8",
+                )}
+              >
                 Source:{" "}
                 <a
                   className="text-cyan-300 underline underline-offset-2"
@@ -443,7 +505,7 @@ export function SlideDeck({ embed, section, start }: Props) {
           </div>
         </main>
 
-        <footer className="border-t border-white/10 bg-black/30 px-4 py-4 backdrop-blur-md">
+        <footer className="shrink-0 border-t border-white/10 bg-black/30 px-4 py-3 backdrop-blur-md">
           <div className="mx-auto flex max-w-5xl items-center justify-between gap-3">
             <button
               type="button"

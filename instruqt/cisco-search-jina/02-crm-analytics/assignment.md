@@ -10,8 +10,8 @@ notes:
     ## While you wait…
 
     <iframe src="https://cisco-search-jina.vercel.app/slides?embed=1&section=crm"
-      width="100%" height="520" frameborder="0"
-      style="border-radius:8px;display:block;width:100%;height:520px;max-height:55vh;border:0">
+      width="100%" height="560" frameborder="0"
+      style="border-radius:8px;display:block;width:100%;height:560px;border:0">
     </iframe>
 tabs:
 - id: rlkxkwgckcyc
