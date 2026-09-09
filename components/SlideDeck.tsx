@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { FallingPattern } from "@/components/ui/falling-pattern";
 import { cn } from "@/lib/utils";
@@ -19,6 +20,8 @@ export type Slide = {
   subtitle?: string;
   bullets?: string[];
   statCards?: StatCard[];
+  /** Full-width value strip under cards (infographic). */
+  valueStrip?: { label: string; detail: string }[];
   demoHref?: string;
   demoLabel?: string;
   sourceLabel?: string;
@@ -42,6 +45,7 @@ export const SLIDES: Slide[] = [
     section: "opening",
     speaker: "Overview",
     title: "What Elastic provides Cisco",
+    subtitle: "Capability, support, and economics — not just features.",
     statCards: [
       {
         figure: "Search",
@@ -62,6 +66,16 @@ export const SLIDES: Slide[] = [
         figure: "Run",
         title: "Your choice",
         caption: "Self-hosted Enterprise, Elastic Cloud Hosted, or Serverless SaaS.",
+      },
+    ],
+    valueStrip: [
+      {
+        label: "Supported",
+        detail: "Enterprise support and SLAs — Elastic behind Cisco groups in production.",
+      },
+      {
+        label: "Cost-effective",
+        detail: "Competitive self-hosted licensing · AWS Marketplace / EDP · right-sized Serverless.",
       },
     ],
   },
@@ -274,10 +288,20 @@ export function SlideDeck({ embed, section, start }: Props) {
             embed ? "px-3 py-1.5" : "px-5 py-3",
           )}
         >
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#00BCEB]">
-            {slide.section}
-          </p>
-          <p className="font-mono text-[11px] text-[#7EB6D4]/70">
+          <div className="flex min-w-0 items-center gap-3">
+            <Image
+              src="/cisco-logo.png"
+              alt="Cisco"
+              width={108}
+              height={57}
+              className={cn("w-auto shrink-0", embed ? "h-5" : "h-7")}
+              priority
+            />
+            <p className="truncate font-mono text-[11px] uppercase tracking-[0.2em] text-[#00BCEB]">
+              {slide.section}
+            </p>
+          </div>
+          <p className="shrink-0 font-mono text-[11px] text-[#7EB6D4]/70">
             {i + 1} / {SLIDES.length}
           </p>
         </header>
@@ -320,7 +344,8 @@ export function SlideDeck({ embed, section, start }: Props) {
             {slide.statCards?.length ? (
               <div
                 className={cn(
-                  "grid gap-2 sm:grid-cols-2 lg:grid-cols-3",
+                  "grid gap-2 sm:grid-cols-2",
+                  slide.statCards.length > 4 ? "lg:grid-cols-3" : "lg:grid-cols-2",
                   embed ? "mt-3" : "mt-10 gap-3",
                 )}
               >
@@ -358,6 +383,46 @@ export function SlideDeck({ embed, section, start }: Props) {
                         {s.caption}
                       </p>
                     ) : null}
+                  </div>
+                ))}
+              </div>
+            ) : null}
+
+            {slide.valueStrip?.length ? (
+              <div
+                className={cn(
+                  "mx-auto grid w-full max-w-5xl gap-2 sm:grid-cols-2",
+                  embed ? "mt-3" : "mt-6",
+                )}
+              >
+                {slide.valueStrip.map((item, idx) => (
+                  <div
+                    key={item.label}
+                    className={cn(
+                      "relative overflow-hidden rounded-xl border border-[#049FD9]/40 bg-gradient-to-br from-[#049FD9]/20 via-[#061525]/80 to-[#061525]/90 text-left",
+                      embed ? "px-3 py-2.5" : "px-5 py-4",
+                    )}
+                  >
+                    <div className="absolute inset-y-0 left-0 w-1 bg-[#049FD9]" />
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#00BCEB]">
+                      {idx === 0 ? "01 · Value" : "02 · Value"} · {item.label}
+                    </p>
+                    <p
+                      className={cn(
+                        "mt-1 font-semibold text-white",
+                        embed ? "text-sm" : "text-lg",
+                      )}
+                    >
+                      {item.label}
+                    </p>
+                    <p
+                      className={cn(
+                        "mt-1 leading-snug text-[#B8D4E6]",
+                        embed ? "text-[11px]" : "text-sm",
+                      )}
+                    >
+                      {item.detail}
+                    </p>
                   </div>
                 ))}
               </div>
