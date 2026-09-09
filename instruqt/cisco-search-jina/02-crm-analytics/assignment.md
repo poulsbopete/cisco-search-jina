@@ -71,7 +71,16 @@ FROM "cisco-jina-corpus"
 
 Acme is lock-in / counsel. Umbrella is **legal hold** on email archive — same token, different motion.
 
+## 4 — Same answers with AI Agent
+
+Open **AI Agent** in this Kibana (chat next to Discover). Ask:
+
+> Using `cisco-jina-corpus`, find CRM deals like Acme’s Webex renewal (vendor lock-in / legal review). Explain why Umbrella’s “legal” deal is not a good match.
+
+Compare the Agent’s explanation to your ES|QL in steps 2–3. Same corpus, two ways to ask: precise ES|QL or natural language.
+
 ## Success
 
 - You listed CRM deals with account / competitor / concepts in ES|QL.
 - You can say why Umbrella is a keyword trap for “find deals like Acme.”
+- You used **AI Agent** to reach the same conclusion in plain language.

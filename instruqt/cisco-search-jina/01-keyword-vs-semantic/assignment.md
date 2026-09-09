@@ -35,10 +35,9 @@ timelimit: 480
 enhanced_loading: null
 ---
 
-# Keyword vs semantic — ES|QL only
+# Keyword vs semantic — ES|QL then AI Agent
 
-Stay in this Kibana tab. Use **Discover → ES|QL**. **Do not use KQL.** Do not open **AI Agent**
-or Agent Builder — that chat is not connected to this lab index. Do not run `FROM *,-.*`.
+Stay in this Kibana tab. Start in **Discover → ES|QL**. **Do not use KQL.** Do not run `FROM *,-.*`.
 
 MATCH is the OpenSearch ceiling (keyword, no embeddings). `MV_INTERSECTS(concepts, [...])` is the Elastic + Jina motion — any overlapping concept, not just tokens. Do **not** use `concepts IN (...)`: `concepts` is multi-valued, so `IN` matches nothing.
 
@@ -53,7 +52,7 @@ FROM "cisco-jina-corpus"
 | STATS docs = COUNT(*)
 ```
 
-You should see **11**. If you see **0**, this lab never seeded — **Stop** and start a new invite. Then:
+You should see **14**. If you see **0**, this lab never seeded — **Stop** and start a new invite. Then:
 
 ```esql
 FROM "cisco-jina-corpus"
@@ -61,7 +60,7 @@ FROM "cisco-jina-corpus"
 | LIMIT 20
 ```
 
-You should see deals, notes, lifecycle payloads, and Webex artifacts.
+You should see deals, notes, lifecycle payloads, Webex artifacts, and CIRCUIT proxy events.
 
 ## 2 — Lexical (token) search
 
@@ -95,7 +94,16 @@ FROM "cisco-jina-corpus"
 | KEEP title, concepts, content
 ```
 
+## 5 — Same answers with AI Agent
+
+Open **AI Agent** in this Kibana (the chat panel next to Discover — not Agent Builder). Ask in plain language what you just proved in ES|QL:
+
+> In `cisco-jina-corpus`, compare keyword matches for “legal” vs documents about vendor lock-in or switching costs. Why is Umbrella a false friend?
+
+You should get the same story: keyword hits legal-hold noise; concept / semantic neighborhood finds counsel and lock-in deals. ES|QL is precise and auditable; AI Agent is a faster way to ask the same question.
+
 ## Success
 
-- You queried **only** `cisco-jina-corpus` with ES|QL.
+- You queried **`cisco-jina-corpus`** with ES|QL.
 - You can explain why MATCH("legal") and `MV_INTERSECTS(concepts, [...])` disagree.
+- You asked **AI Agent** the same question and can compare the two approaches.

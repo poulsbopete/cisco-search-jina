@@ -71,7 +71,16 @@ FROM "cisco-jina-corpus"
 
 A keyword search on invoice ID would miss this. MATCH on payload text finds it.
 
+## 4 — Same answers with AI Agent
+
+Open **AI Agent** in this Kibana. Ask:
+
+> In `cisco-jina-corpus`, for Acme lifecycle data, which systems appear (Snowflake, S3, Elastic logs)? Where does counsel language about termination live, and what happens if I ignore Elastic logs?
+
+You should hear the same federation story you proved in ES|QL — sources side by side, counsel in the fat S3 payload.
+
 ## Success
 
 - You filtered federated `system` values in one ES|QL.
 - You found the large S3 payload with counsel language inside.
+- You asked **AI Agent** the same multi-source question in plain language.

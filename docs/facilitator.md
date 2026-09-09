@@ -24,11 +24,13 @@ Deck: https://cisco-search-jina.vercel.app/slides
 
 ## Labs (Instruqt)
 
-ES|QL only in the Kibana tab. No Vercel links. No KQL. First query:
+ES|QL first in the Kibana tab, then an **AI Agent** step that asks the same question in plain language. No KQL. First query:
 
 `FROM "cisco-jina-corpus" | KEEP title, source, account, region, concepts, content | LIMIT 20`
 
-If Discover shows `FROM *,-.*` and 0 docs, replace the query with the one above. If status is **0 documents processed**, set time to **Last 24 hours**. An empty index from an old lab start cannot be repaired — Stop and start a new lab.
+Expect **14** docs after seed (includes CIRCUIT proxy samples). If Discover shows `FROM *,-.*` and 0 docs, replace the query with the one above. If status is **0 documents processed**, set time to **Last 24 hours**. An empty index from an old lab start cannot be repaired — Stop and start a new lab.
+
+Use Discover’s **AI Agent** panel (not Agent Builder / Cisco NextGen on the shared cluster).
 
 Track (manage): https://play.instruqt.com/manage/elastic/tracks/cisco-search-jina  
 Ungated invite (anyone can start): https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq
@@ -47,7 +49,7 @@ Ungated invite (anyone can start): https://play.instruqt.com/elastic/invite/rjz8
 | Shared Kibana | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/agent_builder | Product proof. Paste the prompt from each Vercel pane. |
 | Instruqt | https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq | Their own Serverless project. Leaves the shared cluster alone. |
 
-On each demo page: **Open Agent Builder** → pick **Cisco Jina Search**. Index: `cisco-jina-corpus` (11 docs). Do not use **Cisco NextGen** — that tool searches Cisco/Webex product docs.
+On each demo page: **Open Agent Builder** → pick **Cisco Jina Search**. Index: `cisco-jina-corpus` (14 docs on Vercel corpus; re-seed shared cluster if needed). Do not use **Cisco NextGen** — that tool searches Cisco/Webex product docs. Instruqt labs use the per-learner **AI Agent** in Discover for the final step.
 
 The Webex East/West toggle is an **architecture visual**. The shared Kibana is a single us-east-1 project — say that out loud.
 
