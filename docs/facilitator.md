@@ -6,10 +6,13 @@
 
 Name Cisco groups, not people: **CRM Analytics**, **Lifecycle Platform**, **Webex / Infrastructure**.
 
-- Opening — `/slides?section=opening`
-- Cisco story — `/slides?section=cisco` then later `/slides?section=bundle`
-- Tech / keyword vs semantic — `/slides?section=tech` and `/demo`
-- CRM, Lifecycle, Webex, FIPS, ECH — `/crm`, `/lifecycle`, `/webex`, `/fips`, `/ech`
+Short deck (~8 slides): what Elastic provides → Cisco groups → AI-first + Jina → deploy options → lab.
+
+- Opening / offer — `/slides?section=opening`
+- Cisco groups — `/slides?section=cisco`
+- Search + Jina — `/slides?section=tech` and `/demo`, `/bundle`
+- Deploy (self-hosted / Hosted / Serverless) — `/slides?section=deploy` and `/ech`, `/fips`
+- Lab CTA — `/slides?section=lab`
 
 Deck: https://cisco-search-jina.vercel.app/slides
 
