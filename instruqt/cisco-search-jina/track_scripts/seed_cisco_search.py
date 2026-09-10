@@ -7,6 +7,7 @@ import os
 import sys
 import urllib.error
 import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
 
 INDEX = "cisco-jina-corpus"
@@ -63,6 +64,10 @@ def load_documents() -> list[dict]:
     raise FileNotFoundError("workshop-corpus.json not found (expected /tmp/workshop-corpus.json)")
 
 
+def utc_now() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+
+
 def main() -> int:
     es_url = (os.environ.get("ES_URL") or "").rstrip("/")
     header, mode = auth_header()
@@ -72,10 +77,12 @@ def main() -> int:
 
     docs = load_documents()
     print(f"Loaded {len(docs)} documents (auth={mode})")
+    stamped = utc_now()
 
     mapping = {
         "mappings": {
             "properties": {
+                "@timestamp": {"type": "date"},
                 "id": {"type": "keyword"},
                 "source": {"type": "keyword"},
                 "system": {"type": "keyword"},
@@ -108,7 +115,8 @@ def main() -> int:
     lines: list[str] = []
     for doc in docs:
         doc = dict(doc)
-        doc.pop("@timestamp", None)
+        # Dashboards default to now-7d and filter on @timestamp — always stamp fresh.
+        doc["@timestamp"] = stamped
         doc_id = doc.get("id") or doc.get("title")
         lines.append(json.dumps({"index": {"_index": INDEX, "_id": doc_id}}))
         lines.append(json.dumps(doc))
@@ -128,7 +136,10 @@ def main() -> int:
         print(f"Count HTTP {code}: {body[:500]}", file=sys.stderr)
         return 1
     count = int(json.loads(body).get("count") or 0)
-    print(f"Indexed {len(docs)} documents into {INDEX}; _count={count} (auth={mode})")
+    print(
+        f"Indexed {len(docs)} documents into {INDEX}; _count={count} "
+        f"@timestamp={stamped} (auth={mode})"
+    )
     if count < 1:
         print("ERROR: index is empty after bulk", file=sys.stderr)
         return 1

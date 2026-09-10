@@ -28,8 +28,9 @@ Each invite creates a **per-learner Serverless Search** project. Setup seeds:
 
 1. Index `cisco-jina-corpus` (14 docs)
 2. Five dashboards under **Dashboards**
-3. Workflow **Cisco Jina Workshop — Dashboard notes** (`cisco-jina-dashboard-notes`) — scheduled every **10 minutes** (no pauses); refreshes markdown talking-point strips on each dashboard
-4. ML anomaly job **`cisco-jina-circuit-tokens`** on index `cisco-jina-circuit-metrics` (CIRCUIT proxy token / policy-deny time series) — open **Machine Learning → Anomaly detection**
+3. Workflow **Cisco Jina Workshop — Dashboard notes** (`cisco-jina-dashboard-notes`) — scheduled every **10 minutes** (no pauses); refreshes markdown talking-point strips on each dashboard and touches corpus `@timestamp`
+4. Workflow **Cisco Jina Workshop — Keep corpus lit** (`cisco-jina-keep-alive`) — every **15 minutes**; stamps `@timestamp=now` so dashboards (default `now-7d`) stay populated
+5. ML anomaly job **`cisco-jina-circuit-tokens`** on index `cisco-jina-circuit-metrics` (CIRCUIT proxy token / policy-deny time series) — open **Machine Learning → Anomaly detection**
 
 ES|QL first in the Kibana tab, then an **AI Agent** step (Discover chat — not Agent Builder). No KQL. First query:
 
@@ -54,7 +55,7 @@ Ungated invite: https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq
 
 Base: https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/
 
-Corpus `cisco-jina-corpus` (14 docs) is already indexed. Each Vercel demo pane has **Open dashboard in Elastic** / **Open Discover (ES|QL)** / **Agent Builder**. Nav **Open Elastic** jumps to Discover with the first lab query.
+Corpus `cisco-jina-corpus` (14 docs) is already indexed. Scheduled workflow **Keep corpus lit** (`cisco-jina-keep-alive`, every 15m) stamps `@timestamp=now` so boards with a `now-7d` window stay green. Each Vercel demo pane has **Open dashboard in Elastic** / **Open Discover (ES|QL)** / **Agent Builder**. Nav **Open Elastic** jumps to Discover with the first lab query.
 
 | Beat | Dashboard | Discover |
 | --- | --- | --- |

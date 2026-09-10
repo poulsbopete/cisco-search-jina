@@ -32,7 +32,10 @@ MARKDOWN = (
     "cisco-jina-md-webex.md",
     "cisco-jina-md-circuit.md",
 )
-WORKFLOWS = ("cisco-jina-dashboard-notes.yaml",)
+WORKFLOWS = (
+    "cisco-jina-dashboard-notes.yaml",
+    "cisco-jina-keep-alive.yaml",
+)
 
 
 def b64(path: Path) -> str:
@@ -123,7 +126,7 @@ else
   echo "WARN: continuing without dashboards (corpus still usable)"
 fi
 
-echo "Installing dashboard-notes workflow (scheduled every 10m) into $KIBANA_URL"
+echo "Installing dashboard-notes + keep-alive workflows into $KIBANA_URL"
 if python3 /tmp/seed_cisco_jina_workflow.py > /tmp/workshop-workflow.log 2>&1; then
   tail -20 /tmp/workshop-workflow.log || true
 else

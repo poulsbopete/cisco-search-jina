@@ -26,6 +26,20 @@ steps:
         Cisco Jina dashboard notes started (execution {{ execution.id }}).
         Refreshing markdown panels on keyword / CRM / lifecycle / Webex / CIRCUIT boards.
 
+  - name: touch_corpus_timestamps
+    type: elasticsearch.request
+    with:
+      method: POST
+      path: /cisco-jina-corpus/_update_by_query?refresh=true&conflicts=proceed
+      body:
+        script:
+          lang: painless
+          source: "ctx._source['@timestamp'] = params.now;"
+          params:
+            now: "{{ \"now\" | date: \"%Y-%m-%dT%H:%M:%SZ\" }}"
+        query:
+          match_all: {}
+
   - name: corpus_overview
     type: elasticsearch.esql.query
     with:

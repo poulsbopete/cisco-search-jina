@@ -1,0 +1,57 @@
+version: "1"
+name: Cisco Jina Workshop — Keep corpus lit
+description: >
+  Every 15 minutes (and on manual run), stamps @timestamp=now on every
+  cisco-jina-corpus document so Search-AI / lab dashboards (default now-7d)
+  always light up for facilitator deep links. Does not rewrite document bodies.
+enabled: true
+tags:
+  - cisco
+  - jina
+  - workshop
+  - keep-alive
+  - DEMO
+triggers:
+  - type: scheduled
+    with:
+      every: "15m"
+  - type: manual
+settings:
+  timeout: 5m
+steps:
+  - name: workflow_start
+    type: console
+    with:
+      message: |
+        Keep-alive started ({{ execution.id }}).
+        Touching @timestamp on cisco-jina-corpus so dashboards stay in range.
+
+  - name: touch_corpus_timestamps
+    type: elasticsearch.request
+    with:
+      method: POST
+      path: /cisco-jina-corpus/_update_by_query?refresh=true&conflicts=proceed
+      body:
+        script:
+          lang: painless
+          source: "ctx._source['@timestamp'] = params.now;"
+          params:
+            now: "{{ \"now\" | date: \"%Y-%m-%dT%H:%M:%SZ\" }}"
+        query:
+          match_all: {}
+
+  - name: verify_corpus
+    type: elasticsearch.esql.query
+    with:
+      format: json
+      query: |
+        FROM cisco-jina-corpus
+        | STATS docs = COUNT(*), latest = MAX(@timestamp)
+
+  - name: workflow_done
+    type: console
+    with:
+      message: |
+        Keep-alive done. Updated docs: {{ steps.touch_corpus_timestamps.output | json }}
+        Corpus check: {{ steps.verify_corpus.output | json }}
+        Reload a Cisco Jina dashboard if panels still look stale.
