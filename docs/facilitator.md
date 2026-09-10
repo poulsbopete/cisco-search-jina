@@ -1,6 +1,6 @@
 # Facilitator notes
 
-**Instruqt is the only Elastic surface for this workshop.** Use the Vercel deck for the live hour; send learners to Instruqt for hands-on. Do not use a shared Search-AI / Agent Builder project.
+**Three layers:** Vercel storyboard → shared Search-AI Kibana (your live talk) → Instruqt (learner hands-on). Do not point a room of learners at Search-AI for click-alongs — that is facilitator-only.
 
 ## Live talk (deck)
 
@@ -50,21 +50,41 @@ Assets: `instruqt/cisco-search-jina/workshop-assets/`. After edits: `python3 scr
 Track (manage): https://play.instruqt.com/manage/elastic/tracks/cisco-search-jina  
 Ungated invite: https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq
 
+## Shared Search-AI (facilitator deep links)
+
+Base: https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/
+
+Corpus `cisco-jina-corpus` (14 docs) is already indexed. Each Vercel demo pane has **Open dashboard in Elastic** / **Open Discover (ES|QL)** / **Agent Builder**. Nav **Open Elastic** jumps to Discover with the first lab query.
+
+| Beat | Dashboard | Discover |
+| --- | --- | --- |
+| Keyword vs semantic | [/app/dashboards#/view/cisco-jina-keyword-vs-semantic](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/cisco-jina-keyword-vs-semantic) | MATCH legal / vendor-lock-in from the pane |
+| CRM | [/app/dashboards#/view/cisco-jina-crm](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/cisco-jina-crm) | `source == "crm"` |
+| Lifecycle | [/app/dashboards#/view/cisco-jina-lifecycle](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/cisco-jina-lifecycle) | `source == "lifecycle"` |
+| Webex CCR | [/app/dashboards#/view/cisco-jina-webex-ccr](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/cisco-jina-webex-ccr) | Gov East/West |
+| CIRCUIT | [/app/dashboards#/view/cisco-jina-circuit](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/dashboards#/view/cisco-jina-circuit) | `source == "circuit"` |
+| Agent Builder | [/app/agent_builder](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/agent_builder) | Paste the same natural-language question |
+| Workflows | [/app/workflows](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/workflows) | Optional: show scheduled notes pattern |
+| ML | [/app/ml/jobs](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/app/ml/jobs) | CIRCUIT tokens job lives in Instruqt labs |
+
+Override with `NEXT_PUBLIC_KIBANA_URL` if the project URL changes.
+
 ## Anti-patterns
 
 - Challenges that name people instead of Cisco groups
 - Skipping Umbrella “legal hold” (false-positive teaching moment)
 - “We’ll follow up” with no Cisco group (CRM Analytics / Lifecycle / Webex Infra / CIRCUIT)
-- Pointing at a shared Kibana / Agent Builder instead of Instruqt
+- Sending the whole room to Search-AI instead of Instruqt for hands-on
 
-## Two layers
+## Three layers
 
 | Layer | URL | Job in the room |
 | --- | --- | --- |
 | Vercel storyboard | https://cisco-search-jina.vercel.app | Slides + visual aha. Does **not** query Elastic. |
+| Shared Search-AI | https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/ | Facilitator product proof — dashboards, Discover, Agent Builder. |
 | Instruqt | https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq | Per-learner Serverless Search — corpus, dashboards, ES|QL, AI Agent. |
 
-The Webex East/West toggle on Vercel is an **architecture visual**. In the lab, region filters on `cisco-jina-corpus` prove the same idea.
+The Webex East/West toggle on Vercel is an **architecture visual**. In Elastic / the lab, region filters on `cisco-jina-corpus` prove the same idea.
 
 ## ECH / Gov (sales guardrails)
 

@@ -6,6 +6,8 @@ Interactive demos and slides for semantic search over deals, transactions, logs,
 
 Live app: https://cisco-search-jina.vercel.app — one bar, many concepts: **Semantic · CRM · Lifecycle · Webex · Circuit · FIPS · ECH · Bundle · Slides · Lab**.
 
+**Facilitator Elastic proof** (SSO, no Instruqt spin-up): [Search-AI Kibana](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/) — each demo pane deep-links to dashboards / Discover / Agent Builder. Learners stay on Instruqt.
+
 Deep links: `/#semantic` `/#crm` `/#lifecycle` `/#webex` `/#circuit` `/#fips` `/#ech` `/#bundle` `/#workshop`. Deck for wait slides: `/slides`.
 
 ## Labs (self-paced)

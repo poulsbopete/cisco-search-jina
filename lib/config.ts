@@ -1,7 +1,12 @@
 export const APP_URL =
   process.env.NEXT_PUBLIC_APP_URL ?? "https://cisco-search-jina.vercel.app";
 
-/** Hands-on lab invite (Elastic Serverless Search). Instruqt is the only Elastic surface. */
+/** Facilitator Shared Serverless Search project (Search-AI). No keys in the app — browser SSO. */
+export const KIBANA_URL =
+  process.env.NEXT_PUBLIC_KIBANA_URL ??
+  "https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud";
+
+/** Hands-on lab invite (per-learner Serverless Search). */
 export const INSTRUQT_INVITE =
   process.env.NEXT_PUBLIC_INSTRUQT_INVITE ??
   "https://play.instruqt.com/elastic/invite/rjz8vgi2xlfq";

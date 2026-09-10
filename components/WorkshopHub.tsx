@@ -1,7 +1,7 @@
 "use client";
 
 import { INSTRUQT_INVITE } from "@/lib/config";
-import { LAB_DASHBOARDS } from "@/lib/demo-playbook";
+import { ELASTIC, LAB_DASHBOARDS } from "@/lib/demo-playbook";
 import { useModule } from "@/components/ModuleProvider";
 
 const STEPS = [
@@ -43,24 +43,41 @@ export function WorkshopHub() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
       <p className="font-mono text-xs uppercase tracking-[0.25em] text-primary-bright">
-        Instruqt lab
+        Facilitator Elastic · Instruqt lab
       </p>
       <h1 className="mt-4 text-4xl font-semibold tracking-tight text-foreground">
         Cisco — Semantic search with Elastic + Jina
       </h1>
       <p className="mt-4 max-w-xl text-lg text-muted-foreground">
-        Per-learner <span className="text-foreground">Elastic Serverless Search</span>. Seeded
-        index <code className="text-primary-bright">cisco-jina-corpus</code> (14 docs).{" "}
-        <span className="text-foreground">ES|QL only</span> (no KQL) in Discover, then{" "}
-        <span className="text-foreground">AI Agent</span> with the same questions. Dashboards,
-        a 10-minute notes workflow, and an ML anomaly job ship at lab start.
+        For the live talk, deep-link into the shared{" "}
+        <span className="text-foreground">Search-AI Serverless</span> project (SSO). For
+        hands-on, each learner gets their own Serverless Search via Instruqt — seeded index{" "}
+        <code className="text-primary-bright">cisco-jina-corpus</code> (14 docs),{" "}
+        <span className="text-foreground">ES|QL only</span> (no KQL), then{" "}
+        <span className="text-foreground">AI Agent</span>.
       </p>
       <div className="mt-8 flex flex-wrap gap-3">
+        <a
+          href={ELASTIC.discoverCorpus}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-xl bg-primary px-5 py-3 font-mono text-sm font-semibold text-primary-foreground hover:bg-primary-bright"
+        >
+          Open Search-AI Discover
+        </a>
+        <a
+          href={ELASTIC.dashboard.keywordVsSemantic}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-xl border border-primary/40 px-5 py-3 font-mono text-sm text-foreground hover:bg-primary/15"
+        >
+          Keyword vs semantic board
+        </a>
         <a
           href={INSTRUQT_INVITE}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-xl bg-primary px-5 py-3 font-mono text-sm font-semibold text-primary-foreground hover:bg-primary-bright"
+          className="rounded-xl border border-white/20 px-5 py-3 font-mono text-sm text-muted-foreground hover:border-primary/40 hover:text-foreground"
         >
           Start the Instruqt lab
         </a>
@@ -72,6 +89,28 @@ export function WorkshopHub() {
           Back to Keyword vs semantic
         </button>
       </div>
+      <p className="mt-4 text-xs text-muted-foreground">
+        Facilitator deep links (SSO):{" "}
+        <a className="text-primary-bright underline" href={ELASTIC.home} target="_blank" rel="noopener noreferrer">
+          Search-AI home
+        </a>
+        {" · "}
+        <a className="text-primary-bright underline" href={ELASTIC.dashboards} target="_blank" rel="noopener noreferrer">
+          Dashboards
+        </a>
+        {" · "}
+        <a className="text-primary-bright underline" href={ELASTIC.agentBuilder} target="_blank" rel="noopener noreferrer">
+          Agent Builder
+        </a>
+        {" · "}
+        <a className="text-primary-bright underline" href={ELASTIC.workflows} target="_blank" rel="noopener noreferrer">
+          Workflows
+        </a>
+        {" · "}
+        <a className="text-primary-bright underline" href={ELASTIC.mlJobs} target="_blank" rel="noopener noreferrer">
+          ML jobs
+        </a>
+      </p>
       <ol className="mt-12 space-y-5">
         {STEPS.map((step, i) => (
           <li key={step.title} className="flex gap-3 text-sm">

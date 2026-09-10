@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { MODULES } from "@/lib/modules";
 import { useModule } from "@/components/ModuleProvider";
+import { ELASTIC } from "@/lib/demo-playbook";
 import { cn } from "@/lib/utils";
 
 export function SiteNav() {
@@ -38,6 +39,15 @@ export function SiteNav() {
             </button>
           ))}
         </nav>
+
+        <a
+          href={ELASTIC.discoverCorpus}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden rounded-full bg-primary/20 px-3 py-1 font-mono text-[11px] text-primary-bright ring-1 ring-primary/40 hover:bg-primary/30 sm:inline"
+        >
+          Open Elastic
+        </a>
 
         <button
           type="button"

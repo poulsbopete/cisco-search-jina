@@ -81,15 +81,15 @@ steps:
 
             **Live corpus**
             ```
-            {{ steps.corpus_overview.output }}
+            {{ steps.corpus_overview.output | json }}
             ```
             Keyword `MATCH(legal)`:
             ```
-            {{ steps.keyword_snapshot.output }}
+            {{ steps.keyword_snapshot.output | json }}
             ```
             Concept `vendor-lock-in`:
             ```
-            {{ steps.lockin_snapshot.output }}
+            {{ steps.lockin_snapshot.output | json }}
             ```
 
             **What you are looking at**
@@ -119,7 +119,7 @@ steps:
 
             **Docs by source**
             ```
-            {{ steps.corpus_by_source.output }}
+            {{ steps.corpus_by_source.output | json }}
             ```
 
             **What you are looking at**
@@ -147,7 +147,7 @@ steps:
 
             **Docs by source**
             ```
-            {{ steps.corpus_by_source.output }}
+            {{ steps.corpus_by_source.output | json }}
             ```
 
             **What you are looking at**
@@ -175,7 +175,7 @@ steps:
 
             **Docs by source**
             ```
-            {{ steps.corpus_by_source.output }}
+            {{ steps.corpus_by_source.output | json }}
             ```
 
             **What you are looking at**
@@ -203,7 +203,7 @@ steps:
 
             **Docs by source**
             ```
-            {{ steps.corpus_by_source.output }}
+            {{ steps.corpus_by_source.output | json }}
             ```
 
             **What you are looking at**
