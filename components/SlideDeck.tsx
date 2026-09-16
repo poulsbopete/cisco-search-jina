@@ -164,14 +164,14 @@ export const SLIDES: Slide[] = [
     speaker: "How you run it",
     title: "Which path when",
     bullets: [
-      "OpenSearch looks EDP-friendly but has no native embeddings — keyword ceiling.",
-      "Elastic on AWS Marketplace keeps the commit and adds vectors, ES|QL, and support.",
+      "OpenSearch Neural POCs are real — concede EDP, then win on features.",
+      "Elastic: hybrid relevance, Inference / ELSER / Jina, ES|QL, Search AI — not a fork.",
       "Already on OSS in your VPC → Enterprise self-hosted (search-tier license).",
-      "Want Elastic to operate → Elastic Cloud Hosted (FedRAMP Hosted if gov; Serverless for this lab).",
+      "Want Elastic to operate → Hosted (Marketplace for AWS commit; FedRAMP Hosted if gov).",
     ],
     infographic: "path-chooser",
     demoHref: `${APP_URL}/ech`,
-    demoLabel: "OpenSearch vs Elastic",
+    demoLabel: "OpenSearch Neural vs Elastic",
   },
   {
     section: "lab",

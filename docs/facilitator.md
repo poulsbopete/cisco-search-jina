@@ -94,10 +94,17 @@ The Webex East/West toggle on Vercel is an **architecture visual**. In Elastic /
 
 ## ECH / OpenSearch vs Elastic (`/#ech`)
 
-Lead with **product**, not GovCloud or ThousandEyes: **AWS OpenSearch vs Elasticsearch**.
+**Use this for Commerce / OpenSearch Neural POCs** (e.g. internal Neural experiments). Aaron/Muthu framing: full arsenal on **features**; pricing is usually OpenSearch’s only clean win (EDP).
 
-- OpenSearch: EDP-friendly, keyword-first, **no native embeddings** — semantic story needs a bolt-on.
-- Elastic (Enterprise / Hosted on Marketplace): same AWS commit path, vectors, ES|QL, support runway.
-- TCO block still compares OpenSearch + semantic overlay vs Hosted / OSS+Enterprise.
-- Gov / FedRAMP is a **footer note** on that tab (Hosted yes; Serverless not in GovCloud; IL5 in progress). FIPS stays on `/#fips`.
-- Always send production quotes to [cloud.elastic.co/pricing](https://cloud.elastic.co/pricing) and AWS OpenSearch pricing. Jina API spend is **separate**.
+Talk track:
+1. Concede EDP + “we tried OpenSearch Neural.”
+2. Features: hybrid (BM25 + vectors + RRF), Inference / ELSER / Jina, ES|QL explainability, Search AI / Agent Builder, Enterprise or Hosted runway — not a fork.
+3. Same business questions as this workshop (deals / notes / meaning) on Elastic.
+4. Close: half-day Search AI enablement; Hosted on Marketplace if they need the AWS commit story, or Enterprise self-hosted if already on OSS.
+
+Page structure:
+- Arsenal cards (don’t lead with price / beat Neural POC / close on Search AI)
+- Pros/cons table favoring Elastic
+- TCO vs OpenSearch + semantic overlay
+- Gov/FedRAMP stays a footer (not the main frame). FIPS on `/#fips`.
+- Quotes: [cloud.elastic.co/pricing](https://cloud.elastic.co/pricing) + AWS OpenSearch pricing. Jina separate.
