@@ -26,7 +26,7 @@ export const COST_SCENARIOS: CostScenario[] = [
   },
 ];
 
-/** USD / GB RAM / hour — illustrative commercial AWS; use Elastic's calculator for quotes. */
+/** USD / GB RAM / hour — illustrative commercial AWS Hosted; use Elastic's calculator for quotes. */
 export const ECH_RATE_GB_HOUR = 0.095;
 
 /** Loaded monthly cost per FTE of platform ops (patch, upgrade, on-call, backup). */
@@ -43,7 +43,7 @@ export const OSS_STORAGE_GB_MONTH = 0.08;
 
 export const OPENSEARCH_STORAGE_GB_MONTH = 0.09;
 
-/** Snapshot storage on ECH (metered separately). */
+/** Snapshot storage on Hosted (metered separately). */
 export const ECH_SNAPSHOT_GB_MONTH = 0.06;
 
 /** Illustrative Enterprise subscription — search-tier; volume / self-hosted quotes are often lower. */
@@ -58,10 +58,30 @@ export const OPENSEARCH_SEMANTIC_OVERLAY_MONTHLY = 4_000;
 /** OpenSearch still needs tuning / ISM / access policies — fraction of full platform ops. */
 export const OPENSEARCH_OPS_FACTOR = 0.45;
 
+/**
+ * Serverless Search — usage-based (not provisioned RAM).
+ * Illustrative VCU rates from elastic.co/pricing/serverless-search (“as low as”).
+ * Each Search VCU ≈ 1 GB RAM slice; baseline Search VCUs stay on for queryability.
+ */
+export const SERVERLESS_INGEST_VCU_HOUR = 0.14;
+export const SERVERLESS_SEARCH_VCU_HOUR = 0.09;
+export const SERVERLESS_ML_VCU_HOUR = 0.07;
+export const SERVERLESS_STORAGE_GB_MONTH = 0.047;
+
 export type CostEstimate = {
   ech: {
     capacity: number;
     snapshots: number;
+    total: number;
+  };
+  serverless: {
+    searchVcus: number;
+    ingestVcus: number;
+    mlVcus: number;
+    search: number;
+    ingest: number;
+    ml: number;
+    storage: number;
     total: number;
   };
   opensearch: {
@@ -86,6 +106,8 @@ export type CostEstimate = {
     vsOpenSearch: number;
     vsOssEnterprise: number;
     vsOpenSearchLicenseOnly: number;
+    serverlessVsOpenSearch: number;
+    serverlessVsHosted: number;
     opsReclaimed: number;
     annualVsOpenSearch: number;
     threeYearVsOpenSearch: number;
@@ -118,6 +140,18 @@ export function estimateCosts(s: CostScenario): CostEstimate {
   const osTotal =
     osInfra + osOps + OPENSEARCH_SEMANTIC_OVERLAY_MONTHLY;
 
+  // Map Hosted-shaped capacity to illustrative Serverless VCU mix (usage-based).
+  // Search baseline stays on; ingest/ML assumed partial utilization.
+  const searchVcus = Math.max(8, Math.round(capacityRam * 0.25));
+  const ingestVcus = Math.max(2, Math.round(s.totalRamGb * 0.08));
+  const mlVcus = Math.max(1, Math.round(s.totalRamGb * 0.04));
+  const serverlessSearch = searchVcus * hours * SERVERLESS_SEARCH_VCU_HOUR;
+  const serverlessIngest = ingestVcus * hours * SERVERLESS_INGEST_VCU_HOUR * 0.2;
+  const serverlessMl = mlVcus * hours * SERVERLESS_ML_VCU_HOUR * 0.25;
+  const serverlessStorage = s.storageGb * SERVERLESS_STORAGE_GB_MONTH;
+  const serverlessTotal =
+    serverlessSearch + serverlessIngest + serverlessMl + serverlessStorage;
+
   const vsOpenSearch = osTotal - echTotal;
   const vsOssEnterprise = ossWithEnterprise - echTotal;
   const licensePlusInfra = ossInfra + ENTERPRISE_LICENSE_MONTHLY;
@@ -128,6 +162,7 @@ export function estimateCosts(s: CostScenario): CostEstimate {
     "OpenSearch has no native embeddings; the semantic overlay line is illustrative (Jina + engineering).",
     "Already on OSS? Enterprise self-hosted licensing is often the lowest cash add-on for vectors + support — ask for a search-tier quote.",
     "Full OSS + Enterprise TCO includes ops labor; Hosted wins when you want Elastic to run the platform.",
+    "Serverless is usage-based (VCUs + lake retention), not provisioned GB RAM — commercial regions only; not in GovCloud.",
     "GovCloud Hosted requires Platinum or Enterprise; OpenSearch Gov pricing differs — use your account team.",
   ];
 
@@ -136,6 +171,16 @@ export function estimateCosts(s: CostScenario): CostEstimate {
       capacity: Math.round(echCapacity),
       snapshots: Math.round(echSnapshots),
       total: Math.round(echTotal),
+    },
+    serverless: {
+      searchVcus,
+      ingestVcus,
+      mlVcus,
+      search: Math.round(serverlessSearch),
+      ingest: Math.round(serverlessIngest),
+      ml: Math.round(serverlessMl),
+      storage: Math.round(serverlessStorage),
+      total: Math.round(serverlessTotal),
     },
     opensearch: {
       compute: Math.round(osCompute),
@@ -159,6 +204,8 @@ export function estimateCosts(s: CostScenario): CostEstimate {
       vsOpenSearch: Math.round(vsOpenSearch),
       vsOssEnterprise: Math.round(vsOssEnterprise),
       vsOpenSearchLicenseOnly: Math.round(vsOpenSearchLicenseOnly),
+      serverlessVsOpenSearch: Math.round(osTotal - serverlessTotal),
+      serverlessVsHosted: Math.round(echTotal - serverlessTotal),
       opsReclaimed: Math.round(ossOps),
       annualVsOpenSearch: Math.round(vsOpenSearch * 12),
       threeYearVsOpenSearch: Math.round(vsOpenSearch * 36),

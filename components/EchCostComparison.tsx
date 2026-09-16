@@ -7,6 +7,8 @@ import {
   estimateCosts,
   formatUsd,
   OPENSEARCH_SEMANTIC_OVERLAY_MONTHLY,
+  SERVERLESS_SEARCH_VCU_HOUR,
+  SERVERLESS_STORAGE_GB_MONTH,
   type CostScenario,
 } from "@/lib/ech-cost";
 
@@ -16,6 +18,7 @@ const LINE_ITEMS = [
     opensearch: "Native AWS line item — easy default when Cisco has large AWS commits.",
     oss: "DIY on EC2 — may not count cleanly toward EDP.",
     ech: "Elastic Cloud Hosted on AWS Marketplace — can count toward AWS commit.",
+    serverless: "Elastic Cloud Serverless — commercial SaaS; Marketplace / commit paths via Elastic Cloud.",
     highlight: true,
   },
   {
@@ -23,6 +26,7 @@ const LINE_ITEMS = [
     opensearch: "Not offered — keyword ceiling. Bolt on Jina + custom pipeline (overlay cost).",
     oss: "Enterprise license on existing cluster — competitive search-tier pricing.",
     ech: "Enterprise Hosted: inference endpoints + pipelines; Jina API separate.",
+    serverless: "Inference + vectors included in the Search project; Jina API separate. This workshop runs here.",
     highlight: true,
   },
   {
@@ -30,6 +34,7 @@ const LINE_ITEMS = [
     opensearch: "AWS manages the service — you still tune ISM, access, and index design.",
     oss: "Full platform team: patch, upgrade, backup, on-call.",
     ech: "Elastic-operated rolling upgrades, monitoring, autoscaling.",
+    serverless: "No cluster sizing — Elastic scales VCUs; you own indices and relevance.",
     highlight: true,
   },
   {
@@ -37,6 +42,7 @@ const LINE_ITEMS = [
     opensearch: "Lexical + filters. No ES|QL parity, CCR story, or Elastic support path.",
     oss: "$0 OSS stack — add a low Enterprise license for vectors, CCR, and support.",
     ech: "Included in Hosted Enterprise tier.",
+    serverless: "ES|QL, Search AI, Agent Builder — same product story as this lab.",
     highlight: false,
   },
   {
@@ -44,7 +50,16 @@ const LINE_ITEMS = [
     opensearch: "OpenSearch Service instance + EBS — sized per AZ.",
     oss: "You buy and operate EC2 or bare metal.",
     ech: "GB RAM per hour; CPU and disk scale with RAM.",
+    serverless: "Usage-based VCUs (search / ingest / ML) + Search AI Lake GB/month — not provisioned RAM.",
     highlight: false,
+  },
+  {
+    line: "GovCloud / FedRAMP",
+    opensearch: "AWS OpenSearch Gov offerings — separate SKU/pricing.",
+    oss: "Self-hosted inside the boundary — you own the ATO story.",
+    ech: "FedRAMP Hosted (Moderate / High by tier) — managed gov path.",
+    serverless: "Not available in GovCloud today — use Hosted or self-hosted Enterprise.",
+    highlight: true,
   },
 ];
 
@@ -57,7 +72,7 @@ function SavingsBar({
   label: string;
   amount: number;
   max: number;
-  tone: "oss" | "ech" | "ops" | "enterprise" | "opensearch" | "overlay";
+  tone: "oss" | "ech" | "ops" | "enterprise" | "opensearch" | "overlay" | "serverless";
 }) {
   const pct = max > 0 ? Math.min(100, Math.round((amount / max) * 100)) : 0;
   const bar =
@@ -71,7 +86,9 @@ function SavingsBar({
             ? "bg-orange-500"
             : tone === "overlay"
               ? "bg-red-400"
-              : "bg-primary";
+              : tone === "serverless"
+                ? "bg-sky-400"
+                : "bg-primary";
 
   return (
     <div>
@@ -100,20 +117,23 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
     est.opensearch.total,
     est.oss.totalWithEnterprise,
     est.ech.total,
+    est.serverless.total,
   );
   const savesVsOs = est.savings.vsOpenSearch > 0;
   const savesLicenseOnly = est.savings.vsOpenSearchLicenseOnly > 0;
+  const serverlessSavesVsOs = est.savings.serverlessVsOpenSearch > 0;
 
   return (
     <section className="mt-10">
       <h2 className="font-mono text-sm uppercase tracking-wide text-zinc-300">
-        Cost comparison — OpenSearch vs OSS vs Hosted
+        Cost comparison — OpenSearch vs OSS vs Hosted vs Serverless
       </h2>
       <p className="mt-2 max-w-3xl text-sm leading-relaxed text-zinc-400">
         Illustrative monthly TCO for{" "}
         <span className="text-zinc-200">{scenario.label.toLowerCase()}</span> at{" "}
-        {scenario.totalRamGb} GB RAM, {scenario.zones} AZ
+        {scenario.totalRamGb} GB RAM-equivalent, {scenario.zones} AZ
         {scenario.zones > 1 ? "s" : ""}, {scenario.storageGb.toLocaleString()} GB storage.
+        Serverless is usage-based (VCUs), not provisioned RAM.
       </p>
 
       <p className="mt-3 rounded-xl border border-orange-400/25 bg-orange-400/5 px-4 py-3 text-xs leading-relaxed text-orange-100/90">
@@ -123,6 +143,15 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
         this workshop&apos;s semantic story you still pay a{" "}
         <span className="text-white">Jina + pipeline overlay</span> (
         {formatUsd(OPENSEARCH_SEMANTIC_OVERLAY_MONTHLY)}/mo est.) on top of keyword-only search.
+      </p>
+
+      <p className="mt-3 rounded-xl border border-sky-400/25 bg-sky-400/5 px-4 py-3 text-xs leading-relaxed text-sky-100/90">
+        <span className="font-mono uppercase tracking-wide text-sky-200">Serverless</span>
+        {" — "}
+        Same Elasticsearch product as this lab: no cluster sizing, pay for Search / Ingest / ML VCUs
+        plus lake retention.{" "}
+        <span className="text-white">Commercial regions only</span> — not in GovCloud (use Hosted
+        there). Best for variable load, POCs, and Search AI demos.
       </p>
 
       <p className="mt-3 rounded-xl border border-violet-400/25 bg-violet-400/5 px-4 py-3 text-xs leading-relaxed text-violet-100/90">
@@ -156,47 +185,59 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
         )}
       </p>
 
-      {savesVsOs ? (
+      {savesVsOs || serverlessSavesVsOs ? (
         <div className="mt-6 rounded-2xl border border-emerald-400/40 bg-gradient-to-br from-emerald-400/20 via-emerald-400/5 to-transparent p-6">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-300">
-            Estimated savings — Elastic Cloud Hosted vs AWS OpenSearch + semantic overlay
+            Estimated savings vs AWS OpenSearch + semantic overlay
           </p>
-          <div className="mt-3 flex flex-wrap items-end gap-6">
-            <div>
-              <p className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-                {formatUsd(est.savings.vsOpenSearch)}
-                <span className="text-lg font-normal text-emerald-200/80"> / mo</span>
-              </p>
-              <p className="mt-1 text-sm text-emerald-100/90">
-                {est.savings.percentVsOpenSearch}% lower than OpenSearch at semantic parity
-              </p>
-            </div>
-            <div className="space-y-1 border-l border-emerald-400/30 pl-6 text-sm">
-              <p className="text-emerald-100">
-                <span className="font-mono text-emerald-300">
-                  {formatUsd(est.savings.annualVsOpenSearch)}
-                </span>{" "}
-                / year vs OpenSearch
-              </p>
-              <p className="text-emerald-100">
-                <span className="font-mono text-emerald-300">
-                  {formatUsd(est.savings.threeYearVsOpenSearch)}
-                </span>{" "}
-                over 3 years
-              </p>
-              <p className="text-emerald-200/80">
-                Also{" "}
-                <span className="font-mono text-white">
-                  {formatUsd(est.savings.vsOssEnterprise)}/mo
-                </span>{" "}
-                vs OSS + Enterprise
-              </p>
-            </div>
+          <div className="mt-4 grid gap-6 sm:grid-cols-2">
+            {savesVsOs ? (
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-wide text-emerald-200/80">
+                  Cloud Hosted
+                </p>
+                <p className="mt-1 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                  {formatUsd(est.savings.vsOpenSearch)}
+                  <span className="text-base font-normal text-emerald-200/80"> / mo</span>
+                </p>
+                <p className="mt-1 text-sm text-emerald-100/90">
+                  {est.savings.percentVsOpenSearch}% lower ·{" "}
+                  {formatUsd(est.savings.threeYearVsOpenSearch)} / 3 yr
+                </p>
+              </div>
+            ) : null}
+            {serverlessSavesVsOs ? (
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-wide text-sky-200/90">
+                  Serverless (commercial)
+                </p>
+                <p className="mt-1 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                  {formatUsd(est.savings.serverlessVsOpenSearch)}
+                  <span className="text-base font-normal text-sky-200/80"> / mo</span>
+                </p>
+                <p className="mt-1 text-sm text-emerald-100/90">
+                  Usage-based ·{" "}
+                  {formatUsd(est.savings.serverlessVsOpenSearch * 36)} / 3 yr illus.
+                </p>
+              </div>
+            ) : null}
           </div>
+          <p className="mt-4 text-sm text-emerald-200/80">
+            Also{" "}
+            <span className="font-mono text-white">
+              {formatUsd(est.savings.vsOssEnterprise)}/mo
+            </span>{" "}
+            Hosted vs OSS + Enterprise (ops included). Serverless vs Hosted at this sizing:{" "}
+            <span className="font-mono text-white">
+              {formatUsd(Math.abs(est.savings.serverlessVsHosted))}/mo
+            </span>{" "}
+            {est.savings.serverlessVsHosted >= 0 ? "cheaper on Serverless" : "cheaper on Hosted"}{" "}
+            (illustrative — real load drives VCUs).
+          </p>
         </div>
       ) : null}
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-3">
+      <div className="mt-6 grid gap-4 lg:grid-cols-2 xl:grid-cols-4">
         <div className="rounded-2xl border border-orange-400/30 bg-orange-400/5 p-5">
           <p className="font-mono text-xs uppercase tracking-wide text-orange-300/90">
             AWS OpenSearch
@@ -279,16 +320,60 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
               −{formatUsd(est.savings.vsOpenSearch)}/mo vs OpenSearch + overlay
             </p>
           ) : null}
-          <p className="mt-2 text-xs text-primary-bright/80">AWS Marketplace · semantic-ready</p>
+          <p className="mt-2 text-xs text-primary-bright/80">
+            AWS Marketplace · semantic-ready · Gov Hosted path
+          </p>
           <ul className="mt-4 space-y-2 text-sm text-zinc-300">
             <li>RAM hours: {formatUsd(est.ech.capacity)}</li>
             <li>Snapshots: {formatUsd(est.ech.snapshots)}</li>
             <li className="text-emerald-300/90">Embeddings + Enterprise included</li>
           </ul>
         </div>
+
+        <div className="rounded-2xl border border-sky-400/40 bg-sky-400/10 p-5 ring-1 ring-sky-400/20">
+          <p className="font-mono text-xs uppercase tracking-wide text-sky-200">
+            Elastic Cloud Serverless
+          </p>
+          <p className="mt-2 text-3xl font-semibold text-white">
+            {formatUsd(est.serverless.total)}
+            <span className="text-base font-normal text-zinc-400"> / mo</span>
+          </p>
+          {serverlessSavesVsOs ? (
+            <p className="mt-2 inline-block rounded-full bg-sky-400/20 px-3 py-1 font-mono text-xs text-sky-100">
+              −{formatUsd(est.savings.serverlessVsOpenSearch)}/mo vs OpenSearch + overlay
+            </p>
+          ) : null}
+          <p className="mt-2 text-xs text-sky-200/80">
+            This workshop · commercial only · no GovCloud
+          </p>
+          <div className="mt-4 space-y-3">
+            <SavingsBar
+              label={`Search VCUs (~${est.serverless.searchVcus})`}
+              amount={est.serverless.search}
+              max={maxTotal}
+              tone="serverless"
+            />
+            <SavingsBar
+              label={`Ingest VCUs (~${est.serverless.ingestVcus}, partial)`}
+              amount={est.serverless.ingest}
+              max={maxTotal}
+              tone="serverless"
+            />
+            <SavingsBar
+              label="Lake retention"
+              amount={est.serverless.storage}
+              max={maxTotal}
+              tone="oss"
+            />
+          </div>
+          <p className="mt-3 text-[11px] leading-relaxed text-sky-100/70">
+            ML VCUs illus. {formatUsd(est.serverless.ml)}/mo. Real quotes depend on QPS and Search
+            Power — use Elastic&apos;s Serverless calculator.
+          </p>
+        </div>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {[
           {
             title: "Enterprise license",
@@ -303,9 +388,15 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
               "Bill Elastic Cloud Hosted through AWS Marketplace — EDP credit without the OpenSearch ceiling.",
           },
           {
+            title: "Serverless (this lab)",
+            value: formatUsd(est.serverless.total),
+            detail:
+              "Usage-based VCUs + lake. Fastest path to ES|QL and Search AI demos — commercial regions only.",
+          },
+          {
             title: "3-year vs OpenSearch",
             value: savesVsOs ? formatUsd(est.savings.threeYearVsOpenSearch) : "—",
-            detail: "Illustrative TCO at semantic parity for this sizing.",
+            detail: "Hosted illustrative TCO at semantic parity for this sizing.",
           },
         ].map((card) => (
           <div
@@ -322,9 +413,10 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
       </div>
 
       <p className="mt-4 rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-xs leading-relaxed text-zinc-500">
-        Hosted rate: ${ECH_RATE_GB_HOUR}/GB RAM/hour. Enterprise license:{" "}
-        {formatUsd(ENTERPRISE_LICENSE_MONTHLY)}/mo illustrative (self-hosted, search-tier). OpenSearch
-        overlay: {formatUsd(OPENSEARCH_SEMANTIC_OVERLAY_MONTHLY)}/mo. Size real quotes in{" "}
+        Hosted rate: ${ECH_RATE_GB_HOUR}/GB RAM/hour. Serverless Search VCU: from $
+        {SERVERLESS_SEARCH_VCU_HOUR}/hr · lake from ${SERVERLESS_STORAGE_GB_MONTH}/GB-mo. Enterprise
+        license: {formatUsd(ENTERPRISE_LICENSE_MONTHLY)}/mo illustrative. OpenSearch overlay:{" "}
+        {formatUsd(OPENSEARCH_SEMANTIC_OVERLAY_MONTHLY)}/mo. Size real quotes in{" "}
         <a
           className="text-primary-bright underline"
           href="https://cloud.elastic.co/pricing"
@@ -332,8 +424,17 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
           rel="noopener noreferrer"
         >
           Elastic&apos;s calculator
-        </a>{" "}
-        and{" "}
+        </a>
+        ,{" "}
+        <a
+          className="text-primary-bright underline"
+          href="https://www.elastic.co/pricing/serverless-search"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Serverless Search pricing
+        </a>
+        , and{" "}
         <a
           className="text-primary-bright underline"
           href="https://aws.amazon.com/opensearch-service/pricing/"
@@ -352,7 +453,8 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
               <th className="px-4 py-3">Line item</th>
               <th className="px-4 py-3">AWS OpenSearch</th>
               <th className="px-4 py-3">OSS + Enterprise</th>
-              <th className="px-4 py-3">Elastic Cloud Hosted</th>
+              <th className="px-4 py-3">Cloud Hosted</th>
+              <th className="px-4 py-3 text-sky-200/90">Serverless</th>
             </tr>
           </thead>
           <tbody>
@@ -365,6 +467,7 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
                 <td className="px-4 py-3 text-orange-200/80">{row.opensearch}</td>
                 <td className="px-4 py-3 text-zinc-500">{row.oss}</td>
                 <td className="px-4 py-3 text-emerald-300/90">{row.ech}</td>
+                <td className="px-4 py-3 text-sky-200/85">{row.serverless}</td>
               </tr>
             ))}
           </tbody>
