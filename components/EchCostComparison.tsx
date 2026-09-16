@@ -42,7 +42,7 @@ const LINE_ITEMS = [
     opensearch: "Lexical + filters. No ES|QL parity, CCR story, or Elastic support path.",
     oss: "$0 OSS stack — add a low Enterprise license for vectors, CCR, and support.",
     ech: "Included in Hosted Enterprise tier.",
-    serverless: "ES|QL, Search AI, Agent Builder — same capabilities your teams use in production demos.",
+    serverless: "ES|QL, Search AI, Agent Builder — same capabilities CRM and Lifecycle need in production.",
     highlight: false,
   },
   {

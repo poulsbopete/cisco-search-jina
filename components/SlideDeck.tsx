@@ -167,7 +167,7 @@ export const SLIDES: Slide[] = [
       "Self-hosted Enterprise — keep search in your VPC with vectors and support.",
       "Elastic Cloud Hosted — Elastic operates; Marketplace aligns with your AWS commit; FedRAMP Hosted for gov.",
       "Serverless — commercial only; fastest path to ES|QL and Search AI (this experience).",
-      "OpenSearch may win the AWS SKU — Elasticsearch wins relevance, explainability, and one platform for CRM, Lifecycle, and Webex.",
+      "OpenSearch wins the AWS SKU; Elastic keeps EDP via Marketplace and wins relevance, explainability, and one platform CRM / Lifecycle / Webex already know.",
     ],
     infographic: "path-chooser",
     demoHref: `${APP_URL}/deploy`,

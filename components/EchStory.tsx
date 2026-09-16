@@ -56,46 +56,53 @@ const DEPLOY_OPTIONS = [
 
 const VALUE_ROWS = [
   {
-    topic: "Find meaning, not just keywords",
+    topic: "Will CRM and Lifecycle find the right deals and notes?",
     opensearch:
-      "OpenSearch Neural can run models in a trial, but you still assemble pipelines, hybrid ranking, and relevance tuning on an AWS fork.",
+      "OpenSearch Neural can demo embeddings, but our teams still own model choice, ingest pipelines, hybrid ranking, and relevance ops — on an AWS fork, not a finished product.",
     elastic:
-      "Your analysts search deals, notes, and logs by intent — Inference, dense vectors, sparse retrieval (ELSER), and hybrid ranking in one Elasticsearch product.",
+      "Meaning-first search ships in Elasticsearch: Inference, dense vectors, ELSER, and hybrid ranking. Analysts search by intent without standing up a second ML platform team.",
   },
   {
-    topic: "Explain every hit",
+    topic: "Can we defend why a hit ranked to leadership or audit?",
     opensearch:
-      "Neural plugins plus OpenSearch DSL make it harder to show why a result matched next to keyword search.",
+      "Neural plugins + OpenSearch DSL make “why this deal / note?” hard to show next to keyword results in the same workflow.",
     elastic:
-      "ES|QL and hybrid ranking let CRM and Lifecycle teams see why Acme matched and Umbrella’s “legal hold” did not — every hit has a reason.",
+      "ES|QL and hybrid ranking give every hit a reason — so “legal concerns” surfaces Acme counsel, not Umbrella e-discovery noise that only shares a token.",
   },
   {
-    topic: "One platform after the trial",
+    topic: "Do we retrain off skills we already have?",
     opensearch:
-      "A Neural trial can look good in isolation. Production still needs CCR-style region stories, security features, Search AI, and a support path.",
+      "New query surface, plugins, and ops model. Groups already on Elasticsearch lose velocity while they retool.",
     elastic:
-      "Search AI, Agent Builder, CCR, and Enterprise security features on the same engine — from proof indexes to production indices.",
+      "We already run Elasticsearch across Cisco. Same APIs and ES|QL accelerate delivery for CRM, Lifecycle, Webex, and CIRCUIT instead of a migration tax.",
   },
   {
-    topic: "Keep your AWS economics",
+    topic: "What breaks after a Neural trial goes to production?",
     opensearch:
-      "Native AWS SKU — easy for procurement, but locks you into keyword-first search unless you fund a separate semantic overlay.",
+      "A POC can look fine in isolation. Production still needs gov-region replication (CCR-class), enterprise security, Search AI, and a named support path — not guaranteed on the fork.",
     elastic:
-      "Elastic Cloud Hosted on AWS Marketplace can align with your AWS commit while delivering embeddings-ready search — no OpenSearch ceiling.",
+      "One engine covers Search AI, Agent Builder, CCR, Enterprise security, and support — self-hosted, Hosted, or Serverless — from proof indexes to production.",
   },
   {
-    topic: "Lower total cost at semantic parity",
+    topic: "Do we give up our AWS EDP / Marketplace commit?",
     opensearch:
-      "Service fee looks clean until you add model hosting, pipeline engineering, and relevance ops for neural search.",
+      "Native AWS SKU — simplest PO. That is usually the only durable reason to switch.",
     elastic:
-      "Self-hosted Enterprise, Hosted, or Serverless — pick who operates. You pay for search outcomes, not a bolt-on overlay to match Elastic relevance.",
+      "Elastic Cloud Hosted on AWS Marketplace still applies to our AWS commit. We keep EDP economics without accepting keyword-first search as the product ceiling.",
   },
   {
-    topic: "Stay on the current search roadmap",
+    topic: "What is the real TCO once semantic search is required?",
     opensearch:
-      "Fork of an older Elasticsearch line — neural features exist, but you diverge from Elastic’s search + AI stack.",
+      "Managed fee looks clean until we add model hosting, pipeline engineering, and ongoing relevance tuning to match Elastic outcomes.",
     elastic:
-      "Current Elasticsearch: continuous relevance, inference, and AI features with one vendor accountable for search across Cisco groups.",
+      "We pick who operates (self-hosted Enterprise, Hosted, or Serverless) and pay for search outcomes — not a bolt-on overlay to reach parity.",
+  },
+  {
+    topic: "What is the multi-year platform risk?",
+    opensearch:
+      "Fork of an older Elasticsearch line. Neural features exist, but we diverge from the search + AI roadmap other Cisco groups already standardize on.",
+    elastic:
+      "Current Elasticsearch with one vendor accountable for relevance, inference, and AI features across Cisco — continuous product, not a fork we have to staff forever.",
   },
 ];
 
@@ -123,12 +130,13 @@ export function DeployStory() {
   return (
     <div>
       <p className="rounded-2xl border border-primary/40 bg-primary/10 p-5 text-sm leading-relaxed text-zinc-200">
-        Your teams need semantic search over deals, transactions, notes, and Webex artifacts — and
-        they need to run it{" "}
-        <span className="text-white">where Cisco already operates</span>: self-hosted, cloud,
-        serverless, or GovCloud. Elasticsearch is that engine. OpenSearch may look simpler on an AWS
-        invoice; it does not match the relevance and explainability story your groups need in
-        production.
+        When procurement asks “why not OpenSearch on the AWS bill?”, the answer is not preference —
+        it is outcomes and total cost. Your groups need{" "}
+        <span className="text-white">meaning-first search</span> over deals, notes, and Webex
+        artifacts, run{" "}
+        <span className="text-white">where Cisco already operates</span> (self-hosted, Hosted,
+        Serverless, or GovCloud), without giving up EDP. OpenSearch wins the SKU; Elasticsearch wins
+        relevance, explainability, and one platform your teams already know.
       </p>
 
       <section className="mt-10">
@@ -186,28 +194,29 @@ export function DeployStory() {
 
       <section className="mt-10">
         <h2 className="font-mono text-sm uppercase tracking-wide text-zinc-300">
-          OpenSearch vs Elasticsearch — what Cisco gets
+          Brief for your manager — why we stay on Elasticsearch
         </h2>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-zinc-400">
-          If you are evaluating OpenSearch Neural, compare the full outcome for your teams — not
-          only the AWS line item.
+          Copy-ready answers when someone asks to standardize on OpenSearch because it is on the
+          AWS invoice. Each row is a leadership question: what OpenSearch costs us, and the
+          business case for Elastic.
         </p>
 
         <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
           <table className="min-w-full text-left text-sm">
             <thead className="bg-white/5 font-mono text-xs uppercase tracking-wide text-zinc-400">
               <tr>
-                <th className="px-4 py-3">What you need</th>
-                <th className="px-4 py-3 text-orange-200/90">AWS OpenSearch</th>
-                <th className="px-4 py-3 text-emerald-300/90">Elasticsearch</th>
+                <th className="px-4 py-3">Leadership question</th>
+                <th className="px-4 py-3 text-orange-200/90">If we take OpenSearch</th>
+                <th className="px-4 py-3 text-emerald-300/90">Why we stay on Elastic</th>
               </tr>
             </thead>
             <tbody>
               {VALUE_ROWS.map((row) => (
                 <tr key={row.topic} className="border-t border-white/10 align-top">
-                  <td className="px-4 py-3 font-medium text-zinc-200">{row.topic}</td>
-                  <td className="px-4 py-3 text-orange-200/75">{row.opensearch}</td>
-                  <td className="px-4 py-3 text-emerald-300/90">{row.elastic}</td>
+                  <td className="px-4 py-3 font-medium text-zinc-100">{row.topic}</td>
+                  <td className="px-4 py-3 text-orange-200/80">{row.opensearch}</td>
+                  <td className="px-4 py-3 text-emerald-200/95">{row.elastic}</td>
                 </tr>
               ))}
             </tbody>

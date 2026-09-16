@@ -60,7 +60,7 @@ export const MODULES: {
     id: "deploy",
     label: "Deploy",
     kicker: "Self-hosted · Cloud · Serverless · Gov",
-    title: "Run Elasticsearch where Cisco already operates",
+    title: "Why Elastic over OpenSearch — and where we run it",
   },
   {
     id: "bundle",
