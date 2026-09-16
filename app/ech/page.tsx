@@ -1,5 +1,6 @@
-import { ConceptApp } from "@/components/ConceptApp";
+import { redirect } from "next/navigation";
 
-export default function EchPage() {
-  return <ConceptApp />;
+/** Legacy /ech deep links → /deploy */
+export default function EchRedirectPage() {
+  redirect("/deploy");
 }

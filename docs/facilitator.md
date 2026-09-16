@@ -13,7 +13,7 @@ Short deck: offer → workshop teams → **across Cisco** (Talos, TE, Splunk O11
 - Across Cisco — `/slides?section=footprint`
 - CIRCUIT (LLM proxy · Elastic LLM and/or CIRCUIT) — `/slides?section=circuit` and `/circuit`
 - Search + Jina — `/slides?section=tech` and `/demo`, `/bundle`
-- Deploy — `/slides?section=deploy` and `/ech`, `/fips`
+- Deploy — `/slides?section=deploy` and `/#deploy` (legacy `/#ech`), `/fips`
 - Lab CTA — `/slides?section=lab`
 
 **CIRCUIT attendees:** CIRCUIT is an **LLM proxy**. Customers choose **Elastic LLM**, **CIRCUIT**, or **both**. Elastic searches/alerts the ECS proxy stream either way; Jina for similar prompts/incidents. Production scale → Hosted or self-hosted; lab stays Serverless.
@@ -87,24 +87,29 @@ Override with `NEXT_PUBLIC_KIBANA_URL` if the project URL changes.
 
 The Webex East/West toggle on Vercel is an **architecture visual**. In Elastic / the lab, region filters on `cisco-jina-corpus` prove the same idea.
 
-## ECH / Gov (sales guardrails)
+## Deploy / Gov (sales guardrails)
 
-- **FedRAMP Moderate / High** on Elastic Cloud Hosted is authorized today (see ECH tab).
+- **FedRAMP Moderate / High** on Elastic Cloud Hosted is authorized today (see Deploy tab).
 - **IL5** — Elastic is **moving towards** IL5 certification for Hosted gov offerings. It is **not authorized yet**. Say “in progress” and point Cisco to their account team for timeline. Do not sell IL5 as available.
+- **Serverless is not in GovCloud** — use Hosted (or self-hosted Enterprise) inside the boundary.
 
-## ECH / OpenSearch vs Elastic (`/#ech`)
+## Deploy + OpenSearch vs Elastic (`/#deploy`)
 
-**Use this for Commerce / OpenSearch Neural POCs** (e.g. internal Neural experiments). Aaron/Muthu framing: full arsenal on **features**; pricing is usually OpenSearch’s only clean win (EDP).
+Tab label is **Deploy** (not ECH). Lead with **how Cisco runs Elasticsearch**:
+
+| Path | When |
+| --- | --- |
+| Self-hosted Enterprise | Already on OSS / must stay in VPC |
+| Elastic Cloud Hosted | Want Elastic to operate; AWS Marketplace for EDP |
+| Serverless | Commercial only — this workshop / Search-AI demos |
+| GovCloud / FedRAMP | Hosted (or self-hosted) — **no Serverless** |
+
+Then the **OpenSearch Neural** arsenal (Commerce POCs): concede EDP; win on features; close on a deploy path.
 
 Talk track:
 1. Concede EDP + “we tried OpenSearch Neural.”
-2. Features: hybrid (BM25 + vectors + RRF), Inference / ELSER / Jina, ES|QL explainability, Search AI / Agent Builder, Enterprise or Hosted runway — not a fork.
-3. Same business questions as this workshop (deals / notes / meaning) on Elastic.
-4. Close: half-day Search AI enablement; Hosted on Marketplace if they need the AWS commit story, or Enterprise self-hosted if already on OSS.
+2. Features: hybrid, Inference / ELSER / Jina, ES|QL, Search AI — not a fork.
+3. Same business questions as this workshop on Elastic.
+4. Close: half-day Search AI + pick self-hosted / Hosted / Serverless / Gov Hosted.
 
-Page structure:
-- Arsenal cards (don’t lead with price / beat Neural POC / close on Search AI)
-- Pros/cons table favoring Elastic
-- TCO vs OpenSearch + semantic overlay
-- Gov/FedRAMP stays a footer (not the main frame). FIPS on `/#fips`.
-- Quotes: [cloud.elastic.co/pricing](https://cloud.elastic.co/pricing) + AWS OpenSearch pricing. Jina separate.
+TCO still compares OpenSearch + semantic overlay vs Hosted / OSS+Enterprise. FIPS on `/#fips`. Quotes: [cloud.elastic.co/pricing](https://cloud.elastic.co/pricing) + AWS OpenSearch pricing. Jina separate.

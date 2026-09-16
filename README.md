@@ -4,11 +4,11 @@ Interactive demos and slides for semantic search over deals, transactions, logs,
 
 **No API keys in git.** App URLs only. Instruqt creates per-learner Serverless projects via the `ESS_CLOUD_API_KEY` Instruqt secret (never committed).
 
-Live app: https://cisco-search-jina.vercel.app — one bar, many concepts: **Semantic · CRM · Lifecycle · Webex · Circuit · FIPS · ECH · Bundle · Slides · Lab**.
+Live app: https://cisco-search-jina.vercel.app — one bar, many concepts: **Semantic · CRM · Lifecycle · Webex · Circuit · FIPS · Deploy · Bundle · Slides · Lab**.
 
 **Facilitator Elastic proof** (SSO, no Instruqt spin-up): [Search-AI Kibana](https://ai-assistants-ffcafb.kb.us-east-1.aws.elastic.cloud/) — each demo pane deep-links to dashboards / Discover / Agent Builder. Learners stay on Instruqt.
 
-Deep links: `/#semantic` `/#crm` `/#lifecycle` `/#webex` `/#circuit` `/#fips` `/#ech` `/#bundle` `/#workshop`. Deck for wait slides: `/slides`.
+Deep links: `/#semantic` `/#crm` `/#lifecycle` `/#webex` `/#circuit` `/#fips` `/#deploy` `/#bundle` `/#workshop`. Deck for wait slides: `/slides`. Legacy `/#ech` and `/ech` redirect to Deploy.
 
 ## Labs (self-paced)
 
@@ -30,7 +30,7 @@ npm run dev
 | --- | --- |
 | `/` | Concept app (hash selects the tab) |
 | `/slides` | Deck (Instruqt wait-slide iframe) |
-| `/demo` `/crm` `/lifecycle` `/webex` `/fips` `/ech` `/bundle` | Same tabs via path |
+| `/demo` `/crm` `/lifecycle` `/webex` `/fips` `/deploy` `/bundle` | Same tabs via path |
 
 Interactive ranking uses a local synonym/concept replica so the repo stays key-free.
 

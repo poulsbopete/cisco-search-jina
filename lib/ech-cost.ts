@@ -128,7 +128,7 @@ export function estimateCosts(s: CostScenario): CostEstimate {
     "OpenSearch has no native embeddings; the semantic overlay line is illustrative (Jina + engineering).",
     "Already on OSS? Enterprise self-hosted licensing is often the lowest cash add-on for vectors + support — ask for a search-tier quote.",
     "Full OSS + Enterprise TCO includes ops labor; Hosted wins when you want Elastic to run the platform.",
-    "GovCloud ECH requires Platinum or Enterprise; OpenSearch Gov pricing differs — use your account team.",
+    "GovCloud Hosted requires Platinum or Enterprise; OpenSearch Gov pricing differs — use your account team.",
   ];
 
   return {

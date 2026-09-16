@@ -293,11 +293,12 @@ export function SlideInfographic({
 
   if (kind === "deploy-three") {
     return (
-      <div className={cn(shell, "grid gap-2 sm:grid-cols-3")}>
+      <div className={cn(shell, "grid gap-2 sm:grid-cols-2 lg:grid-cols-4")}>
         {[
-          { l: "Self-hosted", s: "Your VPC · Enterprise license · you operate" },
-          { l: "Cloud Hosted", s: "Elastic operates · commercial or FedRAMP Gov" },
-          { l: "Serverless", s: "SaaS Search · fastest commercial · this lab" },
+          { l: "Self-hosted", s: "Your VPC · Enterprise · you operate" },
+          { l: "Cloud Hosted", s: "Elastic operates · Marketplace / EDP" },
+          { l: "Serverless", s: "Commercial SaaS · this lab · not Gov" },
+          { l: "GovCloud", s: "FedRAMP Hosted only · no Serverless" },
         ].map((d) => (
           <Node key={d.l} label={d.l} sub={d.s} accent={d.l === "Cloud Hosted"} compact={compact} />
         ))}
@@ -311,7 +312,7 @@ export function SlideInfographic({
         <div className="mx-auto mb-2 max-w-sm">
           <Node label="Where must it run?" compact={compact} accent />
         </div>
-        <div className="grid gap-2 sm:grid-cols-3">
+        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-xl border border-[#049FD9]/25 bg-[#061525]/70 p-3 text-left">
             <p className="font-mono text-[10px] uppercase text-[#00BCEB]">Your VPC / OSS</p>
             <p className={cn("mt-1 text-[#E8F4FA]", compact ? "text-xs" : "text-sm")}>
@@ -319,7 +320,7 @@ export function SlideInfographic({
             </p>
           </div>
           <div className="rounded-xl border border-[#049FD9]/25 bg-[#061525]/70 p-3 text-left">
-            <p className="font-mono text-[10px] uppercase text-[#00BCEB]">Managed / Gov</p>
+            <p className="font-mono text-[10px] uppercase text-[#00BCEB]">Managed commercial</p>
             <p className={cn("mt-1 text-[#E8F4FA]", compact ? "text-xs" : "text-sm")}>
               → Cloud Hosted
             </p>
@@ -328,6 +329,12 @@ export function SlideInfographic({
             <p className="font-mono text-[10px] uppercase text-[#00BCEB]">Fast commercial</p>
             <p className={cn("mt-1 text-[#E8F4FA]", compact ? "text-xs" : "text-sm")}>
               → Serverless SaaS
+            </p>
+          </div>
+          <div className="rounded-xl border border-[#049FD9]/25 bg-[#061525]/70 p-3 text-left">
+            <p className="font-mono text-[10px] uppercase text-[#00BCEB]">Gov / FedRAMP</p>
+            <p className={cn("mt-1 text-[#E8F4FA]", compact ? "text-xs" : "text-sm")}>
+              → Hosted (no Serverless)
             </p>
           </div>
         </div>

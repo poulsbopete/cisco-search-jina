@@ -7,7 +7,7 @@ import { WebexDemo } from "@/components/WebexDemo";
 import { CircuitStory } from "@/components/CircuitStory";
 import { BundleStory } from "@/components/BundleStory";
 import { FipsStory } from "@/components/FipsStory";
-import { EchStory } from "@/components/EchStory";
+import { DeployStory } from "@/components/EchStory";
 import { WorkshopHub } from "@/components/WorkshopHub";
 import { SlideDeck } from "@/components/SlideDeck";
 import { useActiveModuleMeta, useModule } from "@/components/ModuleProvider";
@@ -37,7 +37,7 @@ export function ConceptApp() {
         {active === "webex" ? <WebexDemo /> : null}
         {active === "circuit" ? <CircuitStory /> : null}
         {active === "fips" ? <FipsStory /> : null}
-        {active === "ech" ? <EchStory /> : null}
+        {active === "deploy" ? <DeployStory /> : null}
         {active === "bundle" ? <BundleStory /> : null}
       </div>
       <footer className="mt-16 border-t border-primary/25 py-6 text-xs leading-relaxed text-muted">

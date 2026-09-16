@@ -5,7 +5,7 @@ export const MODULE_IDS = [
   "webex",
   "circuit",
   "fips",
-  "ech",
+  "deploy",
   "bundle",
   "slides",
   "workshop",
@@ -57,10 +57,10 @@ export const MODULES: {
     title: "Turn on FIPS for an existing cluster",
   },
   {
-    id: "ech",
-    label: "ECH",
-    kicker: "OpenSearch vs Elastic",
-    title: "Why Elasticsearch over AWS OpenSearch — then Hosted or Enterprise",
+    id: "deploy",
+    label: "Deploy",
+    kicker: "Self-hosted · Cloud · Serverless · Gov",
+    title: "How Cisco runs Elasticsearch — and why not OpenSearch",
   },
   {
     id: "bundle",
@@ -96,9 +96,10 @@ export function moduleFromPath(pathname: string, hash: string): ModuleId {
   if (pathname.startsWith("/webex")) return "webex";
   if (pathname.startsWith("/circuit")) return "circuit";
   if (pathname.startsWith("/fips")) return "fips";
-  if (pathname.startsWith("/ech")) return "ech";
+  if (pathname.startsWith("/deploy") || pathname.startsWith("/ech")) return "deploy";
   if (pathname.startsWith("/bundle")) return "bundle";
   const h = hash.replace(/^#/, "");
+  if (h === "ech") return "deploy";
   if (isModuleId(h)) return h;
   return "semantic";
 }

@@ -322,7 +322,7 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
       </div>
 
       <p className="mt-4 rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-xs leading-relaxed text-zinc-500">
-        ECH rate: ${ECH_RATE_GB_HOUR}/GB RAM/hour. Enterprise license:{" "}
+        Hosted rate: ${ECH_RATE_GB_HOUR}/GB RAM/hour. Enterprise license:{" "}
         {formatUsd(ENTERPRISE_LICENSE_MONTHLY)}/mo illustrative (self-hosted, search-tier). OpenSearch
         overlay: {formatUsd(OPENSEARCH_SEMANTIC_OVERLAY_MONTHLY)}/mo. Size real quotes in{" "}
         <a
