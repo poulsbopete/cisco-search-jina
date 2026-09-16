@@ -1,176 +1,148 @@
 "use client";
 
-import { useState } from "react";
 import { EchCostComparison } from "@/components/EchCostComparison";
-import { COST_SCENARIOS, type CostScenario } from "@/lib/ech-cost";
+import { COST_SCENARIOS } from "@/lib/ech-cost";
 
-type Region = "commercial" | "govcloud";
-
-const REGION_CONFIG: Record<
-  Region,
+/** OpenSearch vs Elastic — favor Elastic without inventing facts. */
+const PROS_CONS = [
   {
-    label: string;
-    headline: string;
-    detail: string;
-    scenario: CostScenario;
-  }
-> = {
-  commercial: {
-    label: "Commercial cloud",
-    headline: "AWS · GCP · Azure — Elasticsearch only",
-    detail:
-      "Hosted deployments in commercial regions. Pick Elasticsearch as the solution (not Observability or Security). Autoscaling, snapshots, and upgrades are Elastic-operated.",
-    scenario: COST_SCENARIOS[0],
-  },
-  govcloud: {
-    label: "AWS GovCloud",
-    headline: "FedRAMP Moderate / High — Elasticsearch on us-gov-east-1",
-    detail:
-      "Serverless Search is not in GovCloud today. Elastic Cloud Hosted is the managed path for CRM, Lifecycle, and Webex / Infra teams that must stay in the authorization boundary. Elastic is moving towards IL5 certification for Hosted gov offerings — not authorized today; plan with your account team.",
-    scenario: COST_SCENARIOS[1],
-  },
-};
-
-const OSS_ROWS = [
-  {
-    need: "Who patches, upgrades, and backs up the cluster",
-    oss: "Your infra team — on your schedule, your risk.",
-    ech: "Elastic Cloud Hosted — rolling upgrades, snapshots, autoscaling.",
+    topic: "Semantic / vector search",
+    opensearch:
+      "Keyword-first. No native embeddings product — you bolt on Jina (or similar) and own the pipeline.",
+    elastic:
+      "Native vectors, inference endpoints, and ingest pipelines. Jina supplies embeddings; Elasticsearch stores and ranks them.",
   },
   {
-    need: "Enterprise search (vectors, inference, ES|QL)",
-    oss: "Add Enterprise — low license cost on the cluster you already operate.",
-    ech: "Enterprise subscription on Hosted — native embeddings + pipelines.",
+    topic: "Query language & relevance",
+    opensearch:
+      "OpenSearch DSL + limited analytics. You leave the Elasticsearch roadmap (ES|QL, RRF, Elastic relevance features).",
+    elastic:
+      "ES|QL, hybrid ranking, and the same APIs Cisco already knows from OSS Elasticsearch — one engine from lab to production.",
   },
   {
-    need: "AWS GovCloud / FedRAMP",
-    oss: "Self-managed in Gov — you own the boundary.",
-    ech: "FedRAMP Moderate (Platinum+) or High (Enterprise, US gov) on ECH.",
+    topic: "AWS EDP / Marketplace",
+    opensearch:
+      "Native AWS line item — looks like the easy EDP default.",
+    elastic:
+      "Elastic Cloud Hosted is also on AWS Marketplace and can count toward the same AWS commit — without the OpenSearch ceiling.",
   },
   {
-    need: "FIPS-ready TLS in gov regions",
-    oss: "DIY JVM + config (see FIPS tab for self-hosted).",
-    ech: "FedRAMP deployments enforce FIPS 140-2 TLS v1.2 by default.",
+    topic: "Operations",
+    opensearch:
+      "AWS runs the service; you still own ISM, index design, access, and any semantic overlay.",
+    elastic:
+      "Elastic-operated Hosted (upgrades, snapshots, autoscaling) or Enterprise self-hosted if you keep the cluster.",
   },
   {
-    need: "Semantic / multimodal relevance",
-    oss: "No embeddings product — keyword ceiling.",
-    ech: "Elasticsearch stores and queries vectors; Jina supplies embeddings.",
+    topic: "Product runway",
+    opensearch:
+      "Fork of an older Elasticsearch line — feature lag vs Elastic’s current stack.",
+    elastic:
+      "Current Elasticsearch: CCR, inference, security features, and a support path that matches Enterprise / Hosted.",
   },
   {
-    need: "Migration from today's OSS cluster",
-    oss: "Already there — but no vendor runway.",
-    ech: "Same Elasticsearch APIs — reindex or snapshot-restore into Hosted.",
+    topic: "Cost at semantic parity",
+    opensearch:
+      "Managed fee + separate Jina/pipeline overlay. Keyword-only looks cheap until you match this workshop’s story.",
+    elastic:
+      "Enterprise on Hosted includes the search stack; self-hosted Enterprise is often the lowest add-on if you already run OSS.",
   },
 ];
 
 const PATHS = [
   {
-    title: "Self-hosted Enterprise",
+    title: "Stay off OpenSearch",
     detail:
-      "Stay on-prem or in your VPC. Competitive Enterprise licensing for search — vectors, CCR, and Elastic support on the cluster you already run. Optional FIPS JVM; you operate the platform.",
+      "If procurement pushes OpenSearch for EDP, show the semantic gap and the Marketplace alternative — same commit, Elasticsearch product.",
   },
   {
-    title: "Elastic Cloud Hosted (commercial)",
+    title: "Enterprise self-hosted",
     detail:
-      "Move search to Elastic-operated infrastructure in AWS, GCP, or Azure. Elasticsearch deployment only — not Observability or Security.",
+      "Already on OSS Elasticsearch? Add a search-tier Enterprise license for vectors, CCR, and support — keep your VPC.",
   },
   {
-    title: "Elastic Cloud Hosted (GovCloud)",
+    title: "Elastic Cloud Hosted",
     detail:
-      "Same search story inside FedRAMP. For teams that cannot use Serverless and cannot stay on unsupported OSS builds. Elastic is working toward IL5 — ask your account team for timeline and scope.",
+      "Want Elastic to operate: commercial cloud or FedRAMP Hosted. Elasticsearch deployment only — not Observability or Security.",
   },
 ];
 
-const JINA_ROW =
-  "Jina is the embeddings API. Elasticsearch is the search engine. Ingest Jina vectors into Hosted indices — CRM deals, lifecycle payloads, Webex artifacts — without standing up a separate observability platform.";
-
-function formatSizing(s: CostScenario): string {
-  return `${s.totalRamGb} GB RAM · ${s.zones} AZ${s.zones > 1 ? "s" : ""} · ${s.storageGb.toLocaleString()} GB storage`;
-}
-
 export function EchStory() {
-  const [region, setRegion] = useState<Region>("commercial");
-  const config = REGION_CONFIG[region];
+  const scenario = COST_SCENARIOS[0];
 
   return (
     <div>
       <p className="rounded-2xl border border-primary/40 bg-primary/10 p-5 text-sm leading-relaxed text-zinc-200">
-        Cisco groups already run <span className="text-white">Open Source Elasticsearch</span>{" "}
-        self-hosted — or get pushed to <span className="text-white">AWS OpenSearch</span> for EDP.
-        Elastic Cloud Hosted is on <span className="text-white">AWS Marketplace</span> (same commit,
-        more search). For teams staying on-prem,{" "}
-        <span className="text-white">Enterprise self-hosted licensing</span> is a low-cost path to
-        vectors and support. Or move to{" "}
-        <span className="text-white">Elasticsearch Enterprise</span> on Hosted,
-        with <span className="text-white">Jina</span> for multimodal relevance. Serverless Search
-        powers this workshop, but it does not run in GovCloud — Hosted does.
+        When Cisco teams need managed search on AWS, the default pitch is often{" "}
+        <span className="text-white">OpenSearch</span> — it sits on EDP. The catch:{" "}
+        <span className="text-white">no native embeddings</span>, so the semantic story from this
+        workshop does not land.{" "}
+        <span className="text-white">Elasticsearch</span> (Enterprise self-hosted or{" "}
+        <span className="text-white">Elastic Cloud Hosted</span> on Marketplace) keeps the AWS
+        commit <span className="text-white">and</span> the product runway.
       </p>
 
-      <div className="mt-6 flex flex-wrap gap-2">
-        {(Object.keys(REGION_CONFIG) as Region[]).map((key) => (
-          <button
-            key={key}
-            type="button"
-            onClick={() => setRegion(key)}
-            className={`rounded-full border px-4 py-2 font-mono text-xs ${
-              region === key
-                ? "border-primary bg-primary/15 text-primary-bright"
-                : "border-white/15 text-zinc-400"
-            }`}
-          >
-            {REGION_CONFIG[key].label}
-          </button>
-        ))}
-      </div>
-
-      <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-5">
-        <p className="font-mono text-xs uppercase tracking-wide text-primary-bright">
-          {config.headline}
+      <section className="mt-10">
+        <h2 className="font-mono text-sm uppercase tracking-wide text-zinc-300">
+          OpenSearch vs Elastic — pros &amp; cons
+        </h2>
+        <p className="mt-2 max-w-3xl text-sm leading-relaxed text-zinc-400">
+          Honest tradeoffs for a search / AI retrieval decision. Elastic wins on relevance,
+          roadmap, and total cost once you need vectors — not just keyword search.
         </p>
-        <p className="mt-2 text-sm leading-relaxed text-zinc-300">{config.detail}</p>
-        <p className="mt-3 font-mono text-[11px] text-zinc-500">
-          TCO sizing: {formatSizing(config.scenario)} · {config.scenario.label}
-        </p>
-        {region === "govcloud" ? (
-          <p className="mt-3 rounded-xl border border-amber-400/25 bg-amber-400/5 px-3 py-2 text-xs leading-relaxed text-amber-100/90">
-            <span className="font-mono uppercase tracking-wide text-amber-200/90">Roadmap</span>
-            {" — "}
-            Elastic Cloud Hosted is FedRAMP authorized today. IL5 (DoD Impact Level 5) certification
-            is in progress — not a current authorization. Do not represent IL5 as available until
-            Elastic publishes it.
-          </p>
-        ) : null}
-      </div>
 
-      <EchCostComparison scenario={config.scenario} />
-
-      <div className="mt-10 overflow-x-auto rounded-2xl border border-white/10">
-        <table className="min-w-full text-left text-sm">
-          <thead className="bg-white/5 font-mono text-xs uppercase tracking-wide text-zinc-400">
-            <tr>
-              <th className="px-4 py-3">Need</th>
-              <th className="px-4 py-3">Open Source (self-hosted)</th>
-              <th className="px-4 py-3">Elastic Cloud Hosted</th>
-            </tr>
-          </thead>
-          <tbody>
-            {OSS_ROWS.map((r) => (
-              <tr key={r.need} className="border-t border-white/10">
-                <td className="px-4 py-3 text-zinc-200">{r.need}</td>
-                <td className="px-4 py-3 text-zinc-500">{r.oss}</td>
-                <td className="px-4 py-3 text-emerald-300/90">{r.ech}</td>
+        <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
+          <table className="min-w-full text-left text-sm">
+            <thead className="bg-white/5 font-mono text-xs uppercase tracking-wide text-zinc-400">
+              <tr>
+                <th className="px-4 py-3">Topic</th>
+                <th className="px-4 py-3 text-orange-200/90">AWS OpenSearch</th>
+                <th className="px-4 py-3 text-emerald-300/90">Elastic (Enterprise / Hosted)</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {PROS_CONS.map((row) => (
+                <tr key={row.topic} className="border-t border-white/10 align-top">
+                  <td className="px-4 py-3 font-medium text-zinc-200">{row.topic}</td>
+                  <td className="px-4 py-3 text-orange-200/75">{row.opensearch}</td>
+                  <td className="px-4 py-3 text-emerald-300/90">
+                    <span className="mr-2 inline-block rounded-full bg-emerald-400/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide text-emerald-200">
+                      Prefer
+                    </span>
+                    {row.elastic}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-      <p className="mt-6 rounded-2xl border border-white/10 bg-black/30 p-4 text-sm leading-relaxed text-zinc-300">
-        {JINA_ROW}
-      </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <div className="rounded-2xl border border-orange-400/25 bg-orange-400/5 p-4">
+            <p className="font-mono text-[10px] uppercase tracking-wide text-orange-200">
+              When OpenSearch still shows up
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-orange-100/85">
+              Pure keyword logs / metrics with no semantic requirement, and procurement will not
+              consider Marketplace. Acknowledge EDP ease — then ask whether embeddings are on the
+              roadmap.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-emerald-400/30 bg-emerald-400/10 p-4">
+            <p className="font-mono text-[10px] uppercase tracking-wide text-emerald-200">
+              When to choose Elastic
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-emerald-50/90">
+              Deals, notes, lifecycle payloads, Webex artifacts — anything that needs meaning over
+              tokens. Same workshop story: MATCH ceiling vs concept / vector neighborhood.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      <div className="mt-6 grid gap-4 md:grid-cols-3">
+      <EchCostComparison scenario={scenario} />
+
+      <div className="mt-10 grid gap-4 md:grid-cols-3">
         {PATHS.map((path) => (
           <section
             key={path.title}
@@ -182,9 +154,25 @@ export function EchStory() {
         ))}
       </div>
 
+      <p className="mt-6 rounded-2xl border border-white/10 bg-black/30 p-4 text-sm leading-relaxed text-zinc-300">
+        <span className="text-white">Jina</span> is the embeddings API.{" "}
+        <span className="text-white">Elasticsearch</span> is the search engine. Ingest Jina vectors
+        into Hosted or Enterprise indices — CRM deals, lifecycle payloads, Webex artifacts — without
+        standing up a second analytics stack. OpenSearch still needs that bolt-on.
+      </p>
+
+      <p className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/5 px-4 py-3 text-xs leading-relaxed text-amber-100/85">
+        <span className="font-mono uppercase tracking-wide text-amber-200/90">Gov / FedRAMP</span>
+        {" — "}
+        Separate from the OpenSearch debate: Serverless Search is not in GovCloud today;{" "}
+        <span className="text-white">Elastic Cloud Hosted</span> is the managed FedRAMP path
+        (Moderate / High by tier). IL5 is in progress — not authorized yet. FIPS for self-hosted is
+        on the <span className="text-zinc-300">FIPS</span> tab.
+      </p>
+
       <p className="mt-6 text-xs leading-relaxed text-zinc-500">
-        Deploy Hosted with the <span className="text-zinc-400">Elasticsearch</span> solution
-        only. References:{" "}
+        Deploy Hosted with the <span className="text-zinc-400">Elasticsearch</span> solution only.
+        References:{" "}
         <a
           className="text-primary-bright underline"
           href="https://www.elastic.co/docs/deploy-manage/deploy/elastic-cloud/create-an-elastic-cloud-hosted-deployment"
@@ -196,22 +184,22 @@ export function EchStory() {
         {" · "}
         <a
           className="text-primary-bright underline"
-          href="https://www.elastic.co/docs/deploy-manage/deploy/elastic-cloud/fedramp"
+          href="https://aws.amazon.com/opensearch-service/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          FedRAMP authorized Cloud offerings
+          AWS OpenSearch Service
         </a>
         {" · "}
         <a
           className="text-primary-bright underline"
-          href="https://www.elastic.co/docs/deploy-manage/cloud-organization/billing/cloud-hosted-deployment-billing-dimensions"
+          href="https://cloud.elastic.co/pricing"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Hosted billing dimensions
+          Elastic pricing
         </a>
-        . Self-hosted FIPS: use the <span className="text-zinc-400">FIPS</span> tab.
+        .
       </p>
     </div>
   );

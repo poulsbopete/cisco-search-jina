@@ -92,10 +92,12 @@ The Webex East/West toggle on Vercel is an **architecture visual**. In Elastic /
 - **FedRAMP Moderate / High** on Elastic Cloud Hosted is authorized today (see ECH tab).
 - **IL5** — Elastic is **moving towards** IL5 certification for Hosted gov offerings. It is **not authorized yet**. Say “in progress” and point Cisco to their account team for timeline. Do not sell IL5 as available.
 
-## ECH cost (TCO, not license line)
+## ECH / OpenSearch vs Elastic (`/#ech`)
 
-- Lead with **AWS OpenSearch + semantic overlay** vs **ECH on AWS Marketplace** — same EDP, embeddings included on Hosted.
-- For teams already on OSS: **Enterprise self-hosted licensing** is often the lowest cash add-on (license + existing infra vs OpenSearch overlay). Use account team for search-tier quotes.
-- OSS **license is $0**; OpenSearch looks EDP-friendly but has **no native embeddings** (overlay line on the ECH tab).
-- Always send production quotes to [cloud.elastic.co/pricing](https://cloud.elastic.co/pricing) and AWS OpenSearch pricing.
-- Jina API spend is **separate** on all paths.
+Lead with **product**, not GovCloud or ThousandEyes: **AWS OpenSearch vs Elasticsearch**.
+
+- OpenSearch: EDP-friendly, keyword-first, **no native embeddings** — semantic story needs a bolt-on.
+- Elastic (Enterprise / Hosted on Marketplace): same AWS commit path, vectors, ES|QL, support runway.
+- TCO block still compares OpenSearch + semantic overlay vs Hosted / OSS+Enterprise.
+- Gov / FedRAMP is a **footer note** on that tab (Hosted yes; Serverless not in GovCloud; IL5 in progress). FIPS stays on `/#fips`.
+- Always send production quotes to [cloud.elastic.co/pricing](https://cloud.elastic.co/pricing) and AWS OpenSearch pricing. Jina API spend is **separate**.

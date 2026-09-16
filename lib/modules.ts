@@ -59,8 +59,8 @@ export const MODULES: {
   {
     id: "ech",
     label: "ECH",
-    kicker: "Elastic Cloud Hosted",
-    title: "Managed Elasticsearch — commercial and GovCloud",
+    kicker: "OpenSearch vs Elastic",
+    title: "Why Elasticsearch over AWS OpenSearch — then Hosted or Enterprise",
   },
   {
     id: "bundle",
