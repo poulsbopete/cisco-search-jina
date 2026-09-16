@@ -45,15 +45,13 @@ export function CircuitStory() {
       <OpenInElastic beat={DEMO_BEATS.find((b) => b.id === "circuit") ?? DEMO_BEATS[0]} />
 
       <p className="mt-6 rounded-2xl border border-primary/40 bg-primary/10 p-5 text-sm leading-relaxed text-foreground">
-        <span className="text-white">CIRCUIT</span> is Cisco&apos;s{" "}
-        <span className="text-white">LLM proxy</span> (and AI security controls). Customers choose{" "}
-        <span className="text-white">Elastic LLM</span>,{" "}
-        <span className="text-white">CIRCUIT</span>, or{" "}
-        <span className="text-white">both</span>. The Instruqt lab seeds CIRCUIT docs on{" "}
-        <code className="text-primary-bright">cisco-jina-corpus</code> and ML job{" "}
-        <code className="text-primary-bright">cisco-jina-circuit-tokens</code> (token-budget spike).
-        Elastic searches the ECS stream either way; <span className="text-white">Jina</span> adds
-        semantic neighborhood on prompts and incidents.
+        <span className="text-white">CIRCUIT</span> is your{" "}
+        <span className="text-white">LLM proxy</span> and AI security control plane. Use{" "}
+        <span className="text-white">Elastic LLM</span>, <span className="text-white">CIRCUIT</span>,
+        or <span className="text-white">both</span> — Elasticsearch indexes the ECS stream either
+        way so your teams can search prompts, policy denies, and token spend, and flag anomalies
+        (lab job <code className="text-primary-bright">cisco-jina-circuit-tokens</code>).{" "}
+        <span className="text-white">Jina</span> adds semantic neighborhood on similar incidents.
       </p>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -174,7 +172,7 @@ export function CircuitStory() {
         on <span className="text-zinc-400">self-hosted</span>,{" "}
         <span className="text-zinc-400">Cloud Hosted</span>, or{" "}
         <span className="text-zinc-400">Serverless</span>. CIRCUIT&apos;s ECS volume is a Hosted or
-        self-hosted conversation for production; this workshop lab stays on Serverless Search.
+        self-hosted conversation for production; commercial Serverless is the fastest path to try the same APIs.
       </p>
     </div>
   );

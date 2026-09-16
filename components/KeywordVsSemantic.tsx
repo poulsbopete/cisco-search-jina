@@ -82,10 +82,10 @@ export function KeywordVsSemantic() {
         ))}
       </div>
       <p className="mt-4 text-sm text-muted-foreground">
-        Left mirrors Lab 1 lexical search: <code className="text-primary-bright">MATCH(content, &quot;legal&quot;)</code>{" "}
-        — token ceiling (Umbrella legal-hold noise). Right mirrors concept neighborhood:{" "}
-        <code className="text-primary-bright">MV_INTERSECTS(concepts, …)</code> — Elastic + Jina meaning,
-        so counsel / lock-in wording still ranks without those exact tokens.
+        Left is keyword search — <code className="text-primary-bright">MATCH(content, &quot;legal&quot;)</code>{" "}
+        — the OpenSearch-shaped ceiling (Umbrella legal-hold noise). Right is meaning:{" "}
+        <code className="text-primary-bright">MV_INTERSECTS(concepts, …)</code> so counsel and
+        lock-in language still ranks without those exact tokens.
       </p>
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <HitList

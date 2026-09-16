@@ -99,7 +99,7 @@ export const DEMO_BEATS: DemoBeat[] = [
     href: "/demo",
     title: "Keyword vs semantic",
     summary:
-      "Same corpus, two ES|QL shapes. MATCH(content, \"legal\") is the OpenSearch-style token ceiling (Umbrella legal-hold noise). MV_INTERSECTS(concepts, …) is the Elastic + Jina neighborhood — Acme counsel stays; Umbrella drops.",
+      "Your teams type “legal” and drown in Umbrella e-discovery noise. With Elasticsearch + Jina concepts, Acme counsel and vendor lock-in stay on top — keyword MATCH is the ceiling; meaning is the product.",
     dashboardTitle: LAB_DASHBOARDS.keywordVsSemantic,
     elasticDashboard: ELASTIC.dashboard.keywordVsSemantic,
     elasticDiscover: ELASTIC.esql.keywordLegal,
@@ -109,7 +109,7 @@ export const DEMO_BEATS: DemoBeat[] = [
     href: "/crm",
     title: "CRM Analytics",
     summary:
-      "Find deals like Acme’s Webex renewal with a reason for every match. Pipeline stage and competitors stay grounded in account / deal / competitor — same story as the lab dashboard.",
+      "CRM Analytics finds deals like Acme’s Webex renewal with a reason for every match — account, stage, competitors, and counsel language grounded in your pipeline data.",
     dashboardTitle: LAB_DASHBOARDS.crm,
     elasticDashboard: ELASTIC.dashboard.crm,
     elasticDiscover: ELASTIC.esql.crm,
@@ -119,7 +119,7 @@ export const DEMO_BEATS: DemoBeat[] = [
     href: "/lifecycle",
     title: "Lifecycle Platform",
     summary:
-      "Snowflake · S3 · Elastic as peers in one ES|QL. Counsel language inside large payloads without a second warehouse — matching the Lifecycle federated-search lab.",
+      "Lifecycle Platform searches Snowflake, S3, and Elastic logs as peers — counsel language inside large payloads without standing up a second analytics warehouse.",
     dashboardTitle: LAB_DASHBOARDS.lifecycle,
     elasticDashboard: ELASTIC.dashboard.lifecycle,
     elasticDiscover: ELASTIC.esql.lifecycle,
@@ -129,7 +129,7 @@ export const DEMO_BEATS: DemoBeat[] = [
     href: "/webex",
     title: "Webex / Infrastructure",
     summary:
-      "CCR replicates; search locally in US Gov East and West. Same concepts, no cross-boundary query plane — exactly Lab 4’s East/West ES|QL slices.",
+      "Webex / Infrastructure replicates with CCR and searches locally in US Gov East and West — same intent, no cross-boundary query plane.",
     dashboardTitle: LAB_DASHBOARDS.webex,
     elasticDashboard: ELASTIC.dashboard.webex,
     elasticDiscover: ELASTIC.esql.webexGov,
@@ -139,7 +139,7 @@ export const DEMO_BEATS: DemoBeat[] = [
     href: "/circuit",
     title: "CIRCUIT LLM proxy (ECS)",
     summary:
-      "CIRCUIT is Cisco’s LLM proxy. Customers choose Elastic LLM, CIRCUIT, or both. The lab seeds CIRCUIT docs on cisco-jina-corpus plus ML job cisco-jina-circuit-tokens on proxy metrics (token spike / policy denies).",
+      "CIRCUIT is your LLM proxy. Use Elastic LLM, CIRCUIT, or both — Elasticsearch searches and alerts the ECS stream either way, with optional ML on token spend and policy denies.",
     dashboardTitle: LAB_DASHBOARDS.circuit,
     elasticDashboard: ELASTIC.dashboard.circuit,
     elasticDiscover: ELASTIC.esql.circuit,

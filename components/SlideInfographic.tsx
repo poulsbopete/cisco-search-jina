@@ -297,7 +297,7 @@ export function SlideInfographic({
         {[
           { l: "Self-hosted", s: "Your VPC · Enterprise · you operate" },
           { l: "Cloud Hosted", s: "Elastic operates · Marketplace / EDP" },
-          { l: "Serverless", s: "Commercial SaaS · this lab · not Gov" },
+          { l: "Serverless", s: "Commercial SaaS · not GovCloud" },
           { l: "GovCloud", s: "FedRAMP Hosted only · no Serverless" },
         ].map((d) => (
           <Node key={d.l} label={d.l} sub={d.s} accent={d.l === "Cloud Hosted"} compact={compact} />

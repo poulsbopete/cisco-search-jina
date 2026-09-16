@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Cisco — Semantic search with Elastic + Jina",
   description:
-    "Facilitator deck and demos for the Instruqt lab: ES|QL keyword vs semantic on cisco-jina-corpus, CRM, Lifecycle, Webex CCR, CIRCUIT + ML — Elastic Serverless Search with Jina relevance.",
+    "Semantic search for Cisco product teams — ES|QL keyword vs meaning on CRM, Lifecycle, Webex CCR, and CIRCUIT, with Elastic + Jina and deploy options from self-hosted to Serverless and GovCloud.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -26,7 +26,7 @@ const LINE_ITEMS = [
     opensearch: "Not offered — keyword ceiling. Bolt on Jina + custom pipeline (overlay cost).",
     oss: "Enterprise license on existing cluster — competitive search-tier pricing.",
     ech: "Enterprise Hosted: inference endpoints + pipelines; Jina API separate.",
-    serverless: "Inference + vectors included in the Search project; Jina API separate. This workshop runs here.",
+    serverless: "Inference + vectors in your Search project; Jina API separate when you need multimodal embeddings.",
     highlight: true,
   },
   {
@@ -42,7 +42,7 @@ const LINE_ITEMS = [
     opensearch: "Lexical + filters. No ES|QL parity, CCR story, or Elastic support path.",
     oss: "$0 OSS stack — add a low Enterprise license for vectors, CCR, and support.",
     ech: "Included in Hosted Enterprise tier.",
-    serverless: "ES|QL, Search AI, Agent Builder — same product story as this lab.",
+    serverless: "ES|QL, Search AI, Agent Builder — same capabilities your teams use in production demos.",
     highlight: false,
   },
   {
@@ -126,50 +126,52 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
   return (
     <section className="mt-10">
       <h2 className="font-mono text-sm uppercase tracking-wide text-zinc-300">
-        Cost comparison — OpenSearch vs OSS vs Hosted vs Serverless
+        What it costs to get semantic search
       </h2>
       <p className="mt-2 max-w-3xl text-sm leading-relaxed text-zinc-400">
-        Illustrative monthly TCO for{" "}
-        <span className="text-zinc-200">{scenario.label.toLowerCase()}</span> at{" "}
+        Illustrative monthly TCO for a{" "}
+        <span className="text-zinc-200">{scenario.label.toLowerCase()}</span> footprint (
         {scenario.totalRamGb} GB RAM-equivalent, {scenario.zones} AZ
-        {scenario.zones > 1 ? "s" : ""}, {scenario.storageGb.toLocaleString()} GB storage.
-        Serverless is usage-based (VCUs), not provisioned RAM.
+        {scenario.zones > 1 ? "s" : ""}, {scenario.storageGb.toLocaleString()} GB storage). Compare
+        OpenSearch at semantic parity with your Elasticsearch options — including Serverless
+        (usage-based VCUs, not provisioned RAM).
       </p>
 
       <p className="mt-3 rounded-xl border border-orange-400/25 bg-orange-400/5 px-4 py-3 text-xs leading-relaxed text-orange-100/90">
-        <span className="font-mono uppercase tracking-wide text-orange-200">OpenSearch trap</span>
+        <span className="font-mono uppercase tracking-wide text-orange-200">
+          OpenSearch + semantic overlay
+        </span>
         {" — "}
-        The managed service fee looks EDP-friendly, but there are no native embeddings. To match
-        this workshop&apos;s semantic story you still pay a{" "}
+        The managed fee can look EDP-friendly, but native embeddings are not part of the product.
+        Matching Elastic&apos;s relevance for CRM and Lifecycle means funding a{" "}
         <span className="text-white">Jina + pipeline overlay</span> (
-        {formatUsd(OPENSEARCH_SEMANTIC_OVERLAY_MONTHLY)}/mo est.) on top of keyword-only search.
+        {formatUsd(OPENSEARCH_SEMANTIC_OVERLAY_MONTHLY)}/mo est.) on top of keyword search.
       </p>
 
       <p className="mt-3 rounded-xl border border-sky-400/25 bg-sky-400/5 px-4 py-3 text-xs leading-relaxed text-sky-100/90">
-        <span className="font-mono uppercase tracking-wide text-sky-200">Serverless</span>
+        <span className="font-mono uppercase tracking-wide text-sky-200">Serverless for your teams</span>
         {" — "}
-        Same Elasticsearch product as this lab: no cluster sizing, pay for Search / Ingest / ML VCUs
-        plus lake retention.{" "}
-        <span className="text-white">Commercial regions only</span> — not in GovCloud (use Hosted
-        there). Best for variable load, POCs, and Search AI demos.
+        No cluster sizing: pay for Search / Ingest / ML VCUs plus lake retention.{" "}
+        <span className="text-white">Commercial regions only</span> — for GovCloud, use Hosted or
+        self-hosted Enterprise. Ideal when CRM or Lifecycle wants Search AI quickly without a
+        platform project.
       </p>
 
       <p className="mt-3 rounded-xl border border-violet-400/25 bg-violet-400/5 px-4 py-3 text-xs leading-relaxed text-violet-100/90">
         <span className="font-mono uppercase tracking-wide text-violet-200">
-          Enterprise self-hosted
+          Already running OSS Elasticsearch?
         </span>
         {" — "}
-        Teams already running OSS often only need an{" "}
-        <span className="text-white">Enterprise license</span> for vectors, ES|QL, CCR, and
-        support. Illustrative{" "}
+        An <span className="text-white">Enterprise license</span> often unlocks vectors, ES|QL,
+        CCR, and support on the clusters you already operate. Illustrative{" "}
         <span className="font-mono text-white">
           {formatUsd(ENTERPRISE_LICENSE_MONTHLY)}/mo
         </span>{" "}
-        — volume pricing is frequently lower. With existing infra that is{" "}
+        — volume pricing is frequently lower. License + existing infra:{" "}
         <span className="font-mono text-white">
           {formatUsd(est.oss.licensePlusInfra)}/mo
         </span>{" "}
-        total vs{" "}
+        vs{" "}
         <span className="font-mono text-white">{formatUsd(est.opensearch.total)}/mo</span>{" "}
         for OpenSearch + semantic overlay
         {savesLicenseOnly ? (
@@ -188,7 +190,7 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
       {savesVsOs || serverlessSavesVsOs ? (
         <div className="mt-6 rounded-2xl border border-emerald-400/40 bg-gradient-to-br from-emerald-400/20 via-emerald-400/5 to-transparent p-6">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-300">
-            Estimated savings vs AWS OpenSearch + semantic overlay
+            Estimated savings vs OpenSearch at semantic parity
           </p>
           <div className="mt-4 grid gap-6 sm:grid-cols-2">
             {savesVsOs ? (
@@ -344,7 +346,7 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
             </p>
           ) : null}
           <p className="mt-2 text-xs text-sky-200/80">
-            This workshop · commercial only · no GovCloud
+            Same Search product · commercial only · no GovCloud
           </p>
           <div className="mt-4 space-y-3">
             <SavingsBar
@@ -388,10 +390,10 @@ export function EchCostComparison({ scenario }: { scenario: CostScenario }) {
               "Bill Elastic Cloud Hosted through AWS Marketplace — EDP credit without the OpenSearch ceiling.",
           },
           {
-            title: "Serverless (this lab)",
+            title: "Serverless for Cisco teams",
             value: formatUsd(est.serverless.total),
             detail:
-              "Usage-based VCUs + lake. Fastest path to ES|QL and Search AI demos — commercial regions only.",
+              "Usage-based VCUs + lake. Fastest path to ES|QL and Search AI for commercial workloads — not GovCloud.",
           },
           {
             title: "3-year vs OpenSearch",

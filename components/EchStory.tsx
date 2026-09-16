@@ -9,99 +9,111 @@ const DEPLOY_OPTIONS = [
     title: "Self-hosted Enterprise",
     where: "Your VPC · on-prem · air-gapped",
     detail:
-      "Keep the cluster you already run. Search-tier Enterprise license for vectors, CCR, inference, and Elastic support. You operate patch, upgrade, and backup.",
-    notes: ["Best when OSS is already in-house", "FIPS path on the FIPS tab", "Same Elasticsearch APIs as Hosted"],
+      "Keep search where your data already lives. Add Enterprise for vectors, CCR, and support on the clusters your teams operate today — without moving CRM, lifecycle, or Webex data out of your boundary.",
+    notes: [
+      "Vectors and ES|QL on infrastructure you already run",
+      "FIPS path for gov-ready self-managed clusters",
+      "Same APIs from proof to production",
+    ],
   },
   {
     id: "cloud",
     title: "Elastic Cloud Hosted",
     where: "AWS · GCP · Azure (commercial)",
     detail:
-      "Elastic operates the deployment — rolling upgrades, snapshots, autoscaling. Elasticsearch solution only (not Observability or Security). On AWS Marketplace for EDP.",
-    notes: ["Elastic-operated platform", "Marketplace can count toward AWS commit", "Production search at scale"],
+      "Elastic runs the platform so your teams ship search features instead of patching clusters. On AWS Marketplace so search spend can align with your existing AWS commit — without settling for keyword-only OpenSearch.",
+    notes: [
+      "Elastic operates upgrades, snapshots, and autoscaling",
+      "Marketplace path for AWS EDP alignment",
+      "Production search for CRM, Lifecycle, and Webex workloads",
+    ],
   },
   {
     id: "serverless",
     title: "Elastic Cloud Serverless",
-    where: "Commercial regions only",
+    where: "Commercial regions",
     detail:
-      "Managed Search with no cluster sizing. This workshop’s Instruqt lab and Search-AI deep links run here. Fastest path to ES|QL, dashboards, and AI Agent demos.",
-    notes: ["No capacity planning", "Commercial SaaS regions", "Not available in GovCloud today"],
+      "Stand up Search without sizing nodes. Your teams get ES|QL, dashboards, and AI Agent on day one while Elastic scales compute underneath.",
+    notes: [
+      "No capacity planning for search projects",
+      "Fastest path from idea to working semantic search",
+      "Commercial SaaS — not available in GovCloud today",
+    ],
   },
   {
     id: "govcloud",
     title: "GovCloud / FedRAMP",
     where: "AWS GovCloud · FedRAMP Moderate / High",
     detail:
-      "Use Elastic Cloud Hosted in the authorization boundary — not Serverless. Platinum+ / Enterprise by FedRAMP level. IL5 is in progress (not authorized yet).",
-    notes: ["Hosted yes · Serverless no", "Self-hosted Enterprise still an option", "IL5: roadmap only — do not sell as available"],
+      "Keep Webex / Infra and other gov workloads inside the authorization boundary with Elastic Cloud Hosted (FedRAMP). Serverless is not in GovCloud yet — Hosted (or self-hosted Enterprise) is the managed path.",
+    notes: [
+      "Hosted FedRAMP for managed gov search",
+      "Self-hosted Enterprise when you must own the stack",
+      "IL5 is in progress — not available for Cisco workloads today",
+    ],
   },
 ];
 
-/**
- * Arsenal for Commerce / OpenSearch Neural POCs.
- * Pricing is often OpenSearch’s only clean win (EDP); features favor Elastic.
- */
-const PROS_CONS = [
+const VALUE_ROWS = [
   {
-    topic: "Neural / semantic search",
+    topic: "Find meaning, not just keywords",
     opensearch:
-      "OpenSearch Neural + k-NN can run models — that is a real POC path. You still own model choice, pipelines, hybrid tuning, and staying on the AWS fork.",
+      "OpenSearch Neural can run models in a trial, but you still assemble pipelines, hybrid ranking, and relevance tuning on an AWS fork.",
     elastic:
-      "Inference API, dense vectors, sparse retrieval (e.g. ELSER), and first-class hybrid (BM25 + vectors + RRF). Bring Jina or Elastic models — one product stack.",
+      "Your analysts search deals, notes, and logs by intent — Inference, dense vectors, sparse retrieval (ELSER), and hybrid ranking in one Elasticsearch product.",
   },
   {
-    topic: "Explainability & query surface",
+    topic: "Explain every hit",
     opensearch:
-      "Neural plugins + OpenSearch DSL. Harder to show “why this hit” next to keyword in the same ES|QL-style lab story.",
+      "Neural plugins plus OpenSearch DSL make it harder to show why a result matched next to keyword search.",
     elastic:
-      "ES|QL, hybrid ranking, and the same APIs Cisco already knows from OSS Elasticsearch — keyword vs meaning in one engine (this workshop).",
+      "ES|QL and hybrid ranking let CRM and Lifecycle teams see why Acme matched and Umbrella’s “legal hold” did not — every hit has a reason.",
   },
   {
-    topic: "Platform beyond the POC",
+    topic: "One platform after the trial",
     opensearch:
-      "Neural demo can look good in isolation. Commerce still needs CCR-style stories, security features, Agent / Search AI runway, and Elastic support — not on the fork.",
+      "A Neural trial can look good in isolation. Production still needs CCR-style region stories, security features, Search AI, and a support path.",
     elastic:
-      "Search AI, Agent Builder, CCR, Enterprise security features, and a support path across self-hosted, Hosted, or Serverless.",
+      "Search AI, Agent Builder, CCR, and Enterprise security features on the same engine — from proof indexes to production indices.",
   },
   {
-    topic: "AWS EDP / Marketplace",
+    topic: "Keep your AWS economics",
     opensearch:
-      "Native AWS line item — easiest procurement story. Often the only durable OpenSearch advantage.",
+      "Native AWS SKU — easy for procurement, but locks you into keyword-first search unless you fund a separate semantic overlay.",
     elastic:
-      "Elastic Cloud Hosted on AWS Marketplace can count toward the same commit — keep EDP without locking the product to OpenSearch Neural.",
+      "Elastic Cloud Hosted on AWS Marketplace can align with your AWS commit while delivering embeddings-ready search — no OpenSearch ceiling.",
   },
   {
-    topic: "Ops & total cost",
+    topic: "Lower total cost at semantic parity",
     opensearch:
-      "Managed service fee looks clean until you add model hosting, pipeline engineering, and relevance tuning for neural.",
+      "Service fee looks clean until you add model hosting, pipeline engineering, and relevance ops for neural search.",
     elastic:
-      "Self-hosted Enterprise, Hosted, or Serverless — pick who operates. Jina API is separate on every path.",
+      "Self-hosted Enterprise, Hosted, or Serverless — pick who operates. You pay for search outcomes, not a bolt-on overlay to match Elastic relevance.",
   },
   {
-    topic: "Roadmap risk",
+    topic: "Stay on the current search roadmap",
     opensearch:
-      "Fork of an older Elasticsearch line — neural features exist, but you diverge from Elastic’s current search + AI stack.",
+      "Fork of an older Elasticsearch line — neural features exist, but you diverge from Elastic’s search + AI stack.",
     elastic:
-      "Current Elasticsearch: continuous relevance, inference, and AI features with one vendor accountable for search.",
+      "Current Elasticsearch: continuous relevance, inference, and AI features with one vendor accountable for search across Cisco groups.",
   },
 ];
 
-const ARSENAL = [
+const OUTCOMES = [
   {
-    title: "Don’t lead with price",
+    title: "For CRM Analytics",
     detail:
-      "OpenSearch wins the EDP checkbox. Concede that, then move to neural quality, hybrid, ES|QL, and platform — where Elastic is stronger.",
+      "Find deals like Acme’s Webex renewal with a reason for every match — not e-discovery noise that only shares the word “legal.”",
   },
   {
-    title: "Beat the Neural POC",
+    title: "For Lifecycle Platform",
     detail:
-      "Ask them to run the same business questions on Elastic (deals / notes / meaning). Show keyword MATCH vs semantic neighborhood — this lab’s aha.",
+      "Search Snowflake, S3, and Elastic logs as peers so counsel language inside large payloads surfaces without a second warehouse.",
   },
   {
-    title: "Close on how you run it",
+    title: "For Webex / Infrastructure",
     detail:
-      "Half-day Search AI, then pick the deploy path: self-hosted, Hosted, Serverless (commercial), or GovCloud Hosted — not OpenSearch as the long-term engine.",
+      "Replicate with CCR, search locally in US Gov East and West — no cross-boundary query plane for the same intent.",
   },
 ];
 
@@ -111,22 +123,20 @@ export function DeployStory() {
   return (
     <div>
       <p className="rounded-2xl border border-primary/40 bg-primary/10 p-5 text-sm leading-relaxed text-zinc-200">
-        Same Elasticsearch product — four ways Cisco can run it.{" "}
-        <span className="text-white">Self-hosted Enterprise</span>,{" "}
-        <span className="text-white">Elastic Cloud Hosted</span>,{" "}
-        <span className="text-white">Serverless</span> (commercial only), and{" "}
-        <span className="text-white">GovCloud / FedRAMP</span> on Hosted (Serverless is not there
-        today). When procurement pushes <span className="text-white">OpenSearch Neural</span>, win
-        on features first, then pick the deploy path.
+        Your teams need semantic search over deals, transactions, notes, and Webex artifacts — and
+        they need to run it{" "}
+        <span className="text-white">where Cisco already operates</span>: self-hosted, cloud,
+        serverless, or GovCloud. Elasticsearch is that engine. OpenSearch may look simpler on an AWS
+        invoice; it does not match the relevance and explainability story your groups need in
+        production.
       </p>
 
       <section className="mt-10">
         <h2 className="font-mono text-sm uppercase tracking-wide text-zinc-300">
-          How you run Elastic
+          Where your search runs
         </h2>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-zinc-400">
-          One API surface. Choose who operates the platform and which region / authorization
-          boundary you need.
+          One product. Four operating models — pick the boundary and who operates the platform.
         </p>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {DEPLOY_OPTIONS.map((opt) => (
@@ -151,17 +161,17 @@ export function DeployStory() {
         </div>
         <p className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/5 px-4 py-3 text-xs leading-relaxed text-amber-100/85">
           <span className="font-mono uppercase tracking-wide text-amber-200/90">
-            GovCloud rule
+            GovCloud note
           </span>
           {" — "}
-          <span className="text-white">Serverless is not in GovCloud</span>. For FedRAMP, use{" "}
-          <span className="text-white">Elastic Cloud Hosted</span> (or self-hosted Enterprise inside
-          the boundary). IL5 certification is in progress — not available to sell today.
+          <span className="text-white">Serverless is not in GovCloud</span>. For FedRAMP workloads,
+          use <span className="text-white">Elastic Cloud Hosted</span> or self-hosted Enterprise
+          inside the boundary. IL5 is in progress — not available today.
         </p>
       </section>
 
-      <section className="mt-8 grid gap-3 md:grid-cols-3">
-        {ARSENAL.map((item) => (
+      <section className="mt-10 grid gap-3 md:grid-cols-3">
+        {OUTCOMES.map((item) => (
           <div
             key={item.title}
             className="rounded-2xl border border-emerald-400/25 bg-emerald-400/5 p-4"
@@ -176,70 +186,42 @@ export function DeployStory() {
 
       <section className="mt-10">
         <h2 className="font-mono text-sm uppercase tracking-wide text-zinc-300">
-          OpenSearch vs Elastic — pros &amp; cons
+          OpenSearch vs Elasticsearch — what Cisco gets
         </h2>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-zinc-400">
-          For teams POCing OpenSearch Neural: acknowledge the plugin, then compare the full search
-          + AI stack. Elastic should win on relevance, explainability, and platform — not on “we
-          are cheaper on AWS.”
+          If you are evaluating OpenSearch Neural, compare the full outcome for your teams — not
+          only the AWS line item.
         </p>
 
         <div className="mt-6 overflow-x-auto rounded-2xl border border-white/10">
           <table className="min-w-full text-left text-sm">
             <thead className="bg-white/5 font-mono text-xs uppercase tracking-wide text-zinc-400">
               <tr>
-                <th className="px-4 py-3">Topic</th>
+                <th className="px-4 py-3">What you need</th>
                 <th className="px-4 py-3 text-orange-200/90">AWS OpenSearch</th>
-                <th className="px-4 py-3 text-emerald-300/90">Elastic</th>
+                <th className="px-4 py-3 text-emerald-300/90">Elasticsearch</th>
               </tr>
             </thead>
             <tbody>
-              {PROS_CONS.map((row) => (
+              {VALUE_ROWS.map((row) => (
                 <tr key={row.topic} className="border-t border-white/10 align-top">
                   <td className="px-4 py-3 font-medium text-zinc-200">{row.topic}</td>
                   <td className="px-4 py-3 text-orange-200/75">{row.opensearch}</td>
-                  <td className="px-4 py-3 text-emerald-300/90">
-                    <span className="mr-2 inline-block rounded-full bg-emerald-400/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide text-emerald-200">
-                      Prefer
-                    </span>
-                    {row.elastic}
-                  </td>
+                  <td className="px-4 py-3 text-emerald-300/90">{row.elastic}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
-
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          <div className="rounded-2xl border border-orange-400/25 bg-orange-400/5 p-4">
-            <p className="font-mono text-[10px] uppercase tracking-wide text-orange-200">
-              Concede to OpenSearch
-            </p>
-            <p className="mt-2 text-sm leading-relaxed text-orange-100/85">
-              Native AWS SKU and Neural plugins make a quick internal POC easy. Do not waste airtime
-              denying that — ask what happens after the POC (hybrid quality, ops, Search AI, support).
-            </p>
-          </div>
-          <div className="rounded-2xl border border-emerald-400/30 bg-emerald-400/10 p-4">
-            <p className="font-mono text-[10px] uppercase tracking-wide text-emerald-200">
-              Win with Elastic
-            </p>
-            <p className="mt-2 text-sm leading-relaxed text-emerald-50/90">
-              Same Commerce questions on Elastic, then choose deploy: self-hosted, Hosted,
-              Serverless (commercial), or GovCloud Hosted. Features first; Marketplace for the EDP
-              parallel.
-            </p>
-          </div>
         </div>
       </section>
 
       <EchCostComparison scenario={scenario} />
 
       <p className="mt-6 rounded-2xl border border-white/10 bg-black/30 p-4 text-sm leading-relaxed text-zinc-300">
-        <span className="text-white">Jina</span> (or Elastic models) for embeddings.{" "}
-        <span className="text-white">Elasticsearch</span> for retrieval, hybrid rank, and Search AI —
-        whether you self-host, use Hosted, or Serverless. OpenSearch Neural is a feature on a fork,
-        not the long-term Elastic search + AI platform.
+        <span className="text-white">Jina</span> supplies embeddings when you need multimodal or
+        domain-tuned vectors. <span className="text-white">Elasticsearch</span> stores, ranks, and
+        explains results — self-hosted, Hosted, or Serverless. Your teams keep one search platform
+        across CRM, Lifecycle, Webex, and CIRCUIT telemetry.
       </p>
 
       <p className="mt-6 text-xs leading-relaxed text-zinc-500">
@@ -273,15 +255,6 @@ export function DeployStory() {
         {" · "}
         <a
           className="text-primary-bright underline"
-          href="https://docs.opensearch.org/latest/search-plugins/neural-search/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          OpenSearch Neural Search
-        </a>
-        {" · "}
-        <a
-          className="text-primary-bright underline"
           href="https://cloud.elastic.co/pricing"
           target="_blank"
           rel="noopener noreferrer"
@@ -294,5 +267,5 @@ export function DeployStory() {
   );
 }
 
-/** @deprecated Use DeployStory — kept for any lingering imports. */
+/** @deprecated Use DeployStory */
 export const EchStory = DeployStory;

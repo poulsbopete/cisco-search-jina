@@ -19,7 +19,7 @@ export function SiteNav() {
           onClick={() => setActive("semantic")}
           className="shrink-0 font-mono text-xs uppercase tracking-[0.2em] text-primary-bright"
         >
-          Cisco · Elastic + Jina
+          Cisco · semantic search
         </button>
 
         <nav className="hidden items-center gap-0.5 md:flex" aria-label="Concepts">
@@ -46,7 +46,7 @@ export function SiteNav() {
           rel="noopener noreferrer"
           className="hidden rounded-full bg-primary/20 px-3 py-1 font-mono text-[11px] text-primary-bright ring-1 ring-primary/40 hover:bg-primary/30 sm:inline"
         >
-          Open Elastic
+          See live data
         </a>
 
         <button

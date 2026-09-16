@@ -41,10 +41,11 @@ export function ConceptApp() {
         {active === "bundle" ? <BundleStory /> : null}
       </div>
       <footer className="mt-16 border-t border-primary/25 py-6 text-xs leading-relaxed text-muted">
-        <p>Cisco search × Elastic Serverless × Jina — same story as the Instruqt lab</p>
+        <p>Value for CRM Analytics · Lifecycle Platform · Webex / Infrastructure · CIRCUIT</p>
         <p className="mt-1">
-          Deck for the live hour; lab for hands-on ES|QL, seeded dashboards, workflow notes, and ML.
-          Index <code className="text-primary-bright">cisco-jina-corpus</code> · ES|QL only · AI Agent.
+          Elasticsearch + Jina — ES|QL, explainable hits, and deploy options from self-hosted to
+          Serverless and GovCloud Hosted. Try the same questions on{" "}
+          <code className="text-primary-bright">cisco-jina-corpus</code>.
         </p>
       </footer>
     </div>

@@ -35,8 +35,9 @@ export function LifecycleDemo() {
     <div>
       <OpenInElastic beat={DEMO_BEATS[2]} />
       <p className="mt-6 text-sm text-zinc-400">
-        One question across Snowflake facts, S3 payloads (~10 MB), and Elastic logs. Toggle
-        sources to see which systems contribute — without hopping tools.
+        One question across Snowflake facts, S3 payloads (~10 MB), and Elastic logs. Toggle sources
+        to see which systems contribute — so Lifecycle teams stop hopping tools for the same
+        counsel question.
       </p>
       <input
         value={query}

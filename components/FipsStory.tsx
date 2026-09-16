@@ -68,10 +68,10 @@ export function FipsStory() {
   return (
     <div>
       <p className="rounded-2xl border border-primary/40 bg-primary/10 p-5 text-sm leading-relaxed text-zinc-200">
-        On-prem Open Source Elasticsearch has no FIPS switch. Elastic{" "}
-        <span className="text-white">Enterprise</span> does: prepare a FIPS JVM, flip one
-        setting, password-protect the keystore, then rolling-restart. That is the path for an
-        older self-managed cluster — including Webex / Infra Gov — without rebuilding search.
+        Self-hosted Open Source Elasticsearch has no FIPS switch. With Elastic{" "}
+        <span className="text-white">Enterprise</span>, your platform teams prepare a FIPS JVM, enable
+        one setting, password-protect the keystore, and rolling-restart — so Webex / Infra and other
+        gov-bound clusters harden crypto <span className="text-white">without rebuilding search</span>.
         FIPS is crypto. It is <span className="text-white">not</span> FedRAMP by itself.
       </p>
 

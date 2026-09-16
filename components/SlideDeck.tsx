@@ -39,11 +39,11 @@ export const SLIDES: Slide[] = [
     speaker: "Overview",
     title: "Search for Cisco",
     subtitle:
-      "Product and platform teams across Cisco — Elastic for search, Jina for embeddings, AI where it helps.",
+      "What your product and platform teams gain — Elastic for search, Jina for embeddings, AI where it helps.",
     bullets: [
-      "Today’s lab: Keyword vs semantic, CRM, Lifecycle, Webex/CCR — plus CIRCUIT docs and ML.",
-      "The same pattern shows up in security, networking, and observability teams across Cisco.",
-      "One Elastic story: ES|QL search, explainability, and how you choose to run it.",
+      "CRM, Lifecycle, Webex, and CIRCUIT: find meaning in deals, notes, regions, and LLM proxy streams.",
+      "The same pattern scales to security, networking, and observability teams across Cisco.",
+      "One Elasticsearch story: ES|QL, explainable hits, and where you choose to run it.",
     ],
     infographic: "cisco-hub",
   },
@@ -51,7 +51,7 @@ export const SLIDES: Slide[] = [
     section: "opening",
     speaker: "Overview",
     title: "What Elastic provides Cisco",
-    subtitle: "Capability, support, and economics — not just features.",
+    subtitle: "Capability, support, and economics — outcomes for your groups.",
     statCards: [
       {
         figure: "Search",
@@ -89,15 +89,15 @@ export const SLIDES: Slide[] = [
   {
     section: "cisco",
     speaker: "Cisco groups",
-    title: "Workshop teams",
+    title: "Priority product teams",
     subtitle:
-      "Platform teams exploring Elastic + Jina on their own products — the focus of today’s hands-on lab.",
+      "CRM Analytics, Lifecycle Platform, Webex / Infrastructure, and CIRCUIT — where semantic search pays off first.",
     infographic: "groups-fan",
   },
   {
     section: "cisco",
     speaker: "Cisco teams",
-    title: "Across Cisco — beyond this lab",
+    title: "Across Cisco — same engine",
     subtitle:
       "Security, networking, and observability teams use the same Elastic capabilities — search at scale, with a path off open-source-only ops.",
     bullets: [
@@ -164,28 +164,28 @@ export const SLIDES: Slide[] = [
     speaker: "How you run it",
     title: "Which path when",
     bullets: [
-      "Self-hosted Enterprise — keep your VPC; search-tier license for vectors and support.",
-      "Elastic Cloud Hosted — Elastic operates; Marketplace for AWS commit; FedRAMP Hosted for gov.",
-      "Serverless — commercial only (this lab). Not in GovCloud.",
-      "OpenSearch Neural POCs: concede EDP, win on features, then pick one of the Elastic deploy paths.",
+      "Self-hosted Enterprise — keep search in your VPC with vectors and support.",
+      "Elastic Cloud Hosted — Elastic operates; Marketplace aligns with your AWS commit; FedRAMP Hosted for gov.",
+      "Serverless — commercial only; fastest path to ES|QL and Search AI (this experience).",
+      "OpenSearch may win the AWS SKU — Elasticsearch wins relevance, explainability, and one platform for CRM, Lifecycle, and Webex.",
     ],
     infographic: "path-chooser",
     demoHref: `${APP_URL}/deploy`,
-    demoLabel: "Deploy options + OpenSearch",
+    demoLabel: "Where you run search",
   },
   {
     section: "lab",
     speaker: "Next step",
-    title: "Try it hands-on",
-    subtitle: "Your own Elastic Serverless Search project — same Cisco-shaped corpus.",
+    title: "Prove it on your data shape",
+    subtitle: "Spin up Elasticsearch Serverless with a Cisco-shaped corpus — same questions your teams ask.",
     bullets: [
-      "Four challenges: Keyword vs semantic → CRM → Lifecycle → Webex/CCR (+ CIRCUIT ML).",
-      "Seeded cisco-jina-corpus (14), five dashboards, 10-minute notes workflow, ML job cisco-jina-circuit-tokens.",
-      "ES|QL only (no KQL), then AI Agent with the same questions — walk out knowing Elastic + Jina.",
+      "Keyword vs semantic, CRM deals, Lifecycle federated search, Webex CCR East/West, CIRCUIT token ML.",
+      "Index cisco-jina-corpus, dashboards for each group, and Search AI with the same ES|QL questions.",
+      "Walk away with a working pattern: meaning over keywords, explainable hits, deploy where Cisco runs.",
     ],
     infographic: "lab-steps",
     demoHref: INSTRUQT_INVITE,
-    demoLabel: "Start the Instruqt lab",
+    demoLabel: "Open the hands-on experience",
   },
 ];
 

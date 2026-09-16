@@ -75,7 +75,7 @@ export function semanticSearch(query: string, docs: WorkshopDoc[] = corpus.docum
         }
       }
       if (!why.length && overlap > 0) {
-        why.push("Expanded synonym / embedding neighborhood (workshop replica of Jina ranking)");
+        why.push("Expanded synonym / embedding neighborhood (Jina-style ranking)");
       }
       const score = overlap + (doc.concepts?.length ? 0.15 * why.length : 0);
       return { doc, score, why };

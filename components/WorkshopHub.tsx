@@ -6,30 +6,30 @@ import { useModule } from "@/components/ModuleProvider";
 
 const STEPS = [
   {
-    title: "Keyword vs semantic",
+    title: "See the keyword ceiling",
     detail:
-      "ES|QL MATCH(legal) vs MV_INTERSECTS concepts — Umbrella legal-hold is the false friend. Optional: Dashboards → " +
+      "Search “legal” and watch Umbrella e-discovery noise. Then search by meaning — Acme counsel and vendor lock-in stay on top. Dashboard: " +
       LAB_DASHBOARDS.keywordVsSemantic +
       ".",
   },
   {
-    title: "CRM Analytics",
+    title: "Find deals like yours",
     detail:
-      "Find deals like Acme’s Webex renewal with grounded account / deal / competitor. Dashboard: " +
+      "CRM Analytics: deals like Acme’s Webex renewal with account, stage, and competitor context. Dashboard: " +
       LAB_DASHBOARDS.crm +
       ".",
   },
   {
-    title: "Lifecycle federated search",
+    title: "Search across systems",
     detail:
-      "Snowflake · S3 · Elastic as peers — counsel language inside large payloads. Dashboard: " +
+      "Lifecycle: Snowflake, S3, and Elastic logs in one question — counsel language inside large payloads. Dashboard: " +
       LAB_DASHBOARDS.lifecycle +
       ".",
   },
   {
-    title: "Webex / CCR + CIRCUIT ML",
+    title: "Gov regions + CIRCUIT",
     detail:
-      "Same intent East/West after CCR (search locally). Then Machine Learning → cisco-jina-circuit-tokens. Dashboards: " +
+      "Webex / Infra: same intent in US Gov East and West after CCR. Then ML on CIRCUIT token spend. Dashboards: " +
       LAB_DASHBOARDS.webex +
       " · " +
       LAB_DASHBOARDS.circuit +
@@ -43,27 +43,34 @@ export function WorkshopHub() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-16">
       <p className="font-mono text-xs uppercase tracking-[0.25em] text-primary-bright">
-        Facilitator Elastic · Instruqt lab
+        Hands-on · your own Serverless project
       </p>
       <h1 className="mt-4 text-4xl font-semibold tracking-tight text-foreground">
-        Cisco — Semantic search with Elastic + Jina
+        Try semantic search on Cisco-shaped data
       </h1>
       <p className="mt-4 max-w-xl text-lg text-muted-foreground">
-        For the live talk, deep-link into the shared{" "}
-        <span className="text-foreground">Search-AI Serverless</span> project (SSO). For
-        hands-on, each learner gets their own Serverless Search via Instruqt — seeded index{" "}
-        <code className="text-primary-bright">cisco-jina-corpus</code> (14 docs),{" "}
-        <span className="text-foreground">ES|QL only</span> (no KQL), then{" "}
-        <span className="text-foreground">AI Agent</span>.
+        Launch a personal <span className="text-foreground">Elasticsearch Serverless</span> project
+        with index <code className="text-primary-bright">cisco-jina-corpus</code> (14 docs),
+        dashboards for CRM / Lifecycle / Webex / CIRCUIT, and AI Agent. Use{" "}
+        <span className="text-foreground">ES|QL</span> (not KQL) — the same questions your teams
+        ask in production.
       </p>
       <div className="mt-8 flex flex-wrap gap-3">
         <a
-          href={ELASTIC.discoverCorpus}
+          href={INSTRUQT_INVITE}
           target="_blank"
           rel="noopener noreferrer"
           className="rounded-xl bg-primary px-5 py-3 font-mono text-sm font-semibold text-primary-foreground hover:bg-primary-bright"
         >
-          Open Search-AI Discover
+          Start hands-on
+        </a>
+        <a
+          href={ELASTIC.discoverCorpus}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-xl border border-primary/40 px-5 py-3 font-mono text-sm text-foreground hover:bg-primary/15"
+        >
+          Open Discover demo
         </a>
         <a
           href={ELASTIC.dashboard.keywordVsSemantic}
@@ -73,44 +80,14 @@ export function WorkshopHub() {
         >
           Keyword vs semantic board
         </a>
-        <a
-          href={INSTRUQT_INVITE}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-xl border border-white/20 px-5 py-3 font-mono text-sm text-muted-foreground hover:border-primary/40 hover:text-foreground"
-        >
-          Start the Instruqt lab
-        </a>
         <button
           type="button"
           onClick={() => setActive("semantic")}
-          className="rounded-xl border border-primary/40 px-5 py-3 font-mono text-sm text-foreground hover:bg-primary/15"
+          className="rounded-xl border border-white/20 px-5 py-3 font-mono text-sm text-muted-foreground hover:border-primary/40 hover:text-foreground"
         >
-          Back to Keyword vs semantic
+          Back to Semantic
         </button>
       </div>
-      <p className="mt-4 text-xs text-muted-foreground">
-        Facilitator deep links (SSO):{" "}
-        <a className="text-primary-bright underline" href={ELASTIC.home} target="_blank" rel="noopener noreferrer">
-          Search-AI home
-        </a>
-        {" · "}
-        <a className="text-primary-bright underline" href={ELASTIC.dashboards} target="_blank" rel="noopener noreferrer">
-          Dashboards
-        </a>
-        {" · "}
-        <a className="text-primary-bright underline" href={ELASTIC.agentBuilder} target="_blank" rel="noopener noreferrer">
-          Agent Builder
-        </a>
-        {" · "}
-        <a className="text-primary-bright underline" href={ELASTIC.workflows} target="_blank" rel="noopener noreferrer">
-          Workflows
-        </a>
-        {" · "}
-        <a className="text-primary-bright underline" href={ELASTIC.mlJobs} target="_blank" rel="noopener noreferrer">
-          ML jobs
-        </a>
-      </p>
       <ol className="mt-12 space-y-5">
         {STEPS.map((step, i) => (
           <li key={step.title} className="flex gap-3 text-sm">
